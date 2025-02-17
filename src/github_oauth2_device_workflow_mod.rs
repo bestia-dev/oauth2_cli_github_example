@@ -10,6 +10,8 @@
 /// The dependencies in Cargo.toml must also be copied.
 
 // TODO: use zeroize and secrecy to avoid leaking secrets
+// TODO: use ssh-agent to store passphrase in memory for 1 hour
+// to avoid typing it every time
 
 // region: Public API constants
 // ANSI colors for Linux terminal
