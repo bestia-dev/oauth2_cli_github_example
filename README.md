@@ -6,7 +6,7 @@
 [//]: # (auto_cargo_toml_to_md start)
 
 **Example of GitHub api with Oauth2 CLI**  
-***version: 2025.217.1349 date: 2025-02-17 author: [bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/oauth2_cli_github_example)***
+***version: 2025.217.1504 date: 2025-02-17 author: [bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/oauth2_cli_github_example)***
 
  ![work-in-progress](https://img.shields.io/badge/work_in_progress-yellow)
  ![tutorial](https://img.shields.io/badge/tutorial-orange)
@@ -70,7 +70,7 @@ Check if the file with encrypted tokens is present
     store access_token in global variable for use
 ```
 
-Workflow to [authentication with the browser](https://docs.github.com/en/enterprise-cloud@latest/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app):
+Workflow to [authentication with the browser](https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app#using-the-device-flow-to-generate-a-user-access-token) for [device flow](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps#device-flow):
 
 ```plaintext
 In the CLI program send a request to GitHub with client_id

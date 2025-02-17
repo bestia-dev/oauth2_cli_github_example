@@ -199,22 +199,23 @@ fn completion() {
 
 /// cargo build
 fn task_build() {
-    let _cargo_toml = cl::CargoToml::read();
+    let cargo_toml = cl::CargoToml::read();
     cl::auto_version_increment_semver_or_date();
     cl::run_shell_command_static("cargo fmt").unwrap_or_else(|e| panic!("{e}"));
     cl::run_shell_command_static("cargo build").unwrap_or_else(|e| panic!("{e}"));
     println!(
         r#"
     {YELLOW}After `cargo auto build`, run the compiled binary, examples and/or tests{RESET}
+{GREEN}./target/debug/{package_name}{RESET}
     {YELLOW}if ok then{RESET}
 {GREEN}cargo auto release{RESET}
-"#
+"#,
+        package_name = cargo_toml.package_name(),
     );
     print_examples_cmd();
 }
 
-/// cargo build --release --target x86_64-pc-windows-gnu
-/// TODO: try cross compile to windows, because Linux has problems with file datetimes on external disk
+/// task release
 fn task_release() {
     let cargo_toml = cl::CargoToml::read();
     cl::auto_version_increment_semver_or_date();
@@ -222,7 +223,7 @@ fn task_release() {
     cl::auto_lines_of_code("");
 
     cl::run_shell_command_static("cargo fmt").unwrap_or_else(|e| panic!("{e}"));
-    cl::run_shell_command_static("cargo build --release --target x86_64-pc-windows-gnu").unwrap_or_else(|e| panic!("{e}"));
+    cl::run_shell_command_static("cargo build --release").unwrap_or_else(|e| panic!("{e}"));
 
     // cl::ShellCommandLimitedDoubleQuotesSanitizer::new(r#"strip "target/release/{package_name}" "#)
     //     .unwrap_or_else(|e| panic!("{e}"))
@@ -234,13 +235,7 @@ fn task_release() {
     println!(
         r#"
     {YELLOW}After `cargo auto release`, run the compiled binary, examples and/or tests{RESET}
-
-    {YELLOW}In Windows git-bash, copy the exe file from the Crustde container to Windows.{RESET}
-{GREEN}scp rustdevuser@crustde:/home/rustdevuser/rustprojects/{package_name}/target/x86_64-pc-windows-gnu/release/{package_name}.exe /c/Users/Luciano/rustprojects/{package_name}/{RESET}
-    {YELLOW}Run the exe in Windows git-bash.{RESET}
-{GREEN}cd ~/rustprojects/{package_name}
-./{package_name}.exe{RESET}
-
+{GREEN}./target/release/{package_name}{RESET}
     {YELLOW}if ok then{RESET}
 {GREEN}cargo auto doc{RESET}
 "#,
