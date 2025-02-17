@@ -1,0 +1,10 @@
+// http files are used by the VSCode extension REST Client by Huachao Mao
+// It allows to easily call and check communication with a Rest API  
+
+POST https://github.com/login/device/code
+content-type: application/json
+Accept: application/json
+
+{
+    "client_id": "xxx"
+}

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["BLUE","GREEN","RED","RESET","YELLOW"],"fn":["first_authentication_with_browser","github_oauth2_device_workflow"]};

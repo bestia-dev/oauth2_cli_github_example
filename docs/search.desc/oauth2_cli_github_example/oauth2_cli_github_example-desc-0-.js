@@ -1,0 +1,1 @@
+searchState.loadedDescShard("oauth2_cli_github_example", 0, "ANSI color\nANSI color\nIn this module there will be a lot of work with secrets. …\nANSI color\nANSI color")

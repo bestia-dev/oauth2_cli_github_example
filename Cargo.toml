@@ -1,0 +1,37 @@
+[package]
+name = "oauth2_cli_github_example"
+version = "2025.217.1349"
+authors = ["bestia.dev"]
+homepage = "https://bestia.dev"
+edition = "2021"
+description = "Example of GitHub api with Oauth2 CLI"
+repository = "https://github.com/bestia-dev/oauth2_cli_github_example"
+readme = "README.md"
+license = "MIT"
+keywords = ["work-in-progress","tutorial","oauth2","cli"]
+categories = ["cli"]
+publish = false
+
+[dependencies]
+unwrap="1.2.1"
+log="0.4.22"
+log2 = "0.1.14"
+anyhow="1.0.95"
+read_input = "0.8"
+reqwest={version="0.12.12", features=["json","blocking"]}
+reqwest-pretty-json = "0.12.2"
+serde ={ version= "1.0.217", features=["std","derive"]}
+serde_json = "1.0.138"
+
+argon2 = "0.5.3"
+ssh-key = { version = "0.6.6", features = [ "rsa", "encryption"] }
+# ssh-agent-client-rs = "0.9.1"
+rsa = { version = "0.9.6", features = ["sha2","pem"] }
+zeroize = "1.7.0"
+aes-gcm = "0.10.3"
+camino = "1.1.6"
+base64ct = {version = "1.6.0", features = ["alloc"] }
+home = "0.5.9"
+inquire = "0.7.0"
+tracing = "0.1.40"
+

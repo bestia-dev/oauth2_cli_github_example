@@ -1,0 +1,4 @@
+var searchIndex = new Map(JSON.parse('[["oauth2_cli_github_example",{"t":"CHSSSSSHH","n":["github_oauth2_device_workflow_mod","main","BLUE","GREEN","RED","RESET","YELLOW","first_authentication_with_browser","github_oauth2_device_workflow"],"q":[[0,"oauth2_cli_github_example"],[2,"oauth2_cli_github_example::github_oauth2_device_workflow_mod"],[9,"anyhow"]],"i":"`````````","f":"`{{}{{d{b}}}}`````{{}b}{{{h{f}}{h{f}}}{{d{b}}}}","D":"j","p":[[1,"unit"],[8,"Result",9],[1,"str"],[1,"reference",null,null,1]],"r":[],"b":[],"c":"OjAAAAAAAAA=","e":"OjAAAAEAAAAAAAQAEAAAAAAAAQACAAgACQA=","P":[]}]]'));
+if (typeof exports !== 'undefined') exports.searchIndex = searchIndex;
+else if (window.initSearch) window.initSearch(searchIndex);
+//{"start":39,"fragment_lengths":[551]}
