@@ -72,13 +72,13 @@ using HTML Tidy to generate a tidied up version.
 ./docs/oauth2_cli_github_example/index.html
 Document: "2" is not a file!
 
-line 1 column 2520 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2520 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2536 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 2757 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2757 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 2774 - Warning: discarding unexpected </rustdoc-toolbar>
-line 1 column 1814 - Warning: trimming empty <button>
+line 1 column 3026 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 3026 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 3042 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 3263 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 3263 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 3280 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1774 - Warning: trimming empty <button>
 This document has errors that must be fixed before
 using HTML Tidy to generate a tidied up version.
 
