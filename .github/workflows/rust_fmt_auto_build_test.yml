@@ -23,16 +23,16 @@ jobs:
       run: cargo fmt -- --check
 
     - name: Run cache for rust dependencies
-      uses: Swatinem/rust-cache@v2.7.3
+      uses: Swatinem/rust-cache@v2.7.7
 
     - name: Configure sccache
       run: printf "RUSTC_WRAPPER=sccache\n" >> $GITHUB_ENV; printf "SCCACHE_GHA_ENABLED=true\n" >> $GITHUB_ENV
 
     - name: Run sccache-cache for artifacts
-      uses: mozilla-actions/sccache-action@v0.0.4
+      uses: mozilla-actions/sccache-action@v0.0.7
 
     - name: install and cache cargo-auto
-      uses: baptiste0928/cargo-install@v3.0.0
+      uses: baptiste0928/cargo-install@v3.3.0
       with:
         crate: cargo-auto
 
