@@ -14,10 +14,13 @@
 <a href="#13" id="13">13</a>
 <a href="#14" id="14">14</a>
 <a href="#15" id="15">15</a>
-<a href="#16" id="16">16</a></pre></div><pre class="rust"><code><span class="comment">// oauth2_cli_github_example/src/main.rs
+<a href="#16" id="16">16</a>
+<a href="#17" id="17">17</a>
+<a href="#18" id="18">18</a></pre></div><pre class="rust"><code><span class="comment">// oauth2_cli_github_example/src/main.rs
 
 </span><span class="kw">mod </span>github_oauth2_device_workflow_mod;
 <span class="kw">use </span>github_oauth2_device_workflow_mod <span class="kw">as </span>wf;
+<span class="kw">use </span>secrecy::ExposeSecret;
 
 <span class="kw">fn </span>main() -&gt; anyhow::Result&lt;()&gt; {
     <span class="comment">// region: read config from files outside the repository
@@ -27,7 +30,8 @@
     </span><span class="kw">let </span>file_bare_name = std::fs::read_to_string(<span class="string">"/home/rustdevuser/rustprojects/oauth2_cli_github_example_config/file_bare_name.txt"</span>)<span class="question-mark">?</span>;
     <span class="comment">// endregion: read config from files outside the repository
 
-    </span>wf::github_oauth2_device_workflow(<span class="kw-2">&amp;</span>client_id, <span class="kw-2">&amp;</span>file_bare_name)<span class="question-mark">?</span>;
+    </span><span class="kw">let </span>access_secret_token = wf::github_oauth2_device_workflow(<span class="kw-2">&amp;</span>client_id, <span class="kw-2">&amp;</span>file_bare_name)<span class="question-mark">?</span>;
+    <span class="macro">println!</span>(<span class="string">"{}"</span>, access_secret_token.expose_secret());
     <span class="prelude-val">Ok</span>(())
 }
 </code></pre></div></section></main></body></html>
