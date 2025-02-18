@@ -12,5 +12,7 @@ The TODO section is part of the [README.md](https://github.com/bestia-dev/oauth2
 
 - refresh tokens
 
+- doc
+
 ## Version 0.0.1
 

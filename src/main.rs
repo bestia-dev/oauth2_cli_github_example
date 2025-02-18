@@ -1,5 +1,7 @@
 // oauth2_cli_github_example/src/main.rs
 
+#![doc=include_str!("../README.md")]
+
 mod github_oauth2_device_workflow_mod;
 use github_oauth2_device_workflow_mod as wf;
 use secrecy::ExposeSecret;
