@@ -26,7 +26,7 @@
 //!
 //! This is a tough one! There is no 100% software protection of secrets in memory.  
 //! Theoretically an attacker could dump the memory in any moment and read the secrets.  
-//! There is always a moment when the secret is used in its plaintext form. This cannot be avoided. 
+//! There is always a moment when the secret is used in its plaintext form. This cannot be avoided.
 //! All we can do now is to be alert what data is secret and take better care of it.  
 //! Every variable that have secrets will have the word `secret` in it.
 //! When a variable is confusing I will use the word `plain` to express it is `not a secret`.
@@ -288,7 +288,22 @@ fn open_and_decrypt_file(encrypted_file_name: camino::Utf8PathBuf) -> anyhow::Re
 
     let seed_bytes_plain = <base64ct::Base64 as base64ct::Encoding>::decode_vec(&file_encrypted_json.seed)?;
     let seed_bytes_plain_32bytes: [u8; 32] = seed_bytes_plain[..32].try_into()?;
-    let secret_passcode_32bytes: SecretBox<[u8; 32]> = user_input_passphrase_and_sign_seed(seed_bytes_plain_32bytes, identity_private_file_path)?;
+
+    // first try to use the private key from ssh-agent, else use the private file with user interaction
+    let maybe_secret_passcode_32bytes = use_ssh_agent_to_sign_seed(seed_bytes_plain_32bytes, identity_private_file_path);
+    let secret_passcode_32bytes: SecretBox<[u8; 32]> = if maybe_secret_passcode_32bytes.is_ok() {
+        maybe_secret_passcode_32bytes.unwrap()
+    } else {
+        // ask user to think about adding key into ssh-agent with ssh-add
+        println!("   {YELLOW}SSH key for encrypted secret_token is not found in the ssh-agent.{RESET}");
+        println!("   {YELLOW}Without ssh-agent, you will have to type the private key passphrase every time.{RESET}");
+        println!("   {YELLOW}This is more secure, but inconvenient.{RESET}");
+        println!("   {YELLOW}WARNING: using ssh-agent is less secure, because there is no need for user interaction.{RESET}");
+        println!("   {YELLOW}Knowing this, you can manually add the SSH identity to ssh-agent for 1 hour:{RESET}");
+        println!("{GREEN}ssh-add -t 1h {identity_private_file_path}{RESET}");
+
+        user_input_passphrase_and_sign_seed(seed_bytes_plain_32bytes, identity_private_file_path)?
+    };
 
     // decrypt the data
     let response_secret_access_token = decrypt_symmetric(secret_passcode_32bytes, file_encrypted_json.encrypted)?;
@@ -326,8 +341,48 @@ fn user_input_passphrase_and_sign_seed(seed_bytes_plain_32bytes: [u8; 32], ident
     let mut secret_passcode_32bytes = SecretBox::new(Box::new([0u8; 32]));
     // only the data part of the signature goes into as_bytes.
     // only the first 32 bytes
-    secret_passcode_32bytes.expose_secret_mut().copy_from_slice(&rsa::signature::SignerMut::try_sign(&mut private_key_secret, &seed_bytes_plain_32bytes)?.as_bytes().to_owned()[0..32]);
+    secret_passcode_32bytes
+        .expose_secret_mut()
+        .copy_from_slice(&rsa::signature::SignerMut::try_sign(&mut private_key_secret, &seed_bytes_plain_32bytes)?.as_bytes().to_owned()[0..32]);
 
+    Ok(secret_passcode_32bytes)
+}
+
+/// Sign seed with ssh-agent
+///
+/// returns secret_password_bytes
+fn use_ssh_agent_to_sign_seed(seed_bytes_plain_32bytes: [u8; 32], identity_private_file_path: &camino::Utf8Path) -> anyhow::Result<SecretBox<[u8; 32]>> {
+    /// Internal function returns the public_key inside ssh-add
+    fn public_key_from_ssh_agent(client: &mut ssh_agent_client_rs::Client, fingerprint_from_file: &str) -> anyhow::Result<ssh_key::PublicKey> {
+        let vec_public_key = client.list_identities()?;
+
+        for public_key in vec_public_key.iter() {
+            let fingerprint_from_agent = public_key.key_data().fingerprint(Default::default()).to_string();
+
+            if fingerprint_from_agent == fingerprint_from_file {
+                return Ok(public_key.to_owned());
+            }
+        }
+        anyhow::bail!("This identity is not added to ssh-agent.")
+    }
+    let identity_public_file_path = format!("{identity_private_file_path}.pub");
+    let identity_public_file_path = camino::Utf8Path::new(&identity_public_file_path);
+    let public_key = ssh_key::PublicKey::read_openssh_file(&identity_public_file_path.as_std_path())?;
+    let fingerprint_from_file = public_key.fingerprint(Default::default()).to_string();
+
+println!("{YELLOW}  Connect to ssh-agent on SSH_AUTH_SOCK{RESET}");    
+let var_ssh_auth_sock  = std::env::var("SSH_AUTH_SOCK")?;
+    let path_ssh_auth_sock = camino::Utf8Path::new(&var_ssh_auth_sock);
+    let mut ssh_agent_client = ssh_agent_client_rs::Client::connect(&path_ssh_auth_sock.as_std_path())?;
+
+    let public_key = public_key_from_ssh_agent(&mut ssh_agent_client, &fingerprint_from_file)?;
+
+    let mut secret_passcode_32bytes = SecretBox::new(Box::new([0u8; 32]));
+    // sign with public key from ssh-agent
+    // only the data part of the signature goes into as_bytes.
+    secret_passcode_32bytes
+        .expose_secret_mut()
+        .copy_from_slice(&ssh_agent_client.sign(&public_key, &seed_bytes_plain_32bytes)?.as_bytes().to_owned()[0..32]);
 
     Ok(secret_passcode_32bytes)
 }
