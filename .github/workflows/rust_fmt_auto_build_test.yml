@@ -37,7 +37,7 @@ jobs:
         crate: cargo-auto
 
     - name: Cache for automation tasks
-      uses: actions/cache@v4.0.0
+      uses: actions/cache@v4.2.0
       with:
         path: |
           automation_tasks_rs/.file_hashes.json 
