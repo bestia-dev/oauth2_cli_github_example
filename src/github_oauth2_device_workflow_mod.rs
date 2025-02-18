@@ -1,17 +1,44 @@
 // github_oauth2_device_workflow.rs
 
-/// In this module there will be a lot of work with secrets.
-/// It is difficult to trust an external crate with your secrets.
-/// The crates can get updated unexpectedly and change to malicious code.
-/// It is best to have the Rust code under your fingertips when dealing with secrets.
-/// Than you know nobody will touch this code except of you.
-/// You can copy this code directly into your codebase as a module,
-/// inspect and review it and know exactly what is going on.
-/// The dependencies in Cargo.toml must also be copied.
+//! github_oauth2_device_workflow_mod
+//!
+//! ## Secrets
+//!
+//! In this module there will be a lot of work with secrets.  
+//! It is difficult to trust an external crate with your secrets.  
+//! External crates can get updated unexpectedly and change to malicious code.  
+//!
+//! ## Copy code instead of dependency crate
+//!
+//! It is best to have the Rust code under your fingertips when dealing with secrets.  
+//! Than you know, nobody will touch this code except of you.  
+//! You can copy this code directly into your codebase as a module,
+//! inspect and review it and know exactly what is going on.  
+//! The code is as linear and readable with comments as possible.
+//! The dependencies in Cargo.toml must also be copied.  
+//!
+//! ## Store encrypted secret to file
+//!
+//! The secrets will be encrypted with an ssh private key and stored in the ~/.ssh folder.  
+//! This way the data is protected at rest in storage drive.  
+//!
+//! ## In memory protection
+//!
+//! This is a tough one! There is no 100% software protection of secrets in memory.  
+//! Theoretically an attacker could dump the memory in any moment and read the secrets.  
+//! There is always a moment when the secret is used in its plaintext form. This cannot be avoided. 
+//! All we can do now is to be alert what data is secret and take better care of it.  
+//! Every variable that have secrets will have the word `secret` in it.
+//! When a variable is confusing I will use the word `plain` to express it is `not a secret`.
+//! To avoid leaking in logs I will use the `secrecy` crate. This is not 100% protection.  
+//! This is important just to express intent when the secrets are really used.  
+//! `Secrecy` needs the trait `zeroize` to empty the memory after use for better memory hygiene.
+//! I will add the type names explicitly to emphasis the secrecy types used.
+//! To understand the code try to ignore all this secrecy game back and forth.
 
-// TODO: use zeroize and secrecy to avoid leaking secrets
-// TODO: use ssh-agent to store passphrase in memory for 1 hour
-// to avoid typing it every time
+// TODO: use ssh-agent to store passphrase in memory for 1 hour to avoid typing it every time
+
+use secrecy::{ExposeSecret, ExposeSecretMut, SecretBox, SecretString};
 
 // region: Public API constants
 // ANSI colors for Linux terminal
@@ -30,8 +57,8 @@ pub const BLUE: &str = "\x1b[34m";
 pub const RESET: &str = "\x1b[0m";
 // endregion: Public API constants
 
-#[derive(serde::Deserialize, serde::Serialize)]
-struct ResponseAccessToken {
+#[derive(serde::Deserialize, serde::Serialize, zeroize::Zeroize, zeroize::ZeroizeOnDrop)]
+struct ResponseSecretAccessToken {
     access_token: String,
     expires_in: i32,
     refresh_token: String,
@@ -67,25 +94,23 @@ pub(crate) fn github_oauth2_device_workflow(client_id: &str, file_bare_name: &st
     if !std::fs::exists(&encrypted_file_name)? {
         println!("{YELLOW}  Encrypted file {encrypted_file_name} does not exist.{RESET}");
         println!("{YELLOW}  Continue to authentication with the browser{RESET}");
-        let response_access_token = authentication_with_browser(client_id)?;
-        // println!("{}", serde_json::to_string_pretty(&response_access_token)?);
-        // Mock the response for easy development
-        // let response_access_token = std::fs::read_to_string("/home/rustdevuser/rustprojects/oauth2_cli_github_example_config/mock_response.txt")?;
-        // let response_access_token = serde_json::from_str(&response_access_token)?;
-        encrypt_and_save_file(private_file_name, encrypted_file_name, response_access_token)?;
+        let response_secret_access_token: SecretBox<ResponseSecretAccessToken> = authentication_with_browser(client_id)?;
+        // Mock the response when needed for development:
+        // let response_secret_access_token = SecretBox(Box::new(serde_json::from_str(&std::fs::read_to_string("/home/rustdevuser/rustprojects/oauth2_cli_github_example_config/mock_response.txt")?)?));
+        encrypt_and_save_file(private_file_name, encrypted_file_name, response_secret_access_token)?;
     } else {
         println!("{YELLOW}  Encrypted file {encrypted_file_name} exist.{RESET}");
         println!("{YELLOW}  Decrypt the file with the private key.{RESET}");
-        let response_access_token = open_and_decrypt_file(encrypted_file_name)?;
+        let response_secret_access_token: SecretBox<ResponseSecretAccessToken> = open_and_decrypt_file(encrypted_file_name)?;
 
-        println!("{}", serde_json::to_string_pretty(&response_access_token)?);
+        println!("{}", serde_json::to_string_pretty(&response_secret_access_token.expose_secret())?);
     }
 
     Ok(())
 }
 
 /// Oauth2 device workflow needs to be authenticated with a browser
-fn authentication_with_browser(client_id: &str) -> anyhow::Result<ResponseAccessToken> {
+fn authentication_with_browser(client_id: &str) -> anyhow::Result<SecretBox<ResponseSecretAccessToken>> {
     // https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps#device-flow
     // https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app#using-the-device-flow-to-generate-a-user-access-token
     println!("{YELLOW}  Send request with client_id and retrieve device_code and user_code{RESET}");
@@ -116,7 +141,7 @@ fn authentication_with_browser(client_id: &str) -> anyhow::Result<ResponseAccess
     println!("{GREEN}https://github.com/login/device?skip_account_picker=true{RESET}");
     println!("{YELLOW}  After the tokens are prepared on the server, press enter to continue...{RESET}");
 
-    let _x: String = inquire::Text::new("").prompt()?;
+    let _user_input_just_enter_to_continue: String = inquire::Text::new("").prompt()?;
 
     #[derive(serde::Serialize)]
     struct RequestAccessToken {
@@ -127,29 +152,37 @@ fn authentication_with_browser(client_id: &str) -> anyhow::Result<ResponseAccess
 
     println!("{YELLOW}  Send request with device_id and retrieve access tokens{RESET}");
     println!("{YELLOW}  wait...{RESET}");
-    let response_access_token: ResponseAccessToken = reqwest::blocking::Client::new()
-        .post(" https://github.com/login/oauth/access_token")
-        .header("Content-Type", "application/json")
-        .header("Accept", "application/json")
-        .json(&RequestAccessToken {
-            client_id: client_id.to_string(),
-            device_code: response_device_code.device_code.to_string(),
-            grant_type: "urn:ietf:params:oauth:grant-type:device_code".to_string(),
-        })
-        .send()?
-        .json()?;
+    let response_secret_access_token: SecretBox<ResponseSecretAccessToken> = SecretBox::new(
+        reqwest::blocking::Client::new()
+            .post(" https://github.com/login/oauth/access_token")
+            .header("Content-Type", "application/json")
+            .header("Accept", "application/json")
+            .json(&RequestAccessToken {
+                client_id: client_id.to_string(),
+                device_code: response_device_code.device_code.to_string(),
+                grant_type: "urn:ietf:params:oauth:grant-type:device_code".to_string(),
+            })
+            .send()?
+            .json()?,
+    );
 
-    Ok(response_access_token)
+    Ok(response_secret_access_token)
 }
 
+/// encrypt and save file
+///
 /// The "seed" are just some random 32 bytes.
-/// The "seed" will be "signed" with the private key. 
-/// Only the "owner" can unlock the private key. 
+/// The "seed" will be "signed" with the private key.
+/// Only the "owner" can unlock the private key and sign correctly.
 /// This signature will be used as the true passcode for symmetrical encryption.
-/// The "seed" and the private key path will be stored in plain text in the file 
+/// The "seed" and the private key path will be stored in plain text in the file
 /// together with the encrypted data in json format.
 /// To avoid plain text in the end encode in base64 just for obfuscate a little bit.
-fn encrypt_and_save_file(identity_private_file_path: camino::Utf8PathBuf, encrypted_file_name: camino::Utf8PathBuf, response_access_token: ResponseAccessToken) -> anyhow::Result<()> {
+fn encrypt_and_save_file(
+    identity_private_file_path: camino::Utf8PathBuf,
+    encrypted_file_name: camino::Utf8PathBuf,
+    response_secret_access_token: SecretBox<ResponseSecretAccessToken>,
+) -> anyhow::Result<()> {
     /// Internal unction Generate a random seed
     fn random_seed_bytes() -> [u8; 32] {
         let mut password = [0_u8; 32];
@@ -160,36 +193,38 @@ fn encrypt_and_save_file(identity_private_file_path: camino::Utf8PathBuf, encryp
     /// Internal function
     /// Encrypts secret_string with secret_passcode_bytes
     ///
-    /// secret_passcode_bytes must be 32 bytes or more
+    /// secret_passcode_bytes must be 32 bytes
     /// returns the encrypted_string
-    fn encrypt_symmetric(secret_passcode_bytes: [u8; 32], secret_string: String) -> anyhow::Result<String> {
-        let cipher = <aes_gcm::Aes256Gcm as aes_gcm::KeyInit>::new(&secret_passcode_bytes.into());
+    fn encrypt_symmetric(secret_passcode_bytes: SecretBox<[u8; 32]>, secret_string: SecretString) -> anyhow::Result<String> {
         // nonce is salt
         let nonce = <aes_gcm::Aes256Gcm as aes_gcm::AeadCore>::generate_nonce(&mut aes_gcm::aead::OsRng);
-
-        let Ok(cipher_text) = aes_gcm::aead::Aead::encrypt(&cipher, &nonce, secret_string.as_bytes()) else {
+        let Ok(cipher_text_encrypted) = aes_gcm::aead::Aead::encrypt(
+            // cipher_secret is the true passcode, here I don't know how to use secrecy, because the type has not the trait Zeroize
+            &<aes_gcm::Aes256Gcm as aes_gcm::KeyInit>::new(secret_passcode_bytes.expose_secret().into()),
+            &nonce,
+            secret_string.expose_secret().as_bytes(),
+        ) else {
             panic!("{RED}Error: Encryption failed. {RESET}");
         };
 
         let mut encrypted_bytes = nonce.to_vec();
-        encrypted_bytes.extend_from_slice(&cipher_text);
+        encrypted_bytes.extend_from_slice(&cipher_text_encrypted);
         let encrypted_string = <base64ct::Base64 as base64ct::Encoding>::encode_string(&encrypted_bytes);
         Ok(encrypted_string)
     }
+    let secret_string = SecretString::from(serde_json::to_string(&response_secret_access_token.expose_secret())?);
 
-    let secret_string = serde_json::to_string(&response_access_token)?;
-
-    let seed_bytes_not_a_secret_32bytes = random_seed_bytes();
-    let secret_passcode_32bytes = user_input_passphrase_and_sign_seed(seed_bytes_not_a_secret_32bytes, &identity_private_file_path)?;
+    let seed_bytes_plain_32bytes = random_seed_bytes();
+    let secret_passcode_32bytes: SecretBox<[u8; 32]> = user_input_passphrase_and_sign_seed(seed_bytes_plain_32bytes, &identity_private_file_path)?;
 
     println!("{YELLOW}  Encrypt the secret symmetrically {RESET}");
     let encrypted_string = encrypt_symmetric(secret_passcode_32bytes, secret_string)?;
 
-    // the file will contain json with 3 non-secret fields: fingerprint, seed, encrypted
-    let seed_string_not_a_secret = <base64ct::Base64 as base64ct::Encoding>::encode_string(&seed_bytes_not_a_secret_32bytes);
+    // the file will contain json with 3 plain text fields: fingerprint, seed, encrypted
+    let seed_string_plain = <base64ct::Base64 as base64ct::Encoding>::encode_string(&seed_bytes_plain_32bytes);
     let file_encrypted_json = FileEncryptedJson {
         identity: identity_private_file_path.to_string(),
-        seed: seed_string_not_a_secret,
+        seed: seed_string_plain,
         encrypted: encrypted_string,
     };
     let file_text = serde_json::to_string_pretty(&file_encrypted_json)?;
@@ -202,32 +237,37 @@ fn encrypt_and_save_file(identity_private_file_path: camino::Utf8PathBuf, encryp
     Ok(())
 }
 
-/// The encrypted file is encoded in base64 just to obfuscate it a little bit.
-/// In json format in plain text there is the "seed", the private key path and the encrypted secret.
-/// The "seed" will be "signed" with the private key. 
-/// Only the "owner" can unlock the private key. 
-/// This signature will be used as the true passcode for symmetrical decryption.
-fn open_and_decrypt_file(encrypted_file_name: camino::Utf8PathBuf) -> anyhow::Result<ResponseAccessToken> {
+/// open and decrypt file
+///
+/// The encrypted file is encoded in base64 just to obfuscate it a little bit.  
+/// In json format in plain text there is the "seed", the private key path and the encrypted secret.  
+/// The "seed" will be "signed" with the private key.  
+/// Only the "owner" can unlock the private key and sign correctly.  
+/// This signature will be used as the true passcode for symmetrical decryption.  
+fn open_and_decrypt_file(encrypted_file_name: camino::Utf8PathBuf) -> anyhow::Result<SecretBox<ResponseSecretAccessToken>> {
     /// Internal function
     /// Decrypts encrypted_string with secret_passcode_bytes
     ///
     /// secret_passcode_bytes must be 32 bytes or more
     /// Returns the secret_string
-    fn decrypt_symmetric(secret_passcode_32bytes: [u8; 32], encrypted_string: String) -> anyhow::Result<ResponseAccessToken> {
+    fn decrypt_symmetric(secret_passcode_32bytes: SecretBox<[u8; 32]>, encrypted_string: String) -> anyhow::Result<SecretBox<ResponseSecretAccessToken>> {
         let encrypted_bytes = <base64ct::Base64 as base64ct::Encoding>::decode_vec(&encrypted_string)?;
-
-        let cipher = <aes_gcm::Aes256Gcm as aes_gcm::KeyInit>::new(&secret_passcode_32bytes.into());
         // nonce is salt
         let nonce = rsa::sha2::digest::generic_array::GenericArray::from_slice(&encrypted_bytes[..12]);
         let cipher_text = &encrypted_bytes[12..];
 
-        let Ok(decrypted_bytes) = aes_gcm::aead::Aead::decrypt(&cipher, nonce, cipher_text) else {
+        let Ok(decrypted_bytes) = aes_gcm::aead::Aead::decrypt(
+            // cipher_secret is the true passcode, here I don't know how to use secrecy, because the type has not the trait Zeroize
+            &<aes_gcm::Aes256Gcm as aes_gcm::KeyInit>::new(secret_passcode_32bytes.expose_secret().into()),
+            nonce,
+            cipher_text,
+        ) else {
             panic!("{RED}Error: Decryption failed. {RESET}");
         };
         let decrypted_string = String::from_utf8(decrypted_bytes).unwrap();
-        let response_access_token: ResponseAccessToken = serde_json::from_str(&decrypted_string)?;
+        let response_secret_access_token: SecretBox<ResponseSecretAccessToken> = SecretBox::new(Box::new(serde_json::from_str(&decrypted_string)?));
 
-        Ok(response_access_token)
+        Ok(response_secret_access_token)
     }
 
     if !camino::Utf8Path::new(&encrypted_file_name).exists() {
@@ -246,47 +286,48 @@ fn open_and_decrypt_file(encrypted_file_name: camino::Utf8PathBuf) -> anyhow::Re
         anyhow::bail!("{RED}Error: File {identity_private_file_path} does not exist! {RESET}");
     }
 
-    let seed_bytes_not_a_secret = <base64ct::Base64 as base64ct::Encoding>::decode_vec(&file_encrypted_json.seed)?;
-    let seed_bytes_not_a_secret_32bytes: [u8; 32] = seed_bytes_not_a_secret[..32].try_into()?;
-    let secret_passcode_32bytes = user_input_passphrase_and_sign_seed(seed_bytes_not_a_secret_32bytes, identity_private_file_path)?;
+    let seed_bytes_plain = <base64ct::Base64 as base64ct::Encoding>::decode_vec(&file_encrypted_json.seed)?;
+    let seed_bytes_plain_32bytes: [u8; 32] = seed_bytes_plain[..32].try_into()?;
+    let secret_passcode_32bytes: SecretBox<[u8; 32]> = user_input_passphrase_and_sign_seed(seed_bytes_plain_32bytes, identity_private_file_path)?;
 
     // decrypt the data
-    let response_access_token = decrypt_symmetric(secret_passcode_32bytes, file_encrypted_json.encrypted)?;
+    let response_secret_access_token = decrypt_symmetric(secret_passcode_32bytes, file_encrypted_json.encrypted)?;
 
-    Ok(response_access_token)
+    Ok(response_secret_access_token)
 }
 
 /// User must input the passphrase to unlock the private key file.
 /// Sign the seed with the private key into 32 bytes.
 /// This will be the true passcode for symmetrical encryption and decryption.
-fn user_input_passphrase_and_sign_seed(seed_bytes_not_a_secret_32bytes: [u8; 32], identity_private_file_path: &camino::Utf8Path) -> anyhow::Result<[u8; 32]> {
+fn user_input_passphrase_and_sign_seed(seed_bytes_plain_32bytes: [u8; 32], identity_private_file_path: &camino::Utf8Path) -> anyhow::Result<SecretBox<[u8; 32]>> {
     /// Internal function for user input passphrase
-    fn user_input_secret_passphrase() -> anyhow::Result<String> {
+    fn user_input_secret_passphrase() -> anyhow::Result<SecretString> {
         eprintln!(" ");
         eprintln!("   {BLUE}Enter the passphrase for the SSH private key:{RESET}");
 
-        let secret_passphrase = inquire::Password::new("").without_confirmation().with_display_mode(inquire::PasswordDisplayMode::Masked).prompt()?;
+        let secret_passphrase = SecretString::from(inquire::Password::new("").without_confirmation().with_display_mode(inquire::PasswordDisplayMode::Masked).prompt()?);
 
         Ok(secret_passphrase)
     }
     // the user is the only one that knows the passphrase to unlock the private key
-    let secret_user_passphrase = user_input_secret_passphrase()?;
+    let secret_user_passphrase: SecretString = user_input_secret_passphrase()?;
 
     // sign_with_ssh_identity_file
     println!("{YELLOW}  Use ssh private key from file {RESET}");
     let private_key = ssh_key::PrivateKey::read_openssh_file(identity_private_file_path.as_std_path())?;
     println!("{YELLOW}  Unlock the private key {RESET}");
-    let mut private_key = private_key.decrypt(secret_user_passphrase)?;
+
+    // cannot use secrecy: PrivateKey does not have trait Zeroize
+    let mut private_key_secret = private_key.decrypt(secret_user_passphrase.expose_secret())?;
 
     // FYI: this type of signature is compatible with ssh-agent because it does not involve namespace
     println!("{YELLOW}  Sign the seed {RESET}");
-    let signature_is_the_new_secret_password = rsa::signature::SignerMut::try_sign(&mut private_key, &seed_bytes_not_a_secret_32bytes)?;
-    // only the data part of the signature goes into as_bytes.
-    let signed_passcode_is_a_secret = signature_is_the_new_secret_password.as_bytes().to_owned();
 
+    let mut secret_passcode_32bytes = SecretBox::new(Box::new([0u8; 32]));
+    // only the data part of the signature goes into as_bytes.
     // only the first 32 bytes
-    let mut secret_passcode_32bytes = [0u8; 32];
-    secret_passcode_32bytes.copy_from_slice(&signed_passcode_is_a_secret[0..32]);
+    secret_passcode_32bytes.expose_secret_mut().copy_from_slice(&rsa::signature::SignerMut::try_sign(&mut private_key_secret, &seed_bytes_plain_32bytes)?.as_bytes().to_owned()[0..32]);
+
 
     Ok(secret_passcode_32bytes)
 }
