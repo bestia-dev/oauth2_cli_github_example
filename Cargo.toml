@@ -1,6 +1,6 @@
 [package]
 name = "oauth2_cli_github_example"
-version = "2025.218.1023"
+version = "2025.218.1654"
 authors = ["bestia.dev"]
 homepage = "https://bestia.dev"
 edition = "2021"
@@ -31,3 +31,4 @@ camino = "1.1.6"
 base64ct = {version = "1.6.0", features = ["alloc"] }
 inquire = "0.7.0"
 secrecy = "0.10.3"
+chrono ="0.4.39"

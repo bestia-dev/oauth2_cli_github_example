@@ -2,6 +2,7 @@
 
 mod github_oauth2_device_workflow_mod;
 use github_oauth2_device_workflow_mod as wf;
+use secrecy::ExposeSecret;
 
 fn main() -> anyhow::Result<()> {
     // region: read config from files outside the repository
@@ -11,6 +12,7 @@ fn main() -> anyhow::Result<()> {
     let file_bare_name = std::fs::read_to_string("/home/rustdevuser/rustprojects/oauth2_cli_github_example_config/file_bare_name.txt")?;
     // endregion: read config from files outside the repository
 
-    wf::github_oauth2_device_workflow(&client_id, &file_bare_name)?;
+    let access_secret_token = wf::github_oauth2_device_workflow(&client_id, &file_bare_name)?;
+    println!("{}", access_secret_token.expose_secret());
     Ok(())
 }

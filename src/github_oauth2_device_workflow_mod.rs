@@ -38,6 +38,7 @@
 
 // TODO: use ssh-agent to store passphrase in memory for 1 hour to avoid typing it every time
 
+use anyhow::Context;
 use secrecy::{ExposeSecret, ExposeSecretMut, SecretBox, SecretString};
 
 // region: Public API constants
@@ -60,28 +61,31 @@ pub const RESET: &str = "\x1b[0m";
 #[derive(serde::Deserialize, serde::Serialize, zeroize::Zeroize, zeroize::ZeroizeOnDrop)]
 struct ResponseSecretAccessToken {
     access_token: String,
-    expires_in: i32,
+    expires_in: i64,
     refresh_token: String,
-    refresh_token_expires_in: i32,
+    refresh_token_expires_in: i64,
     scope: String,
     token_type: String,
 }
 
 #[derive(serde::Deserialize, serde::Serialize)]
-struct FileEncryptedJson {
+struct EncFileJson {
     identity: String,
     seed: String,
     encrypted: String,
+    access_token_expiration: String,
+    refresh_token_expiration: String,
 }
 
 /// Start the github oauth2 device workflow
 /// It will use the private key from the .ssh folder.
 /// The encrypted file has the same bare name with the "enc" extension.
-pub(crate) fn github_oauth2_device_workflow(client_id: &str, file_bare_name: &str) -> anyhow::Result<()> {
+/// Returns access_token to use as bearer for api calls
+pub(crate) fn github_oauth2_device_workflow(client_id: &str, file_bare_name: &str) -> anyhow::Result<SecretString> {
     println!("{YELLOW}  Start the github oauth2 device workflow for CLI apps{RESET}");
 
     println!("{YELLOW}  Check if the ssh private key exists.{RESET}");
-    let private_file_name = camino::Utf8PathBuf::from(&format!("/home/rustdevuser/.ssh/{file_bare_name}"));
+    let private_file_name = camino::Utf8PathBuf::from(format!("/home/rustdevuser/.ssh/{file_bare_name}").as_str());
     if !std::fs::exists(&private_file_name)? {
         println!("{RED}Error: Private key {private_file_name} does not exist.{RESET}");
         println!("{YELLOW}  Create the private key in bash terminal:{RESET}");
@@ -90,23 +94,76 @@ pub(crate) fn github_oauth2_device_workflow(client_id: &str, file_bare_name: &st
     }
 
     println!("{YELLOW}  Check if the encrypted file exists.{RESET}");
-    let encrypted_file_name = camino::Utf8PathBuf::from(format!("/home/rustdevuser/.ssh/{file_bare_name}.enc"));
+    let encrypted_file_name = camino::Utf8PathBuf::from(format!("/home/rustdevuser/.ssh/{file_bare_name}.enc").as_str());
     if !std::fs::exists(&encrypted_file_name)? {
         println!("{YELLOW}  Encrypted file {encrypted_file_name} does not exist.{RESET}");
         println!("{YELLOW}  Continue to authentication with the browser{RESET}");
-        let response_secret_access_token: SecretBox<ResponseSecretAccessToken> = authentication_with_browser(client_id)?;
-        // Mock the response when needed for development:
-        // let response_secret_access_token = SecretBox(Box::new(serde_json::from_str(&std::fs::read_to_string("/home/rustdevuser/rustprojects/oauth2_cli_github_example_config/mock_response.txt")?)?));
-        encrypt_and_save_file(private_file_name, encrypted_file_name, response_secret_access_token)?;
+        let secret_access_token = authenticate_with_browser_and_save_file(client_id, &private_file_name, &encrypted_file_name)?;
+        return Ok(secret_access_token);
     } else {
         println!("{YELLOW}  Encrypted file {encrypted_file_name} exist.{RESET}");
+        let enc_file_json = open_file_get_json(&encrypted_file_name)?;
+        // check the expiration
+        let utc_now = chrono::Utc::now();
+        let refresh_token_expiration = chrono::DateTime::parse_from_rfc3339(&enc_file_json.refresh_token_expiration)?;
+        if refresh_token_expiration <= utc_now {
+            println!("{RED}Refresh token has expired, start authentication_with_browser{RESET}");
+            let secret_access_token = authenticate_with_browser_and_save_file(client_id, &private_file_name, &encrypted_file_name)?;
+            return Ok(secret_access_token);
+        }
+        let access_token_expiration = chrono::DateTime::parse_from_rfc3339(&enc_file_json.access_token_expiration)?;
+        if access_token_expiration != utc_now {
+            println!("{RED}Access token has expired, use refresh token{RESET}");
+            let response_secret_refresh_token = decrypt_file_json(enc_file_json)?;
+            let response_secret_access_token: SecretBox<ResponseSecretAccessToken> = refresh_tokens(client_id, response_secret_refresh_token.expose_secret().refresh_token.clone())?;
+            let secret_access_token = SecretString::from(response_secret_access_token.expose_secret().access_token.clone());
+            println!("{YELLOW}  Encrypt data and save file{RESET}");
+            encrypt_and_save_file(&private_file_name, &encrypted_file_name, response_secret_access_token)?;
+            return Ok(secret_access_token);
+        }
         println!("{YELLOW}  Decrypt the file with the private key.{RESET}");
-        let response_secret_access_token: SecretBox<ResponseSecretAccessToken> = open_and_decrypt_file(encrypted_file_name)?;
+        let response_secret_access_token = decrypt_file_json(enc_file_json)?;
+        let secret_access_token = SecretString::from(response_secret_access_token.expose_secret().access_token.clone());
+        Ok(secret_access_token)
+    }
+}
 
-        println!("{}", serde_json::to_string_pretty(&response_secret_access_token.expose_secret())?);
+/// use refresh token to get new access_token and refresh_token
+fn refresh_tokens(client_id: &str, refresh_token: String) -> anyhow::Result<SecretBox<ResponseSecretAccessToken>> {
+    // https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/refreshing-user-access-tokens
+
+    #[derive(serde::Serialize)]
+    struct RequestWithRefreshToken {
+        client_id: String,
+        grant_type: String,
+        refresh_token: String,
     }
 
-    Ok(())
+    println!("{YELLOW}  Send request with client_id and refresh_token and retrieve access tokens{RESET}");
+    println!("{YELLOW}  wait...{RESET}");
+    let response_secret_access_token: SecretBox<ResponseSecretAccessToken> = SecretBox::new(Box::new(
+        reqwest::blocking::Client::new()
+            .post("https://github.com/login/oauth/access_token")
+            .header("Content-Type", "application/json")
+            .header("Accept", "application/json")
+            .json(&RequestWithRefreshToken {
+                client_id: client_id.to_owned(),
+                grant_type: "refresh_token".to_string(),
+                refresh_token: refresh_token,
+            })
+            .send()?
+            .json()?,
+    ));
+
+    Ok(response_secret_access_token)
+}
+
+fn authenticate_with_browser_and_save_file(client_id: &str, private_file_name: &camino::Utf8Path, encrypted_file_name: &camino::Utf8Path) -> anyhow::Result<SecretString> {
+    let response_secret_access_token: SecretBox<ResponseSecretAccessToken> = authentication_with_browser(client_id)?;
+    let secret_access_token = SecretString::from(response_secret_access_token.expose_secret().access_token.clone());
+    println!("{YELLOW}  Encrypt data and save file{RESET}");
+    encrypt_and_save_file(private_file_name, encrypted_file_name, response_secret_access_token)?;
+    Ok(secret_access_token)
 }
 
 /// Oauth2 device workflow needs to be authenticated with a browser
@@ -179,8 +236,8 @@ fn authentication_with_browser(client_id: &str) -> anyhow::Result<SecretBox<Resp
 /// together with the encrypted data in json format.
 /// To avoid plain text in the end encode in base64 just for obfuscate a little bit.
 fn encrypt_and_save_file(
-    identity_private_file_path: camino::Utf8PathBuf,
-    encrypted_file_name: camino::Utf8PathBuf,
+    identity_private_file_path: &camino::Utf8Path,
+    encrypted_file_name: &camino::Utf8Path,
     response_secret_access_token: SecretBox<ResponseSecretAccessToken>,
 ) -> anyhow::Result<()> {
     /// Internal unction Generate a random seed
@@ -215,36 +272,65 @@ fn encrypt_and_save_file(
     let secret_string = SecretString::from(serde_json::to_string(&response_secret_access_token.expose_secret())?);
 
     let seed_bytes_plain_32bytes = random_seed_bytes();
+    println!("{YELLOW}  Unlock private key to encrypt the secret symmetrically{RESET}");
     let secret_passcode_32bytes: SecretBox<[u8; 32]> = user_input_passphrase_and_sign_seed(seed_bytes_plain_32bytes, &identity_private_file_path)?;
 
     println!("{YELLOW}  Encrypt the secret symmetrically {RESET}");
     let encrypted_string = encrypt_symmetric(secret_passcode_32bytes, secret_string)?;
 
-    // the file will contain json with 3 plain text fields: fingerprint, seed, encrypted
+    // the file will contain json with 3 plain text fields: fingerprint, seed, encrypted, expiration
     let seed_string_plain = <base64ct::Base64 as base64ct::Encoding>::encode_string(&seed_bytes_plain_32bytes);
-    let file_encrypted_json = FileEncryptedJson {
+    // calculate expiration minus 10 minutes or 600 seconds
+    let utc_now = chrono::Utc::now();
+    let access_token_expiration = utc_now
+        .checked_add_signed(chrono::Duration::seconds(response_secret_access_token.expose_secret().expires_in - 600))
+        .context("checked_add_signed")?
+        .to_rfc3339();
+    let refresh_token_expiration = utc_now
+        .checked_add_signed(chrono::Duration::seconds(response_secret_access_token.expose_secret().refresh_token_expires_in - 600))
+        .context("checked_add_signed")?
+        .to_rfc3339();
+
+    let enc_file_json = EncFileJson {
         identity: identity_private_file_path.to_string(),
         seed: seed_string_plain,
         encrypted: encrypted_string,
+        access_token_expiration: access_token_expiration,
+        refresh_token_expiration: refresh_token_expiration,
     };
-    let file_text = serde_json::to_string_pretty(&file_encrypted_json)?;
+    let file_text = serde_json::to_string_pretty(&enc_file_json)?;
     // encode it just to obscure it a little bit
     let file_text = <base64ct::Base64 as base64ct::Encoding>::encode_string(file_text.as_bytes());
 
     std::fs::write(encrypted_file_name, file_text)?;
-    println!("{YELLOW}  Encrypted text saved in file.{RESET}");
+    println!("{YELLOW}  Encrypted text saved to file.{RESET}");
 
     Ok(())
 }
 
-/// open and decrypt file
+/// get the file json with expiration dates
+fn open_file_get_json(encrypted_file_name: &camino::Utf8Path) -> anyhow::Result<EncFileJson> {
+    if !camino::Utf8Path::new(&encrypted_file_name).exists() {
+        anyhow::bail!("{RED}Error: File {encrypted_file_name} does not exist! {RESET}");
+    }
+
+    let file_text = std::fs::read_to_string(encrypted_file_name)?;
+    // it is encoded just to obscure it a little
+    let file_text = <base64ct::Base64 as base64ct::Encoding>::decode_vec(&file_text)?;
+    let file_text = String::from_utf8(file_text)?;
+    // deserialize json into struct
+    let enc_file_json: EncFileJson = serde_json::from_str(&file_text)?;
+    Ok(enc_file_json)
+}
+
+/// decrypt file
 ///
 /// The encrypted file is encoded in base64 just to obfuscate it a little bit.  
 /// In json format in plain text there is the "seed", the private key path and the encrypted secret.  
 /// The "seed" will be "signed" with the private key.  
 /// Only the "owner" can unlock the private key and sign correctly.  
 /// This signature will be used as the true passcode for symmetrical decryption.  
-fn open_and_decrypt_file(encrypted_file_name: camino::Utf8PathBuf) -> anyhow::Result<SecretBox<ResponseSecretAccessToken>> {
+fn decrypt_file_json(enc_file_json: EncFileJson) -> anyhow::Result<SecretBox<ResponseSecretAccessToken>> {
     /// Internal function
     /// Decrypts encrypted_string with secret_passcode_bytes
     ///
@@ -270,23 +356,13 @@ fn open_and_decrypt_file(encrypted_file_name: camino::Utf8PathBuf) -> anyhow::Re
         Ok(response_secret_access_token)
     }
 
-    if !camino::Utf8Path::new(&encrypted_file_name).exists() {
-        anyhow::bail!("{RED}Error: File {encrypted_file_name} does not exist! {RESET}");
-    }
-
-    let file_text = std::fs::read_to_string(encrypted_file_name)?;
-    // it is encoded just to obscure it a little
-    let file_text = <base64ct::Base64 as base64ct::Encoding>::decode_vec(&file_text)?;
-    let file_text = String::from_utf8(file_text)?;
-    // deserialize json into struct
-    let file_encrypted_json: FileEncryptedJson = serde_json::from_str(&file_text)?;
     // the private key file is written inside the file
-    let identity_private_file_path = camino::Utf8Path::new(&file_encrypted_json.identity);
+    let identity_private_file_path = camino::Utf8Path::new(&enc_file_json.identity);
     if !camino::Utf8Path::new(&identity_private_file_path).exists() {
         anyhow::bail!("{RED}Error: File {identity_private_file_path} does not exist! {RESET}");
     }
 
-    let seed_bytes_plain = <base64ct::Base64 as base64ct::Encoding>::decode_vec(&file_encrypted_json.seed)?;
+    let seed_bytes_plain = <base64ct::Base64 as base64ct::Encoding>::decode_vec(&enc_file_json.seed)?;
     let seed_bytes_plain_32bytes: [u8; 32] = seed_bytes_plain[..32].try_into()?;
 
     // first try to use the private key from ssh-agent, else use the private file with user interaction
@@ -301,12 +377,13 @@ fn open_and_decrypt_file(encrypted_file_name: camino::Utf8PathBuf) -> anyhow::Re
         println!("   {YELLOW}WARNING: using ssh-agent is less secure, because there is no need for user interaction.{RESET}");
         println!("   {YELLOW}Knowing this, you can manually add the SSH identity to ssh-agent for 1 hour:{RESET}");
         println!("{GREEN}ssh-add -t 1h {identity_private_file_path}{RESET}");
+        println!("   {YELLOW}Unlock the private key to decrypt the saved file.{RESET}");
 
         user_input_passphrase_and_sign_seed(seed_bytes_plain_32bytes, identity_private_file_path)?
     };
 
     // decrypt the data
-    let response_secret_access_token = decrypt_symmetric(secret_passcode_32bytes, file_encrypted_json.encrypted)?;
+    let response_secret_access_token = decrypt_symmetric(secret_passcode_32bytes, enc_file_json.encrypted)?;
 
     Ok(response_secret_access_token)
 }
@@ -370,8 +447,8 @@ fn use_ssh_agent_to_sign_seed(seed_bytes_plain_32bytes: [u8; 32], identity_priva
     let public_key = ssh_key::PublicKey::read_openssh_file(&identity_public_file_path.as_std_path())?;
     let fingerprint_from_file = public_key.fingerprint(Default::default()).to_string();
 
-println!("{YELLOW}  Connect to ssh-agent on SSH_AUTH_SOCK{RESET}");    
-let var_ssh_auth_sock  = std::env::var("SSH_AUTH_SOCK")?;
+    println!("{YELLOW}  Connect to ssh-agent on SSH_AUTH_SOCK{RESET}");
+    let var_ssh_auth_sock = std::env::var("SSH_AUTH_SOCK")?;
     let path_ssh_auth_sock = camino::Utf8Path::new(&var_ssh_auth_sock);
     let mut ssh_agent_client = ssh_agent_client_rs::Client::connect(&path_ssh_auth_sock.as_std_path())?;
 
