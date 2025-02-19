@@ -18,12 +18,24 @@
 <a href="#17" id="17">17</a>
 <a href="#18" id="18">18</a>
 <a href="#19" id="19">19</a>
-<a href="#20" id="20">20</a></pre></div><pre class="rust"><code><span class="comment">// oauth2_cli_github_example/src/main.rs
+<a href="#20" id="20">20</a>
+<a href="#21" id="21">21</a>
+<a href="#22" id="22">22</a>
+<a href="#23" id="23">23</a>
+<a href="#24" id="24">24</a>
+<a href="#25" id="25">25</a>
+<a href="#26" id="26">26</a>
+<a href="#27" id="27">27</a>
+<a href="#28" id="28">28</a></pre></div><pre class="rust"><code><span class="comment">// oauth2_cli_github_example/src/main.rs
 
-</span><span class="attr">#![doc=<span class="macro">include_str!</span>(<span class="string">"../README.md"</span>)]
+</span><span class="doccomment">//! region: auto_md_to_doc_comments include README.md A //!
+
+//! endregion: auto_md_to_doc_comments include README.md A //!
 
 </span><span class="kw">mod </span>github_oauth2_device_workflow_mod;
 <span class="kw">use </span>github_oauth2_device_workflow_mod <span class="kw">as </span>wf;
+<span class="kw">mod </span>crates_io_api_token;
+
 <span class="kw">use </span>secrecy::ExposeSecret;
 
 <span class="kw">fn </span>main() -&gt; anyhow::Result&lt;()&gt; {
@@ -34,8 +46,12 @@
     </span><span class="kw">let </span>file_bare_name = std::fs::read_to_string(<span class="string">"/home/rustdevuser/rustprojects/oauth2_cli_github_example_config/file_bare_name.txt"</span>)<span class="question-mark">?</span>;
     <span class="comment">// endregion: read config from files outside the repository
 
-    </span><span class="kw">let </span>access_secret_token = wf::github_oauth2_device_workflow(<span class="kw-2">&amp;</span>client_id, <span class="kw-2">&amp;</span>file_bare_name)<span class="question-mark">?</span>;
-    <span class="macro">println!</span>(<span class="string">"{}"</span>, access_secret_token.expose_secret());
-    <span class="prelude-val">Ok</span>(())
+    </span><span class="kw">let </span>github_access_secret_token = wf::github_oauth2_device_workflow(<span class="kw-2">&amp;</span>client_id, <span class="kw-2">&amp;</span>file_bare_name)<span class="question-mark">?</span>;
+    <span class="macro">println!</span>(<span class="string">"{}"</span>, github_access_secret_token.expose_secret());
+
+    <span class="comment">//let crates_io_access_secret_token = wf::crates_io(&amp;client_id, &amp;file_bare_name)?;
+    //println!("{}", access_secret_token.expose_secret());
+
+    </span><span class="prelude-val">Ok</span>(())
 }
 </code></pre></div></section></main></body></html>

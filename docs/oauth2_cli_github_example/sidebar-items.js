@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["main"],"mod":["github_oauth2_device_workflow_mod"]};
+window.SIDEBAR_ITEMS = {"fn":["main"],"mod":["crates_io_api_token","github_oauth2_device_workflow_mod"]};

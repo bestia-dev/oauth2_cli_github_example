@@ -463,9 +463,11 @@
 <a href="#462" id="462">462</a>
 <a href="#463" id="463">463</a>
 <a href="#464" id="464">464</a>
-<a href="#465" id="465">465</a></pre></div><pre class="rust"><code><span class="comment">// github_oauth2_device_workflow.rs
+<a href="#465" id="465">465</a>
+<a href="#466" id="466">466</a></pre></div><pre class="rust"><code><span class="comment">// github_oauth2_device_workflow_mod.rs
 
-</span><span class="doccomment">//! github_oauth2_device_workflow_mod
+// region: auto_md_to_doc_comments include doc_comments/github_oauth2_device_workflow_mod.md A //!
+</span><span class="doccomment">//! # github_oauth2_device_workflow_mod
 //!
 //! ## Secrets
 //!
@@ -500,8 +502,8 @@
 //! `Secrecy` needs the trait `zeroize` to empty the memory after use for better memory hygiene.
 //! I will add the type names explicitly to emphasis the secrecy types used.
 //! To understand the code try to ignore all this secrecy game back and forth.
-
-</span><span class="comment">// TODO: use ssh-agent to store passphrase in memory for 1 hour to avoid typing it every time
+//!
+</span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments/github_oauth2_device_workflow_mod.md A //!
 
 </span><span class="kw">use </span>anyhow::Context;
 <span class="kw">use </span>secrecy::{ExposeSecret, ExposeSecretMut, SecretBox, SecretString};
