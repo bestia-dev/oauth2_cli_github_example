@@ -1,9 +1,13 @@
 // oauth2_cli_github_example/src/main.rs
 
-#![doc=include_str!("../README.md")]
+//! region: auto_md_to_doc_comments include README.md A //!
+
+//! endregion: auto_md_to_doc_comments include README.md A //!
 
 mod github_oauth2_device_workflow_mod;
 use github_oauth2_device_workflow_mod as wf;
+mod crates_io_api_token;
+
 use secrecy::ExposeSecret;
 
 fn main() -> anyhow::Result<()> {
@@ -14,7 +18,11 @@ fn main() -> anyhow::Result<()> {
     let file_bare_name = std::fs::read_to_string("/home/rustdevuser/rustprojects/oauth2_cli_github_example_config/file_bare_name.txt")?;
     // endregion: read config from files outside the repository
 
-    let access_secret_token = wf::github_oauth2_device_workflow(&client_id, &file_bare_name)?;
-    println!("{}", access_secret_token.expose_secret());
+    let github_access_secret_token = wf::github_oauth2_device_workflow(&client_id, &file_bare_name)?;
+    println!("{}", github_access_secret_token.expose_secret());
+
+    //let crates_io_access_secret_token = wf::crates_io(&client_id, &file_bare_name)?;
+    //println!("{}", access_secret_token.expose_secret());
+
     Ok(())
 }

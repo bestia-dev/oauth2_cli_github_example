@@ -1,6 +1,7 @@
-// github_oauth2_device_workflow.rs
+// github_oauth2_device_workflow_mod.rs
 
-//! github_oauth2_device_workflow_mod
+// region: auto_md_to_doc_comments include doc_comments/github_oauth2_device_workflow_mod.md A //!
+//! # github_oauth2_device_workflow_mod
 //!
 //! ## Secrets
 //!
@@ -35,8 +36,8 @@
 //! `Secrecy` needs the trait `zeroize` to empty the memory after use for better memory hygiene.
 //! I will add the type names explicitly to emphasis the secrecy types used.
 //! To understand the code try to ignore all this secrecy game back and forth.
-
-// TODO: use ssh-agent to store passphrase in memory for 1 hour to avoid typing it every time
+//!
+// endregion: auto_md_to_doc_comments include doc_comments/github_oauth2_device_workflow_mod.md A //!
 
 use anyhow::Context;
 use secrecy::{ExposeSecret, ExposeSecretMut, SecretBox, SecretString};
