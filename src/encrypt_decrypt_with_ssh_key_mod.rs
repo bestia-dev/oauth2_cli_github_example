@@ -60,8 +60,10 @@ pub(crate) fn shorten_vec_bytes_to_32bytes(vec_u8: Vec<u8>) -> anyhow::Result<[u
     if vec_u8.len() < 32 {
         anyhow::bail!("The bytes must never be less then 32 bytes.");
     }
-    use zerocopy::AsBytes;
-    Ok(vec_u8.as_bytes().to_owned()[0..32])
+    let mut secret_passcode_32bytes = [0u8; 32];
+    secret_passcode_32bytes.copy_from_slice(&vec_u8[0..32]);
+
+    Ok(secret_passcode_32bytes)
 }
 
 // region: seed encode and decode - string and bytes
@@ -84,10 +86,10 @@ pub(crate) fn encode64_from_bytes_to_string(plain_seed_bytes_32bytes: Vec<u8>) -
     <base64ct::Base64 as base64ct::Encoding>::encode_string(&plain_seed_bytes_32bytes)
 }
 
-/// decode base64 from string to bytes
-pub(crate) fn decode64_from_string_to_bytes(plain_encrypted_string: String) -> anyhow::Result<Vec<u8>> {
-    Ok(<base64ct::Base64 as base64ct::Encoding>::decode_vec(&plain_encrypted_string)?)
-}
+// /// decode base64 from string to bytes
+// pub(crate) fn decode64_from_string_to_bytes(plain_encrypted_string: String) -> anyhow::Result<Vec<u8>> {
+//     Ok(<base64ct::Base64 as base64ct::Encoding>::decode_vec(&plain_encrypted_string)?)
+// }
 
 /// encode base64 from string to string
 /// It is a silly obfuscation just to avoid using plain text.
@@ -98,7 +100,8 @@ pub(crate) fn encode64_from_string_to_string(string_to_encode: &str) -> String {
 /// decode base64 from string to string
 /// It is a silly obfuscation just to avoid using plain text.
 pub(crate) fn decode64_from_string_to_string(string_to_decode: &str) -> anyhow::Result<String> {
-    Ok(String::from_utf8(<base64ct::Base64 as base64ct::Encoding>::decode_vec(string_to_decode)?))
+    let decoded_string = String::from_utf8(<base64ct::Base64 as base64ct::Encoding>::decode_vec(string_to_decode)?)?;
+    Ok(decoded_string)
 }
 
 // endregion: seed encode and decode - string and bytes
@@ -120,7 +123,7 @@ pub(crate) fn sign_seed_with_ssh_agent_or_identity_file(identity_private_file_pa
         println!("{GREEN}ssh-add -t 1h {identity_private_file_path}{RESET}");
         println!("   {YELLOW}Unlock the private key to decrypt the saved file.{RESET}");
 
-        user_input_passphrase_and_sign_seed(plain_seed_bytes_32bytes, identity_private_file_path)?
+        sign_seed_with_identity_file(plain_seed_bytes_32bytes, identity_private_file_path)?
     };
     Ok(secret_passcode_32bytes)
 }
@@ -160,7 +163,7 @@ fn sign_seed_with_ssh_agent(seed_bytes_plain_32bytes: [u8; 32], identity_private
     // only the data part of the signature goes into as_bytes.
     secret_passcode_32bytes
         .expose_secret_mut()
-        .copy_from_slice(&shorten_vec_bytes_to_32bytes(ssh_agent_client.sign(&public_key, &seed_bytes_plain_32bytes)?)?);
+        .copy_from_slice(&ssh_agent_client.sign(&public_key, &seed_bytes_plain_32bytes)?.as_bytes()[0..32]);
 
     Ok(secret_passcode_32bytes)
 }
@@ -199,7 +202,7 @@ pub(crate) fn sign_seed_with_identity_file(seed_bytes_plain_32bytes: [u8; 32], i
     // only the first 32 bytes
     secret_passcode_32bytes
         .expose_secret_mut()
-        .copy_from_slice(&shorten_vec_bytes_to_32bytes(rsa::signature::SignerMut::try_sign(&mut secret_private_key, &seed_bytes_plain_32bytes)?)?);
+        .copy_from_slice(&rsa::signature::SignerMut::try_sign(&mut secret_private_key, &seed_bytes_plain_32bytes)?.as_bytes()[0..32]);
 
     Ok(secret_passcode_32bytes)
 }

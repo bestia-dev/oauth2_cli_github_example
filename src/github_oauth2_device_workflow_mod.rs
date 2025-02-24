@@ -274,7 +274,7 @@ fn encrypt_and_save_file(
 
     let seed_bytes_plain_32bytes = random_seed_bytes();
     println!("{YELLOW}  Unlock private key to encrypt the secret symmetrically{RESET}");
-    let secret_passcode_32bytes: SecretBox<[u8; 32]> = user_input_passphrase_and_sign_seed(seed_bytes_plain_32bytes, &identity_private_file_path)?;
+    let secret_passcode_32bytes: SecretBox<[u8; 32]> = user_input_passphrase_and_sign_seed_x(seed_bytes_plain_32bytes, &identity_private_file_path)?;
 
     println!("{YELLOW}  Encrypt the secret symmetrically {RESET}");
     let encrypted_string = encrypt_symmetric(secret_passcode_32bytes, secret_string)?;
@@ -380,7 +380,7 @@ fn decrypt_file_json(enc_file_json: EncFileJson) -> anyhow::Result<SecretBox<Res
         println!("{GREEN}ssh-add -t 1h {identity_private_file_path}{RESET}");
         println!("   {YELLOW}Unlock the private key to decrypt the saved file.{RESET}");
 
-        user_input_passphrase_and_sign_seed(seed_bytes_plain_32bytes, identity_private_file_path)?
+        user_input_passphrase_and_sign_seed_x(seed_bytes_plain_32bytes, identity_private_file_path)?
     };
 
     // decrypt the data
@@ -392,7 +392,7 @@ fn decrypt_file_json(enc_file_json: EncFileJson) -> anyhow::Result<SecretBox<Res
 /// User must input the passphrase to unlock the private key file.
 /// Sign the seed with the private key into 32 bytes.
 /// This will be the true passcode for symmetrical encryption and decryption.
-fn user_input_passphrase_and_sign_seed(seed_bytes_plain_32bytes: [u8; 32], identity_private_file_path: &camino::Utf8Path) -> anyhow::Result<SecretBox<[u8; 32]>> {
+fn user_input_passphrase_and_sign_seed_x(seed_bytes_plain_32bytes: [u8; 32], identity_private_file_path: &camino::Utf8Path) -> anyhow::Result<SecretBox<[u8; 32]>> {
     /// Internal function for user input passphrase
     fn user_input_secret_passphrase() -> anyhow::Result<SecretString> {
         eprintln!(" ");

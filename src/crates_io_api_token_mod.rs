@@ -1,4 +1,4 @@
-// crates_io_api_token.rs
+// crates_io_api_token_mod.rs
 
 //! Publish to crates.io needs the crates.io secret_token. This is a secret important just like a password.
 //! There is the original "cargo login" function that saves this critical secret in plain text. This is a big no no.
@@ -9,7 +9,7 @@
 
 use std::str::FromStr;
 
-use secrecy::{ExposeSecret, SecretBox, SecretString};
+use secrecy::{SecretBox, SecretString};
 
 use crate::encrypt_decrypt_with_ssh_key_mod as ende;
 use crate::encrypt_decrypt_with_ssh_key_mod::{BLUE, GREEN, RED, RESET, YELLOW};
