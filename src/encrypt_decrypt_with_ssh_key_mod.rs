@@ -1,6 +1,11 @@
 // encrypt_decrypt_with_ssh_key_mod.rs
 
+// region: auto_md_to_doc_comments include doc_comments/encrypt_decrypt_with_ssh_key_mod.md A //!
+//! # encrypt_decrypt_with_ssh_key_mod
+//!
 //! Functions to encrypt decrypt a secret string
+//!
+// endregion: auto_md_to_doc_comments include doc_comments/encrypt_decrypt_with_ssh_key_mod.md A //!
 
 // region: Public API constants
 // ANSI colors for Linux terminal

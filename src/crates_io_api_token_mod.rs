@@ -1,13 +1,16 @@
 // crates_io_api_token_mod.rs
 
+// region: auto_md_to_doc_comments include doc_comments/crates_io_api_token_mod.md A //!
+//! # crates_io_api_token_mod
+//!
 //! Publish to crates.io needs the crates.io secret_token. This is a secret important just like a password.
 //! There is the original "cargo login" function that saves this critical secret in plain text. This is a big no no.
 //! I don't want to pass secret to an "obscure" library crate that is difficult to
 //! review and can change in any point in time and become malicious.
 //! Instead of that, copy and paste this module "mod" file into your project.
 //! The secrets will stay in your codebase that is easy to inspect and guaranteed that will never change without your consent.
-
-use std::str::FromStr;
+//!
+// endregion: auto_md_to_doc_comments include doc_comments/crates_io_api_token_mod.md A //!
 
 use secrecy::{SecretBox, SecretString};
 
@@ -75,7 +78,7 @@ pub(crate) fn get_crates_io_secret_token(file_bare_name: &str) -> anyhow::Result
     let encrypted_text_with_metadata: ende::EncryptedTextWithMetadata = serde_json::from_str(&encrypted_text_with_metadata)?;
     println!("{YELLOW}  Decrypt the file with ssh-agent or private key.{RESET}");
     let plain_seed_bytes_32bytes = ende::decode64_from_string_to_32bytes(&encrypted_text_with_metadata.plain_seed_string)?;
-    let identity_file_path = camino::Utf8PathBuf::from_str(&encrypted_text_with_metadata.identity_file_path)?;
+    let identity_file_path = camino::Utf8PathBuf::from(&encrypted_text_with_metadata.identity_file_path);
     let secret_passcode_32bytes: SecretBox<[u8; 32]> = ende::sign_seed_with_ssh_agent_or_identity_file(&identity_file_path, plain_seed_bytes_32bytes)?;
 
     // decrypt the secret access token string
