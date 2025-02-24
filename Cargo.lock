@@ -1201,7 +1201,7 @@ dependencies = [
 
 [[package]]
 name = "oauth2_cli_github_example"
-version = "2025.224.1758"
+version = "2025.224.1801"
 dependencies = [
  "aes-gcm",
  "anyhow",
