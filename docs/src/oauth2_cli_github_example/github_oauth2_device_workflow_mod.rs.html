@@ -740,7 +740,7 @@
 
     <span class="kw">let </span>seed_bytes_plain_32bytes = random_seed_bytes();
     <span class="macro">println!</span>(<span class="string">"{YELLOW}  Unlock private key to encrypt the secret symmetrically{RESET}"</span>);
-    <span class="kw">let </span>secret_passcode_32bytes: SecretBox&lt;[u8; <span class="number">32</span>]&gt; = user_input_passphrase_and_sign_seed(seed_bytes_plain_32bytes, <span class="kw-2">&amp;</span>identity_private_file_path)<span class="question-mark">?</span>;
+    <span class="kw">let </span>secret_passcode_32bytes: SecretBox&lt;[u8; <span class="number">32</span>]&gt; = user_input_passphrase_and_sign_seed_x(seed_bytes_plain_32bytes, <span class="kw-2">&amp;</span>identity_private_file_path)<span class="question-mark">?</span>;
 
     <span class="macro">println!</span>(<span class="string">"{YELLOW}  Encrypt the secret symmetrically {RESET}"</span>);
     <span class="kw">let </span>encrypted_string = encrypt_symmetric(secret_passcode_32bytes, secret_string)<span class="question-mark">?</span>;
@@ -846,7 +846,7 @@
         <span class="macro">println!</span>(<span class="string">"{GREEN}ssh-add -t 1h {identity_private_file_path}{RESET}"</span>);
         <span class="macro">println!</span>(<span class="string">"   {YELLOW}Unlock the private key to decrypt the saved file.{RESET}"</span>);
 
-        user_input_passphrase_and_sign_seed(seed_bytes_plain_32bytes, identity_private_file_path)<span class="question-mark">?
+        user_input_passphrase_and_sign_seed_x(seed_bytes_plain_32bytes, identity_private_file_path)<span class="question-mark">?
     </span>};
 
     <span class="comment">// decrypt the data
@@ -858,7 +858,7 @@
 <span class="doccomment">/// User must input the passphrase to unlock the private key file.
 /// Sign the seed with the private key into 32 bytes.
 /// This will be the true passcode for symmetrical encryption and decryption.
-</span><span class="kw">fn </span>user_input_passphrase_and_sign_seed(seed_bytes_plain_32bytes: [u8; <span class="number">32</span>], identity_private_file_path: <span class="kw-2">&amp;</span>camino::Utf8Path) -&gt; anyhow::Result&lt;SecretBox&lt;[u8; <span class="number">32</span>]&gt;&gt; {
+</span><span class="kw">fn </span>user_input_passphrase_and_sign_seed_x(seed_bytes_plain_32bytes: [u8; <span class="number">32</span>], identity_private_file_path: <span class="kw-2">&amp;</span>camino::Utf8Path) -&gt; anyhow::Result&lt;SecretBox&lt;[u8; <span class="number">32</span>]&gt;&gt; {
     <span class="doccomment">/// Internal function for user input passphrase
     </span><span class="kw">fn </span>user_input_secret_passphrase() -&gt; anyhow::Result&lt;SecretString&gt; {
         <span class="macro">eprintln!</span>(<span class="string">" "</span>);
