@@ -263,7 +263,8 @@
 <a href="#262" id="262">262</a>
 <a href="#263" id="263">263</a>
 <a href="#264" id="264">264</a>
-<a href="#265" id="265">265</a></pre></div><pre class="rust"><code><span class="comment">// encrypt_decrypt_with_ssh_key_mod.rs
+<a href="#265" id="265">265</a>
+<a href="#266" id="266">266</a></pre></div><pre class="rust"><code><span class="comment">// encrypt_decrypt_with_ssh_key_mod.rs
 
 // region: auto_md_to_doc_comments include doc_comments/encrypt_decrypt_with_ssh_key_mod.md A //!
 </span><span class="doccomment">//! # encrypt_decrypt_with_ssh_key_mod
@@ -291,7 +292,7 @@
 
 </span><span class="kw">use </span>secrecy::{ExposeSecret, ExposeSecretMut, SecretBox, SecretString};
 
-<span class="doccomment">/// Struct that represents the json data saved in the 'enc' file
+<span class="doccomment">/// Struct that represents the json data saved in the '*.enc' file
 </span><span class="attr">#[derive(serde::Deserialize, serde::Serialize)]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>EncryptedTextWithMetadata {
     <span class="kw">pub</span>(<span class="kw">crate</span>) identity_file_path: String,
@@ -326,7 +327,8 @@
     <span class="prelude-val">Ok</span>(file_text)
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>shorten_vec_bytes_to_32bytes(vec_u8: Vec&lt;u8&gt;) -&gt; anyhow::Result&lt;[u8; <span class="number">32</span>]&gt; {
+<span class="doccomment">/// shorten the `Vec&lt;u8&gt; to [u8;32]`  
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>shorten_vec_bytes_to_32bytes(vec_u8: Vec&lt;u8&gt;) -&gt; anyhow::Result&lt;[u8; <span class="number">32</span>]&gt; {
     <span class="kw">if </span>vec_u8.len() &lt; <span class="number">32 </span>{
         <span class="macro">anyhow::bail!</span>(<span class="string">"The bytes must never be less then 32 bytes."</span>);
     }
@@ -338,20 +340,19 @@
 
 <span class="comment">// region: seed encode and decode - string and bytes
 
-</span><span class="doccomment">/// decode base64 from string to 32bytes
+</span><span class="doccomment">/// Decode base64 from string to 32bytes
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>encode64_from_32bytes_to_string(bytes_32bytes: [u8; <span class="number">32</span>]) -&gt; anyhow::Result&lt;String&gt; {
     <span class="prelude-val">Ok</span>(&lt;base64ct::Base64 <span class="kw">as </span>base64ct::Encoding&gt;::encode_string(<span class="kw-2">&amp;</span>bytes_32bytes))
 }
 
-<span class="doccomment">/// Decode from string to 32bytes
-/// It is encoded with base 64
+<span class="doccomment">/// Decode base64 from string to 32bytes
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>decode64_from_string_to_32bytes(plain_seed_string: <span class="kw-2">&amp;</span>str) -&gt; anyhow::Result&lt;[u8; <span class="number">32</span>]&gt; {
     <span class="kw">let </span>plain_seed_bytes = &lt;base64ct::Base64 <span class="kw">as </span>base64ct::Encoding&gt;::decode_vec(plain_seed_string)<span class="question-mark">?</span>;
     <span class="kw">let </span>plain_seed_bytes_32bytes = shorten_vec_bytes_to_32bytes(plain_seed_bytes)<span class="question-mark">?</span>;
     <span class="prelude-val">Ok</span>(plain_seed_bytes_32bytes)
 }
 
-<span class="doccomment">/// encode base64 from bytes to string
+<span class="doccomment">/// Encode base64 from bytes to string
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>encode64_from_bytes_to_string(plain_seed_bytes_32bytes: Vec&lt;u8&gt;) -&gt; String {
     &lt;base64ct::Base64 <span class="kw">as </span>base64ct::Encoding&gt;::encode_string(<span class="kw-2">&amp;</span>plain_seed_bytes_32bytes)
 }
@@ -361,14 +362,14 @@
 //     Ok(&lt;base64ct::Base64 as base64ct::Encoding&gt;::decode_vec(&amp;plain_encrypted_string)?)
 // }
 
-</span><span class="doccomment">/// encode base64 from string to string
-/// It is a silly obfuscation just to avoid using plain text.
+</span><span class="doccomment">/// Encode base64 from string to string
+/// It is a silly little obfuscation just to avoid using plain text.
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>encode64_from_string_to_string(string_to_encode: <span class="kw-2">&amp;</span>str) -&gt; String {
     &lt;base64ct::Base64 <span class="kw">as </span>base64ct::Encoding&gt;::encode_string(string_to_encode.as_bytes())
 }
 
-<span class="doccomment">/// decode base64 from string to string
-/// It is a silly obfuscation just to avoid using plain text.
+<span class="doccomment">/// Decode base64 from string to string
+/// It is a silly little obfuscation just to avoid using plain text.
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>decode64_from_string_to_string(string_to_decode: <span class="kw-2">&amp;</span>str) -&gt; anyhow::Result&lt;String&gt; {
     <span class="kw">let </span>decoded_string = String::from_utf8(&lt;base64ct::Base64 <span class="kw">as </span>base64ct::Encoding&gt;::decode_vec(string_to_decode)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
     <span class="prelude-val">Ok</span>(decoded_string)
@@ -379,6 +380,7 @@
 // region: sign the seed with ssh-agent or private key
 
 </span><span class="doccomment">/// Returns the signed seed. That will be the actual password for symmetrical encryption.
+/// Returns secret_password_bytes
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>sign_seed_with_ssh_agent_or_identity_file(identity_private_file_path: <span class="kw-2">&amp;</span>camino::Utf8PathBuf, plain_seed_bytes_32bytes: [u8; <span class="number">32</span>]) -&gt; anyhow::Result&lt;SecretBox&lt;[u8; <span class="number">32</span>]&gt;&gt; {
     <span class="kw">let </span>secret_passcode_32bytes_maybe = sign_seed_with_ssh_agent(plain_seed_bytes_32bytes, identity_private_file_path);
     <span class="kw">let </span>secret_passcode_32bytes: SecretBox&lt;[u8; <span class="number">32</span>]&gt; = <span class="kw">if </span>secret_passcode_32bytes_maybe.is_ok() {
@@ -400,8 +402,8 @@
 
 <span class="doccomment">/// Sign seed with ssh-agent into 32 bytes secret
 ///
-/// This will be the true passcode for symmetrical encryption and decryption.
-/// returns secret_password_bytes
+/// This will be the true passcode for symmetrical encryption and decryption.  
+/// Returns secret_password_bytes  
 </span><span class="kw">fn </span>sign_seed_with_ssh_agent(seed_bytes_plain_32bytes: [u8; <span class="number">32</span>], identity_private_file_path: <span class="kw-2">&amp;</span>camino::Utf8Path) -&gt; anyhow::Result&lt;SecretBox&lt;[u8; <span class="number">32</span>]&gt;&gt; {
     <span class="doccomment">/// Internal function returns the public_key inside ssh-add
     </span><span class="kw">fn </span>public_key_from_ssh_agent(client: <span class="kw-2">&amp;mut </span>ssh_agent_client_rs::Client, fingerprint_from_file: <span class="kw-2">&amp;</span>str) -&gt; anyhow::Result&lt;ssh_key::PublicKey&gt; {
@@ -440,9 +442,9 @@
 
 <span class="doccomment">/// Sign the seed with the private key into 32 bytes secret
 ///
-/// User must input the passphrase to unlock the private key file.
-/// This will be the true passcode for symmetrical encryption and decryption.
-/// returns secret_password_bytes
+/// User must input the passphrase to unlock the private key file.  
+/// This will be the true passcode for symmetrical encryption and decryption.  
+/// Returns secret_password_bytes
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>sign_seed_with_identity_file(seed_bytes_plain_32bytes: [u8; <span class="number">32</span>], identity_private_file_path: <span class="kw-2">&amp;</span>camino::Utf8Path) -&gt; anyhow::Result&lt;SecretBox&lt;[u8; <span class="number">32</span>]&gt;&gt; {
     <span class="doccomment">/// Internal function for user input passphrase
     </span><span class="kw">fn </span>user_input_secret_passphrase() -&gt; anyhow::Result&lt;SecretString&gt; {
@@ -483,8 +485,8 @@
 
 </span><span class="doccomment">/// Encrypts symmetrically secret_string_to_encrypt with secret_passcode_32bytes
 ///
-/// Consumes the secret_passcode_32bytes and secret_string_to_encrypt
-/// returns the plain_encrypted_string, it is not a secret anymore
+/// Consumes the secret_passcode_32bytes and secret_string_to_encrypt  
+/// Returns the plain_encrypted_string, it is not a secret anymore
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>encrypt_symmetric(secret_passcode_32bytes: SecretBox&lt;[u8; <span class="number">32</span>]&gt;, secret_string_to_encrypt: SecretString) -&gt; anyhow::Result&lt;String&gt; {
     <span class="comment">// nonce is salt
     </span><span class="kw">let </span>nonce = &lt;aes_gcm::Aes256Gcm <span class="kw">as </span>aes_gcm::AeadCore&gt;::generate_nonce(<span class="kw-2">&amp;mut </span>aes_gcm::aead::OsRng);
@@ -507,7 +509,7 @@
 
 <span class="doccomment">/// Decrypts plain_encrypted_string with secret_passcode_32bytes
 ///
-/// Consumes secret_passcode_32bytes and encrypted_string
+/// Consumes secret_passcode_32bytes and encrypted_string  
 /// Returns the secret_decrypted_string
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>decrypt_symmetric(secret_passcode_32bytes: SecretBox&lt;[u8; <span class="number">32</span>]&gt;, plain_encrypted_string: String) -&gt; anyhow::Result&lt;SecretString&gt; {
     <span class="kw">let </span>encrypted_bytes = &lt;base64ct::Base64 <span class="kw">as </span>base64ct::Encoding&gt;::decode_vec(<span class="kw-2">&amp;</span>plain_encrypted_string)<span class="question-mark">?</span>;

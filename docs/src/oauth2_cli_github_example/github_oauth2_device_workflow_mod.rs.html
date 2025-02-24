@@ -449,22 +449,7 @@
 <a href="#448" id="448">448</a>
 <a href="#449" id="449">449</a>
 <a href="#450" id="450">450</a>
-<a href="#451" id="451">451</a>
-<a href="#452" id="452">452</a>
-<a href="#453" id="453">453</a>
-<a href="#454" id="454">454</a>
-<a href="#455" id="455">455</a>
-<a href="#456" id="456">456</a>
-<a href="#457" id="457">457</a>
-<a href="#458" id="458">458</a>
-<a href="#459" id="459">459</a>
-<a href="#460" id="460">460</a>
-<a href="#461" id="461">461</a>
-<a href="#462" id="462">462</a>
-<a href="#463" id="463">463</a>
-<a href="#464" id="464">464</a>
-<a href="#465" id="465">465</a>
-<a href="#466" id="466">466</a></pre></div><pre class="rust"><code><span class="comment">// github_oauth2_device_workflow_mod.rs
+<a href="#451" id="451">451</a></pre></div><pre class="rust"><code><span class="comment">// github_oauth2_device_workflow_mod.rs
 
 // region: auto_md_to_doc_comments include doc_comments/github_oauth2_device_workflow_mod.md A //!
 </span><span class="doccomment">//! # github_oauth2_device_workflow_mod
@@ -508,24 +493,9 @@
 </span><span class="kw">use </span>anyhow::Context;
 <span class="kw">use </span>secrecy::{ExposeSecret, ExposeSecretMut, SecretBox, SecretString};
 
-<span class="comment">// region: Public API constants
-// ANSI colors for Linux terminal
-// https://github.com/shiena/ansicolor/blob/master/README.md
-</span><span class="doccomment">/// ANSI color
-</span><span class="kw">pub const </span>RED: <span class="kw-2">&amp;</span>str = <span class="string">"\x1b[31m"</span>;
-<span class="doccomment">/// ANSI color
-</span><span class="attr">#[allow(dead_code)]
-</span><span class="kw">pub const </span>GREEN: <span class="kw-2">&amp;</span>str = <span class="string">"\x1b[32m"</span>;
-<span class="doccomment">/// ANSI color
-</span><span class="kw">pub const </span>YELLOW: <span class="kw-2">&amp;</span>str = <span class="string">"\x1b[33m"</span>;
-<span class="doccomment">/// ANSI color
-</span><span class="attr">#[allow(dead_code)]
-</span><span class="kw">pub const </span>BLUE: <span class="kw-2">&amp;</span>str = <span class="string">"\x1b[34m"</span>;
-<span class="doccomment">/// ANSI color
-</span><span class="kw">pub const </span>RESET: <span class="kw-2">&amp;</span>str = <span class="string">"\x1b[0m"</span>;
-<span class="comment">// endregion: Public API constants
+<span class="kw">use </span><span class="kw">crate</span>::encrypt_decrypt_with_ssh_key_mod::{BLUE, GREEN, RED, RESET, YELLOW};
 
-</span><span class="attr">#[derive(serde::Deserialize, serde::Serialize, zeroize::Zeroize, zeroize::ZeroizeOnDrop)]
+<span class="attr">#[derive(serde::Deserialize, serde::Serialize, zeroize::Zeroize, zeroize::ZeroizeOnDrop)]
 </span><span class="kw">struct </span>ResponseSecretAccessToken {
     access_token: String,
     expires_in: i64,

@@ -86,7 +86,11 @@
 <a href="#85" id="85">85</a>
 <a href="#86" id="86">86</a>
 <a href="#87" id="87">87</a>
-<a href="#88" id="88">88</a></pre></div><pre class="rust"><code><span class="comment">// crates_io_api_token_mod.rs
+<a href="#88" id="88">88</a>
+<a href="#89" id="89">89</a>
+<a href="#90" id="90">90</a>
+<a href="#91" id="91">91</a>
+<a href="#92" id="92">92</a></pre></div><pre class="rust"><code><span class="comment">// crates_io_api_token_mod.rs
 
 // region: auto_md_to_doc_comments include doc_comments/crates_io_api_token_mod.md A //!
 </span><span class="doccomment">//! # crates_io_api_token_mod
@@ -105,7 +109,11 @@
 <span class="kw">use </span><span class="kw">crate</span>::encrypt_decrypt_with_ssh_key_mod <span class="kw">as </span>ende;
 <span class="kw">use </span><span class="kw">crate</span>::encrypt_decrypt_with_ssh_key_mod::{BLUE, GREEN, RED, RESET, YELLOW};
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>get_crates_io_secret_token(file_bare_name: <span class="kw-2">&amp;</span>str) -&gt; anyhow::Result&lt;SecretString&gt; {
+<span class="doccomment">/// get crates.io secret token
+///
+/// If exists, decrypt it from file.  
+/// Else ask user to input the token and encrypt it into a file.  
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>get_crates_io_secret_token(file_bare_name: <span class="kw-2">&amp;</span>str) -&gt; anyhow::Result&lt;SecretString&gt; {
     <span class="comment">// check if the plain-text file from `cargo login` exists and warn the user
     // because it is a security vulnerability.
     </span><span class="macro">println!</span>(<span class="string">"{YELLOW}  Check if credentials.toml from 'cargo login' exists.{RESET}"</span>);
