@@ -4,7 +4,7 @@
 //! # oauth2_cli_github_example
 //!
 //! **Example of GitHub api with Oauth2 CLI**  
-//! ***version: 2025.224.1801 date: 2025-02-24 author: [bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/oauth2_cli_github_example)***
+//! ***version: 2025.224.1828 date: 2025-02-24 author: [bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/oauth2_cli_github_example)***
 //!
 //!  ![work-in-progress](https://img.shields.io/badge/work_in_progress-yellow)
 //!  ![tutorial](https://img.shields.io/badge/tutorial-orange)
@@ -103,6 +103,14 @@ use secrecy::ExposeSecret;
 fn main() -> anyhow::Result<()> {
     let crates_io_access_secret_token = crates_io_api_token_mod::get_crates_io_secret_token("crates_io_secret_token_ssh_1")?;
     println!("{}", crates_io_access_secret_token.expose_secret());
+
+    // read config client id
+    let client_id = std::fs::read_to_string("/home/rustdevuser/rustprojects/oauth2_cli_github_example_config/client_id.txt")?;
+    // the private key, public key and the encrypted file will have the same bare name
+    let file_bare_name = std::fs::read_to_string("/home/rustdevuser/rustprojects/oauth2_cli_github_example_config/file_bare_name.txt")?;
+
+    let github_access_secret_token = github_oauth2_device_workflow_mod::github_oauth2_device_workflow(&client_id, &file_bare_name)?;
+    println!("{}", github_access_secret_token.expose_secret());
 
     Ok(())
 }

@@ -17,6 +17,10 @@ use secrecy::{SecretBox, SecretString};
 use crate::encrypt_decrypt_with_ssh_key_mod as ende;
 use crate::encrypt_decrypt_with_ssh_key_mod::{BLUE, GREEN, RED, RESET, YELLOW};
 
+/// get crates.io secret token
+///
+/// If exists, decrypt it from file.  
+/// Else ask user to input the token and encrypt it into a file.  
 pub(crate) fn get_crates_io_secret_token(file_bare_name: &str) -> anyhow::Result<SecretString> {
     // check if the plain-text file from `cargo login` exists and warn the user
     // because it is a security vulnerability.
