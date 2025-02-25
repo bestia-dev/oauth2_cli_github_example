@@ -1,7 +1,7 @@
-// github_oauth2_device_workflow_mod.rs
+// github_api_token_with_oauth2_mod.rs
 
-// region: auto_md_to_doc_comments include doc_comments/github_oauth2_device_workflow_mod.md A //!
-//! # github_oauth2_device_workflow_mod
+// region: auto_md_to_doc_comments include doc_comments/github_api_token_with_oauth2_mod.md A //!
+//! # decrypt github api token from file or use the oauth2 device workflow to get the access token and encrypt it and save into file
 //!
 //! ## Secrets
 //!
@@ -16,11 +16,10 @@
 //! You can copy this code directly into your codebase as a module,
 //! inspect and review it and know exactly what is going on.  
 //! The code is as linear and readable with comments as possible.
-//! The dependencies in Cargo.toml must also be copied.  
 //!
 //! ## Store encrypted secret to file
 //!
-//! The secrets will be encrypted with an ssh private key and stored in the ~/.ssh folder.  
+//! The secrets will be encrypted with an ssh private key and stored in the `~/.ssh` folder.  
 //! This way the data is protected at rest in storage drive.  
 //!
 //! ## In memory protection
@@ -31,17 +30,48 @@
 //! All we can do now is to be alert what data is secret and take better care of it.  
 //! Every variable that have secrets will have the word `secret` in it.
 //! When a variable is confusing I will use the word `plain` to express it is `not a secret`.
-//! To avoid leaking in logs I will use the `secrecy` crate. This is not 100% protection.  
-//! This is important just to express intent when the secrets are really used.  
+//! To avoid leaking in logs I will use the `secrecy` crate. This is not 100% protection. It is important just to express intent when the secrets are really used.  
 //! `Secrecy` needs the trait `zeroize` to empty the memory after use for better memory hygiene.
 //! I will add the type names explicitly to emphasis the secrecy types used.
-//! To understand the code try to ignore all this secrecy game back and forth.
 //!
-// endregion: auto_md_to_doc_comments include doc_comments/github_oauth2_device_workflow_mod.md A //!
+//! ## encrypt_decrypt_with_ssh_key_mod
+//!
+//! This module depends on the generic module for encryption `encrypt_decrypt_with_ssh_key_mod.rs`. That module also needs to be copy and paste into your project.
+//!
+//! ## Other dependencies
+//!
+//! In `Cargo.toml` there are a group od dependencies needed for this to work. They are so generic that I don't expect any malware in them to be able to steal some usable secrets.  
+//!
+//! Beware that the versions of crates in `Cargo.toml` are not precisely pinpointed. In rust the symbol '=' means "the same major number equal or newer to". This means from one compilation to another, it can automatically change to a newer version without the programmer even noticing it.
+//!
+//! This is great if the newer version is solving some security issue. But this is super-bad if the newer version is malware supply chain attack. We have no idea how to distinguish one from another.
+//!
+//! Just to mention: there exists the trick to control the `Cargo.lock` file and forbid the change of the version number, but more times than not, you will not want to commit the lock file into the GitHub repository.
+//!
+//! ```toml
+//! [dependencies]
+//! anyhow="1.0.95"
+//! reqwest={version="0.12.12", features=["json","blocking"]}
+//! serde ={ version= "1.0.217", features=["std","derive"]}
+//! serde_json = "1.0.138"
+//! ssh-key = { version = "0.6.7", features = [ "rsa", "encryption","ed25519"] }
+//! ssh-agent-client-rs = "0.9.1"
+//! rsa = { version = "0.9.7", features = ["sha2","pem"] }
+//! zeroize = {version="1.8.1", features=["derive"]}
+//! aes-gcm = "0.10.3"
+//! camino = "1.1.6"
+//! base64ct = {version = "1.6.0", features = ["alloc"] }
+//! inquire = "0.7.0"
+//! secrecy = "0.10.3"
+//! chrono ="0.4.39"
+//! ```
+//!
+// endregion: auto_md_to_doc_comments include doc_comments/github_api_token_with_oauth2_mod.md A //!
 
 use anyhow::Context;
 use secrecy::{ExposeSecret, ExposeSecretMut, SecretBox, SecretString};
 
+use crate::encrypt_decrypt_with_ssh_key_mod as ende;
 use crate::encrypt_decrypt_with_ssh_key_mod::{BLUE, GREEN, RED, RESET, YELLOW};
 
 #[derive(serde::Deserialize, serde::Serialize, zeroize::Zeroize, zeroize::ZeroizeOnDrop)]
@@ -54,20 +84,11 @@ struct ResponseSecretAccessToken {
     token_type: String,
 }
 
-#[derive(serde::Deserialize, serde::Serialize)]
-struct EncFileJson {
-    identity: String,
-    seed: String,
-    encrypted: String,
-    access_token_expiration: String,
-    refresh_token_expiration: String,
-}
-
 /// Start the github oauth2 device workflow
 /// It will use the private key from the .ssh folder.
 /// The encrypted file has the same bare name with the "enc" extension.
 /// Returns access_token to use as bearer for api calls
-pub(crate) fn github_oauth2_device_workflow(client_id: &str, file_bare_name: &str) -> anyhow::Result<SecretString> {
+pub(crate) fn get_github_secret_token(client_id: &str, file_bare_name: &str) -> anyhow::Result<SecretString> {
     println!("{YELLOW}  Start the github oauth2 device workflow for CLI apps{RESET}");
 
     println!("{YELLOW}  Check if the ssh private key exists.{RESET}");
@@ -91,13 +112,19 @@ pub(crate) fn github_oauth2_device_workflow(client_id: &str, file_bare_name: &st
         let enc_file_json = open_file_get_json(&encrypted_file_name)?;
         // check the expiration
         let utc_now = chrono::Utc::now();
-        let refresh_token_expiration = chrono::DateTime::parse_from_rfc3339(&enc_file_json.refresh_token_expiration)?;
+        if enc_file_json.refresh_token_expiration.is_none() {
+            anyhow::bail!("refresh_token_expiration is None");
+        }
+        let refresh_token_expiration = chrono::DateTime::parse_from_rfc3339(&enc_file_json.refresh_token_expiration.as_ref().expect("The former line asserts this is never None"))?;
         if refresh_token_expiration <= utc_now {
             println!("{RED}Refresh token has expired, start authentication_with_browser{RESET}");
             let secret_access_token = authenticate_with_browser_and_save_file(client_id, &private_file_name, &encrypted_file_name)?;
             return Ok(secret_access_token);
         }
-        let access_token_expiration = chrono::DateTime::parse_from_rfc3339(&enc_file_json.access_token_expiration)?;
+        if enc_file_json.access_token_expiration.is_none() {
+            anyhow::bail!("access_token_expiration is None");
+        }
+        let access_token_expiration = chrono::DateTime::parse_from_rfc3339(&enc_file_json.access_token_expiration.as_ref().expect("The former line asserts this is never None"))?;
         if access_token_expiration != utc_now {
             println!("{RED}Access token has expired, use refresh token{RESET}");
             let response_secret_refresh_token = decrypt_file_json(enc_file_json)?;
@@ -277,12 +304,12 @@ fn encrypt_and_save_file(
         .context("checked_add_signed")?
         .to_rfc3339();
 
-    let enc_file_json = EncFileJson {
-        identity: identity_private_file_path.to_string(),
-        seed: seed_string_plain,
-        encrypted: encrypted_string,
-        access_token_expiration: access_token_expiration,
-        refresh_token_expiration: refresh_token_expiration,
+    let enc_file_json = ende::EncryptedTextWithMetadata {
+        identity_file_path: identity_private_file_path.to_string(),
+        plain_seed_string: seed_string_plain,
+        plain_encrypted_text: encrypted_string,
+        access_token_expiration: Some(access_token_expiration),
+        refresh_token_expiration: Some(refresh_token_expiration),
     };
     let file_text = serde_json::to_string_pretty(&enc_file_json)?;
     // encode it just to obscure it a little bit
@@ -295,7 +322,7 @@ fn encrypt_and_save_file(
 }
 
 /// get the file json with expiration dates
-fn open_file_get_json(encrypted_file_name: &camino::Utf8Path) -> anyhow::Result<EncFileJson> {
+fn open_file_get_json(encrypted_file_name: &camino::Utf8Path) -> anyhow::Result<ende::EncryptedTextWithMetadata> {
     if !camino::Utf8Path::new(&encrypted_file_name).exists() {
         anyhow::bail!("{RED}Error: File {encrypted_file_name} does not exist! {RESET}");
     }
@@ -305,7 +332,7 @@ fn open_file_get_json(encrypted_file_name: &camino::Utf8Path) -> anyhow::Result<
     let file_text = <base64ct::Base64 as base64ct::Encoding>::decode_vec(&file_text)?;
     let file_text = String::from_utf8(file_text)?;
     // deserialize json into struct
-    let enc_file_json: EncFileJson = serde_json::from_str(&file_text)?;
+    let enc_file_json: ende::EncryptedTextWithMetadata = serde_json::from_str(&file_text)?;
     Ok(enc_file_json)
 }
 
@@ -316,7 +343,7 @@ fn open_file_get_json(encrypted_file_name: &camino::Utf8Path) -> anyhow::Result<
 /// The "seed" will be "signed" with the private key.  
 /// Only the "owner" can unlock the private key and sign correctly.  
 /// This signature will be used as the true passcode for symmetrical decryption.  
-fn decrypt_file_json(enc_file_json: EncFileJson) -> anyhow::Result<SecretBox<ResponseSecretAccessToken>> {
+fn decrypt_file_json(enc_file_json: ende::EncryptedTextWithMetadata) -> anyhow::Result<SecretBox<ResponseSecretAccessToken>> {
     /// Internal function
     /// Decrypts encrypted_string with secret_passcode_bytes
     ///
@@ -343,12 +370,12 @@ fn decrypt_file_json(enc_file_json: EncFileJson) -> anyhow::Result<SecretBox<Res
     }
 
     // the private key file is written inside the file
-    let identity_private_file_path = camino::Utf8Path::new(&enc_file_json.identity);
+    let identity_private_file_path = camino::Utf8Path::new(&enc_file_json.identity_file_path);
     if !camino::Utf8Path::new(&identity_private_file_path).exists() {
         anyhow::bail!("{RED}Error: File {identity_private_file_path} does not exist! {RESET}");
     }
 
-    let seed_bytes_plain = <base64ct::Base64 as base64ct::Encoding>::decode_vec(&enc_file_json.seed)?;
+    let seed_bytes_plain = <base64ct::Base64 as base64ct::Encoding>::decode_vec(&enc_file_json.plain_seed_string)?;
     let seed_bytes_plain_32bytes: [u8; 32] = seed_bytes_plain[..32].try_into()?;
 
     // first try to use the private key from ssh-agent, else use the private file with user interaction
@@ -369,7 +396,7 @@ fn decrypt_file_json(enc_file_json: EncFileJson) -> anyhow::Result<SecretBox<Res
     };
 
     // decrypt the data
-    let response_secret_access_token = decrypt_symmetric(secret_passcode_32bytes, enc_file_json.encrypted)?;
+    let response_secret_access_token = decrypt_symmetric(secret_passcode_32bytes, enc_file_json.plain_encrypted_text)?;
 
     Ok(response_secret_access_token)
 }

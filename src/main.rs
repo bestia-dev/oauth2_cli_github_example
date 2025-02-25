@@ -4,7 +4,7 @@
 //! # oauth2_cli_github_example
 //!
 //! **Example of GitHub api with Oauth2 CLI**  
-//! ***version: 2025.224.1828 date: 2025-02-24 author: [bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/oauth2_cli_github_example)***
+//! ***version: 2025.225.1204 date: 2025-02-25 author: [bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/oauth2_cli_github_example)***
 //!
 //!  ![work-in-progress](https://img.shields.io/badge/work_in_progress-yellow)
 //!  ![tutorial](https://img.shields.io/badge/tutorial-orange)
@@ -96,10 +96,14 @@
 
 mod crates_io_api_token_mod;
 mod encrypt_decrypt_with_ssh_key_mod;
-mod github_oauth2_device_workflow_mod;
+mod github_api_token_with_oauth2_mod;
 
 use secrecy::ExposeSecret;
 
+/// This is all just an example.
+/// In the main() function I must call all other functions
+/// to avoid the warning `Code is never used`.  
+/// But the true code separated by topic is in the `examples` folder.  
 fn main() -> anyhow::Result<()> {
     let crates_io_access_secret_token = crates_io_api_token_mod::get_crates_io_secret_token("crates_io_secret_token_ssh_1")?;
     println!("{}", crates_io_access_secret_token.expose_secret());
@@ -109,7 +113,7 @@ fn main() -> anyhow::Result<()> {
     // the private key, public key and the encrypted file will have the same bare name
     let file_bare_name = std::fs::read_to_string("/home/rustdevuser/rustprojects/oauth2_cli_github_example_config/file_bare_name.txt")?;
 
-    let github_access_secret_token = github_oauth2_device_workflow_mod::github_oauth2_device_workflow(&client_id, &file_bare_name)?;
+    let github_access_secret_token = github_api_token_with_oauth2_mod::get_github_secret_token(&client_id, &file_bare_name)?;
     println!("{}", github_access_secret_token.expose_secret());
 
     Ok(())

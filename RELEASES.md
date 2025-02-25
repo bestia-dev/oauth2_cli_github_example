@@ -22,5 +22,7 @@ The TODO section is part of the [README.md](https://github.com/bestia-dev/oauth2
 
 - docs
 
+- github_api_token_with_oauth2_mod
+
 ## Version 0.0.1
 
