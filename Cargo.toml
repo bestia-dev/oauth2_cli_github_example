@@ -1,9 +1,9 @@
 [package]
 name = "oauth2_cli_github_example"
-version = "2025.225.1204"
+version = "2025.225.2041"
 authors = ["bestia.dev"]
 homepage = "https://bestia.dev"
-edition = "2021"
+edition = "2024"
 description = "Example of GitHub api with Oauth2 CLI"
 repository = "https://github.com/bestia-dev/oauth2_cli_github_example"
 readme = "README.md"

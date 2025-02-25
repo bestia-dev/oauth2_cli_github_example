@@ -24,5 +24,7 @@ The TODO section is part of the [README.md](https://github.com/bestia-dev/oauth2
 
 - github_api_token_with_oauth2_mod
 
+- update cargo toml and secrecy
+
 ## Version 0.0.1
 

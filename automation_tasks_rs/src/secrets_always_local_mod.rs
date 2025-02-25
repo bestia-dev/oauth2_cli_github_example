@@ -35,13 +35,13 @@ pub(crate) mod decrypt_mod {
     /// This crate is "user code" and is easy to review and inspect.
     pub(crate) struct Decryptor<'a> {
         secret_string: secrecy::SecretString,
-        secret_passcode_bytes: &'a secrecy::SecretVec<u8>,
+        secret_passcode_bytes: &'a secrecy::SecretBox<Vec<u8>>,
     }
 
     impl<'a> Decryptor<'a> {
-        pub(crate) fn new_for_decrypt(secret_passcode_bytes: &'a secrecy::SecretVec<u8>) -> Self {
+        pub(crate) fn new_for_decrypt(secret_passcode_bytes: &'a secrecy::SecretBox<Vec<u8>>) -> Self {
             Decryptor {
-                secret_string: secrecy::SecretString::new("".to_string()),
+                secret_string: secrecy::SecretString::from("".to_string()),
                 secret_passcode_bytes,
             }
         }
@@ -68,7 +68,7 @@ pub(crate) mod decrypt_mod {
                 panic!("{RED}Error: Decryption failed. {RESET}");
             };
             let decrypted_string = String::from_utf8(decrypted_bytes).unwrap();
-            self.secret_string = secrecy::SecretString::new(decrypted_string)
+            self.secret_string = secrecy::SecretString::from(decrypted_string)
         }
     }
 }
@@ -81,11 +81,11 @@ pub(crate) mod encrypt_mod {
     /// This crate is "user code" and is easy to review and inspect.
     pub(crate) struct Encryptor<'a> {
         secret_string: secrecy::SecretString,
-        secret_passcode_bytes: &'a secrecy::SecretVec<u8>,
+        secret_passcode_bytes: &'a secrecy::SecretBox<Vec<u8>>,
     }
 
     impl<'a> Encryptor<'a> {
-        pub(crate) fn new_for_encrypt(secret_string: secrecy::SecretString, secret_passcode_bytes: &'a secrecy::SecretVec<u8>) -> Self {
+        pub(crate) fn new_for_encrypt(secret_string: secrecy::SecretString, secret_passcode_bytes: &'a secrecy::SecretBox<Vec<u8>>) -> Self {
             Encryptor { secret_string, secret_passcode_bytes }
         }
 
@@ -127,19 +127,19 @@ pub(crate) mod secrecy_mod {
     }
 
     impl SecretEncryptedString {
-        pub fn new_with_secret_string(secret_string: secrecy::SecretString, session_passcode: &secrecy::SecretVec<u8>) -> Self {
+        pub fn new_with_secret_string(secret_string: secrecy::SecretString, session_passcode: &secrecy::SecretBox<Vec<u8>>) -> Self {
             let encryptor = super::encrypt_mod::Encryptor::new_for_encrypt(secret_string, &session_passcode);
             let encrypted_string = encryptor.encrypt_symmetric().unwrap();
 
             SecretEncryptedString { encrypted_string }
         }
 
-        pub fn new_with_string(secret_string: String, session_passcode: &secrecy::SecretVec<u8>) -> Self {
-            let secret_string = secrecy::SecretString::new(secret_string);
+        pub fn new_with_string(secret_string: String, session_passcode: &secrecy::SecretBox<Vec<u8>>) -> Self {
+            let secret_string = secrecy::SecretString::from(secret_string);
             Self::new_with_secret_string(secret_string, session_passcode)
         }
 
-        pub fn expose_decrypted_secret(&self, session_passcode: &secrecy::SecretVec<u8>) -> secrecy::SecretString {
+        pub fn expose_decrypted_secret(&self, session_passcode: &secrecy::SecretBox<Vec<u8>>) -> secrecy::SecretString {
             let mut decryptor = super::decrypt_mod::Decryptor::new_for_decrypt(&session_passcode);
             decryptor.decrypt_symmetric(&self.encrypted_string);
             decryptor.return_secret_string().clone()
@@ -152,15 +152,15 @@ pub(crate) mod ssh_mod {
     use crate::secrets_always_local_mod::*;
 
     pub struct SshContext {
-        signed_passcode_is_a_secret: secrecy::SecretVec<u8>,
+        signed_passcode_is_a_secret: secrecy::SecretBox<Vec<u8>>,
         decrypted_string: secrecy::SecretString,
     }
 
     impl SshContext {
         pub fn new() -> Self {
             SshContext {
-                signed_passcode_is_a_secret: secrecy::SecretVec::new(vec![]),
-                decrypted_string: secrecy::SecretString::new("".to_string()),
+                signed_passcode_is_a_secret: secrecy::SecretBox::new(Box::new(vec![])),
+                decrypted_string: secrecy::SecretString::from("".to_string()),
             }
         }
         pub fn get_decrypted_string(&self) -> secrecy::SecretString {
@@ -183,7 +183,7 @@ pub(crate) mod ssh_mod {
             /// It is not interactive, but reads from a env var.
             #[cfg(test)]
             fn get_secret_token() -> secrecy::SecretString {
-                secrecy::SecretString::new(std::env::var("TEST_TOKEN").unwrap())
+                secrecy::SecretString::from(std::env::var("TEST_TOKEN").unwrap())
             }
             /// Internal function get_passphrase interactively ask user to type the passphrase
             ///
@@ -192,7 +192,7 @@ pub(crate) mod ssh_mod {
             fn get_secret_token() -> secrecy::SecretString {
                 eprintln!(" ");
                 eprintln!("   {BLUE}Enter the secret_token to encrypt:{RESET}");
-                secrecy::SecretString::new(
+                secrecy::SecretString::from(
                     inquire::Password::new("")
                         .without_confirmation()
                         .with_display_mode(inquire::PasswordDisplayMode::Masked)
@@ -219,7 +219,7 @@ pub(crate) mod ssh_mod {
             /// It is not interactive, but reads from a env var.
             #[cfg(test)]
             fn get_passphrase() -> secrecy::SecretString {
-                secrecy::SecretString::new(std::env::var("TEST_PASSPHRASE").unwrap())
+                secrecy::SecretString::from(std::env::var("TEST_PASSPHRASE").unwrap())
             }
             /// Internal function get_passphrase interactively ask user to type the passphrase
             ///
@@ -228,7 +228,7 @@ pub(crate) mod ssh_mod {
             fn get_passphrase() -> secrecy::SecretString {
                 eprintln!(" ");
                 eprintln!("   {BLUE}Enter the passphrase for the SSH private key:{RESET}");
-                secrecy::SecretString::new(
+                secrecy::SecretString::from(
                     inquire::Password::new("")
                         .without_confirmation()
                         .with_display_mode(inquire::PasswordDisplayMode::Masked)
@@ -247,7 +247,7 @@ pub(crate) mod ssh_mod {
                     // sign with public key from ssh-agent
                     let signature_is_the_new_secret_password = ssh_agent_client.sign(&public_key, seed_bytes_not_a_secret).unwrap();
                     // only the data part of the signature goes into as_bytes.
-                    self.signed_passcode_is_a_secret = secrecy::SecretVec::new(signature_is_the_new_secret_password.as_bytes().to_owned());
+                    self.signed_passcode_is_a_secret = secrecy::SecretBox::new(Box::new(signature_is_the_new_secret_password.as_bytes().to_owned()));
                 }
                 None => {
                     // ask user to think about adding with ssh-add
@@ -267,7 +267,7 @@ pub(crate) mod ssh_mod {
                     let signature_is_the_new_secret_password = rsa::signature::SignerMut::try_sign(&mut private_key, seed_bytes_not_a_secret).unwrap();
 
                     // only the data part of the signature goes into as_bytes.
-                    self.signed_passcode_is_a_secret = secrecy::SecretVec::new(signature_is_the_new_secret_password.as_bytes().to_owned());
+                    self.signed_passcode_is_a_secret = secrecy::SecretBox::new(Box::new(signature_is_the_new_secret_password.as_bytes().to_owned()));
                 }
             }
         }
@@ -314,7 +314,7 @@ pub(crate) mod github_mod {
         /// Passcode for encrypt the secret_token to encrypted_token in memory.
         /// So that the secret is in memory as little as possible as plain text.
         /// For every session (program start) a new random passcode is created.
-        session_passcode: secrecy::SecretVec<u8>,
+        session_passcode: secrecy::SecretBox<Vec<u8>>,
 
         /// private field is set only once in the new() constructor
         encrypted_token: super::secrecy_mod::SecretEncryptedString,
@@ -345,7 +345,7 @@ pub(crate) mod github_mod {
                 password
             }
 
-            let session_passcode = secrecy::SecretVec::new(random_byte_passcode().to_vec());
+            let session_passcode = secrecy::SecretBox::new(Box::new(random_byte_passcode().to_vec()));
             let encrypted_token = super::secrecy_mod::SecretEncryptedString::new_with_string("".to_string(), &session_passcode);
 
             GitHubClient { session_passcode, encrypted_token }
@@ -499,7 +499,7 @@ pub(crate) mod crates_io_mod {
         /// Passcode for encrypt the secret_token to encrypted_token in memory.
         /// So that the secret is in memory as little as possible as plain text.
         /// For every session (program start) a new random passcode is created.
-        session_passcode: secrecy::SecretVec<u8>,
+        session_passcode: secrecy::SecretBox<Vec<u8>>,
 
         /// private field is set only once in the new() constructor
         encrypted_token: super::secrecy_mod::SecretEncryptedString,
@@ -532,7 +532,7 @@ pub(crate) mod crates_io_mod {
                 password
             }
 
-            let session_passcode = secrecy::SecretVec::new(random_byte_passcode().to_vec());
+            let session_passcode = secrecy::SecretBox::new(Box::new(random_byte_passcode().to_vec()));
             let encrypted_token = super::secrecy_mod::SecretEncryptedString::new_with_string("".to_string(), &session_passcode);
 
             CratesIoClient { session_passcode, encrypted_token }
@@ -635,7 +635,7 @@ pub(crate) mod docker_hub_mod {
         /// Passcode for encrypt the secret_token to encrypted_token in memory.
         /// So that the secret is in memory as little as possible as plain text.
         /// For every session (program start) a new random passcode is created.
-        session_passcode: secrecy::SecretVec<u8>,
+        session_passcode: secrecy::SecretBox<Vec<u8>>,
 
         /// private field is set only once in the new() constructor
         encrypted_token: super::secrecy_mod::SecretEncryptedString,
@@ -668,7 +668,7 @@ pub(crate) mod docker_hub_mod {
                 password
             }
 
-            let session_passcode = secrecy::SecretVec::new(random_byte_passcode().to_vec());
+            let session_passcode = secrecy::SecretBox::new(Box::new(random_byte_passcode().to_vec()));
             let encrypted_token = super::secrecy_mod::SecretEncryptedString::new_with_string("".to_string(), &session_passcode);
 
             DockerHubClient { session_passcode, encrypted_token }
