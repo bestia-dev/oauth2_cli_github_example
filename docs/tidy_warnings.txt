@@ -18,34 +18,6 @@ line 1 column 1690 - Warning: trimming empty <button>
 This document has errors that must be fixed before
 using HTML Tidy to generate a tidied up version.
 
-./docs/src/oauth2_cli_github_example/crates_io_api_token.rs.html
-Document: "2" is not a file!
-
-line 1 column 1994 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 1994 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2010 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 2100 - Warning: <div> isn't allowed in <h1> elements
-line 1 column 2151 - Warning: discarding unexpected </div>
-line 1 column 2184 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2184 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 2201 - Warning: discarding unexpected </rustdoc-toolbar>
-This document has errors that must be fixed before
-using HTML Tidy to generate a tidied up version.
-
-./docs/src/oauth2_cli_github_example/github_oauth2_device_workflow_mod.rs.html
-Document: "2" is not a file!
-
-line 1 column 2022 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2022 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2038 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 2128 - Warning: <div> isn't allowed in <h1> elements
-line 1 column 2179 - Warning: discarding unexpected </div>
-line 1 column 2226 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2226 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 2243 - Warning: discarding unexpected </rustdoc-toolbar>
-This document has errors that must be fixed before
-using HTML Tidy to generate a tidied up version.
-
 ./docs/src/oauth2_cli_github_example/main.rs.html
 Document: "2" is not a file!
 

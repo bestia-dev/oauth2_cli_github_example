@@ -1,3 +1,3 @@
-var srcIndex = new Map(JSON.parse('[["oauth2_cli_github_example",["",[],["crates_io_api_token.rs","github_oauth2_device_workflow_mod.rs","main.rs"]]],["oauth2_cli_github_example",["",[],["crates_io_api_token_mod.rs","encrypt_decrypt_with_ssh_key_mod.rs","github_api_token_with_oauth2_mod.rs","main.rs"]]],["oauth2_cli_github_example",["",[],["crates_io_api_token_mod.rs","encrypt_decrypt_with_ssh_key_mod.rs","github_oauth2_device_workflow_mod.rs","main.rs"]]],["oauth2_cli_github_example",["",[],["crates_io_api_token_mod.rs","encrypt_decrypt_with_ssh_key_mod.rs","main.rs"]]],["oauth2_cli_github_example",["",[],["github_oauth2_device_workflow_mod.rs","main.rs"]]]]'));
+var srcIndex = new Map(JSON.parse('[["oauth2_cli_github_example",["",[],["crates_io_api_token_mod.rs","encrypt_decrypt_with_ssh_key_mod.rs","github_api_token_with_oauth2_mod.rs","main.rs"]]]]'));
 createSrcSidebar();
-//{"start":36,"fragment_lengths":[113,155,156,117,89]}
+//{"start":36,"fragment_lengths":[154]}
