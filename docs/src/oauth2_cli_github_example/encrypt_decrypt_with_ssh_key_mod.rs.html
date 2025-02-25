@@ -264,10 +264,17 @@
 <a href="#263" id="263">263</a>
 <a href="#264" id="264">264</a>
 <a href="#265" id="265">265</a>
-<a href="#266" id="266">266</a></pre></div><pre class="rust"><code><span class="comment">// encrypt_decrypt_with_ssh_key_mod.rs
+<a href="#266" id="266">266</a>
+<a href="#267" id="267">267</a>
+<a href="#268" id="268">268</a>
+<a href="#269" id="269">269</a>
+<a href="#270" id="270">270</a>
+<a href="#271" id="271">271</a>
+<a href="#272" id="272">272</a>
+<a href="#273" id="273">273</a></pre></div><pre class="rust"><code><span class="comment">// encrypt_decrypt_with_ssh_key_mod.rs
 
 // region: auto_md_to_doc_comments include doc_comments/encrypt_decrypt_with_ssh_key_mod.md A //!
-</span><span class="doccomment">//! # encrypt_decrypt_with_ssh_key_mod
+</span><span class="doccomment">//! # generic functions to encrypt and decrypt secrets using the ssh private key
 //!
 //! Functions to encrypt decrypt a secret string
 //!
@@ -313,8 +320,9 @@
     seed_32bytes
 }
 
-<span class="doccomment">/// get the string from the file that is base64 encoded
-/// it is encoded just to obscure it a little
+<span class="doccomment">/// Get the string from the file that is base64 encoded
+///
+/// It is encoded just to obscure it a little.
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>open_file_get_string(encrypted_file_name: <span class="kw-2">&amp;</span>camino::Utf8Path) -&gt; anyhow::Result&lt;String&gt; {
     <span class="kw">if </span>!camino::Utf8Path::new(<span class="kw-2">&amp;</span>encrypted_file_name).exists() {
         <span class="macro">anyhow::bail!</span>(<span class="string">"{RED}Error: File {encrypted_file_name} does not exist! {RESET}"</span>);
@@ -363,12 +371,14 @@
 // }
 
 </span><span class="doccomment">/// Encode base64 from string to string
+///
 /// It is a silly little obfuscation just to avoid using plain text.
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>encode64_from_string_to_string(string_to_encode: <span class="kw-2">&amp;</span>str) -&gt; String {
     &lt;base64ct::Base64 <span class="kw">as </span>base64ct::Encoding&gt;::encode_string(string_to_encode.as_bytes())
 }
 
 <span class="doccomment">/// Decode base64 from string to string
+///
 /// It is a silly little obfuscation just to avoid using plain text.
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>decode64_from_string_to_string(string_to_decode: <span class="kw-2">&amp;</span>str) -&gt; anyhow::Result&lt;String&gt; {
     <span class="kw">let </span>decoded_string = String::from_utf8(&lt;base64ct::Base64 <span class="kw">as </span>base64ct::Encoding&gt;::decode_vec(string_to_decode)<span class="question-mark">?</span>)<span class="question-mark">?</span>;
@@ -379,7 +389,11 @@
 
 // region: sign the seed with ssh-agent or private key
 
-</span><span class="doccomment">/// Returns the signed seed. That will be the actual password for symmetrical encryption.
+</span><span class="doccomment">/// Returns the secret signed seed
+///
+/// First it tries to use the ssh-agent.
+/// Else it uses the private key and ask the user to input the passphrase.
+/// The secret signed seed will be the actual password for symmetrical encryption.
 /// Returns secret_password_bytes
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>sign_seed_with_ssh_agent_or_identity_file(identity_private_file_path: <span class="kw-2">&amp;</span>camino::Utf8PathBuf, plain_seed_bytes_32bytes: [u8; <span class="number">32</span>]) -&gt; anyhow::Result&lt;SecretBox&lt;[u8; <span class="number">32</span>]&gt;&gt; {
     <span class="kw">let </span>secret_passcode_32bytes_maybe = sign_seed_with_ssh_agent(plain_seed_bytes_32bytes, identity_private_file_path);
