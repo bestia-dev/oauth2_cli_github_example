@@ -122,7 +122,7 @@ pub(crate) fn decode64_from_string_to_string(string_to_decode: &str) -> anyhow::
 /// Else it uses the private key and ask the user to input the passphrase.
 /// The secret signed seed will be the actual password for symmetrical encryption.
 /// Returns secret_password_bytes
-pub(crate) fn sign_seed_with_ssh_agent_or_identity_file(identity_private_file_path: &camino::Utf8PathBuf, plain_seed_bytes_32bytes: [u8; 32]) -> anyhow::Result<SecretBox<[u8; 32]>> {
+pub(crate) fn sign_seed_with_ssh_agent_or_identity_file(identity_private_file_path: &camino::Utf8Path, plain_seed_bytes_32bytes: [u8; 32]) -> anyhow::Result<SecretBox<[u8; 32]>> {
     let secret_passcode_32bytes_maybe = sign_seed_with_ssh_agent(plain_seed_bytes_32bytes, identity_private_file_path);
     let secret_passcode_32bytes: SecretBox<[u8; 32]> = if secret_passcode_32bytes_maybe.is_ok() {
         secret_passcode_32bytes_maybe?
@@ -145,7 +145,7 @@ pub(crate) fn sign_seed_with_ssh_agent_or_identity_file(identity_private_file_pa
 ///
 /// This will be the true passcode for symmetrical encryption and decryption.  
 /// Returns secret_password_bytes  
-fn sign_seed_with_ssh_agent(seed_bytes_plain_32bytes: [u8; 32], identity_private_file_path: &camino::Utf8Path) -> anyhow::Result<SecretBox<[u8; 32]>> {
+fn sign_seed_with_ssh_agent(plain_seed_bytes_32bytes: [u8; 32], identity_private_file_path: &camino::Utf8Path) -> anyhow::Result<SecretBox<[u8; 32]>> {
     /// Internal function returns the public_key inside ssh-add
     fn public_key_from_ssh_agent(client: &mut ssh_agent_client_rs::Client, fingerprint_from_file: &str) -> anyhow::Result<ssh_key::PublicKey> {
         let vec_public_key = client.list_identities()?;
@@ -176,7 +176,7 @@ fn sign_seed_with_ssh_agent(seed_bytes_plain_32bytes: [u8; 32], identity_private
     // only the data part of the signature goes into as_bytes.
     secret_passcode_32bytes
         .expose_secret_mut()
-        .copy_from_slice(&ssh_agent_client.sign(&public_key, &seed_bytes_plain_32bytes)?.as_bytes()[0..32]);
+        .copy_from_slice(&ssh_agent_client.sign(&public_key, &plain_seed_bytes_32bytes)?.as_bytes()[0..32]);
 
     Ok(secret_passcode_32bytes)
 }
@@ -186,7 +186,7 @@ fn sign_seed_with_ssh_agent(seed_bytes_plain_32bytes: [u8; 32], identity_private
 /// User must input the passphrase to unlock the private key file.  
 /// This will be the true passcode for symmetrical encryption and decryption.  
 /// Returns secret_password_bytes
-pub(crate) fn sign_seed_with_identity_file(seed_bytes_plain_32bytes: [u8; 32], identity_private_file_path: &camino::Utf8Path) -> anyhow::Result<SecretBox<[u8; 32]>> {
+pub(crate) fn sign_seed_with_identity_file(plain_seed_bytes_32bytes: [u8; 32], identity_private_file_path: &camino::Utf8Path) -> anyhow::Result<SecretBox<[u8; 32]>> {
     /// Internal function for user input passphrase
     fn user_input_secret_passphrase() -> anyhow::Result<SecretString> {
         eprintln!(" ");
@@ -215,7 +215,7 @@ pub(crate) fn sign_seed_with_identity_file(seed_bytes_plain_32bytes: [u8; 32], i
     // only the first 32 bytes
     secret_passcode_32bytes
         .expose_secret_mut()
-        .copy_from_slice(&rsa::signature::SignerMut::try_sign(&mut secret_private_key, &seed_bytes_plain_32bytes)?.as_bytes()[0..32]);
+        .copy_from_slice(&rsa::signature::SignerMut::try_sign(&mut secret_private_key, &plain_seed_bytes_32bytes)?.as_bytes()[0..32]);
 
     Ok(secret_passcode_32bytes)
 }

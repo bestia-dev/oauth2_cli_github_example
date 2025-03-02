@@ -109,7 +109,10 @@ pub(crate) fn get_github_secret_token(client_id: &str, file_bare_name: &str) -> 
         return Ok(secret_access_token);
     } else {
         println!("{YELLOW}  Encrypted file {encrypted_file_name} exist.{RESET}");
-        let enc_file_json = open_file_get_json(&encrypted_file_name)?;
+    let file_text = ende::open_file_get_string(&encrypted_file_name)?;
+    // deserialize json into struct
+    let enc_file_json: ende::EncryptedTextWithMetadata = serde_json::from_str(&file_text)?;
+    
         // check the expiration
         let utc_now = chrono::Utc::now();
         if enc_file_json.refresh_token_expiration.is_none() {
@@ -127,16 +130,16 @@ pub(crate) fn get_github_secret_token(client_id: &str, file_bare_name: &str) -> 
         let access_token_expiration = chrono::DateTime::parse_from_rfc3339(&enc_file_json.access_token_expiration.as_ref().expect("The former line asserts this is never None"))?;
         if access_token_expiration != utc_now {
             println!("{RED}Access token has expired, use refresh token{RESET}");
-            let response_secret_refresh_token = decrypt_file_json(enc_file_json)?;
-            let response_secret_access_token: SecretBox<ResponseSecretAccessToken> = refresh_tokens(client_id, response_secret_refresh_token.expose_secret().refresh_token.clone())?;
-            let secret_access_token = SecretString::from(response_secret_access_token.expose_secret().access_token.clone());
+            let secret_response_refresh_token = decrypt_file_json(enc_file_json)?;
+            let secret_response_access_token: SecretBox<ResponseSecretAccessToken> = refresh_tokens(client_id, secret_response_refresh_token.expose_secret().refresh_token.clone())?;
+            let secret_access_token = SecretString::from(secret_response_access_token.expose_secret().access_token.clone());
             println!("{YELLOW}  Encrypt data and save file{RESET}");
-            encrypt_and_save_file(&private_file_name, &encrypted_file_name, response_secret_access_token)?;
+            encrypt_and_save_file(&private_file_name, &encrypted_file_name, secret_response_access_token)?;
             return Ok(secret_access_token);
         }
         println!("{YELLOW}  Decrypt the file with the private key.{RESET}");
-        let response_secret_access_token = decrypt_file_json(enc_file_json)?;
-        let secret_access_token = SecretString::from(response_secret_access_token.expose_secret().access_token.clone());
+        let secret_response_access_token = decrypt_file_json(enc_file_json)?;
+        let secret_access_token = SecretString::from(secret_response_access_token.expose_secret().access_token.clone());
         Ok(secret_access_token)
     }
 }
@@ -154,7 +157,7 @@ fn refresh_tokens(client_id: &str, refresh_token: String) -> anyhow::Result<Secr
 
     println!("{YELLOW}  Send request with client_id and refresh_token and retrieve access tokens{RESET}");
     println!("{YELLOW}  wait...{RESET}");
-    let response_secret_access_token: SecretBox<ResponseSecretAccessToken> = SecretBox::new(Box::new(
+    let secret_response_access_token: SecretBox<ResponseSecretAccessToken> = SecretBox::new(Box::new(
         reqwest::blocking::Client::new()
             .post("https://github.com/login/oauth/access_token")
             .header("Content-Type", "application/json")
@@ -168,14 +171,14 @@ fn refresh_tokens(client_id: &str, refresh_token: String) -> anyhow::Result<Secr
             .json()?,
     ));
 
-    Ok(response_secret_access_token)
+    Ok(secret_response_access_token)
 }
 
 fn authenticate_with_browser_and_save_file(client_id: &str, private_file_name: &camino::Utf8Path, encrypted_file_name: &camino::Utf8Path) -> anyhow::Result<SecretString> {
-    let response_secret_access_token: SecretBox<ResponseSecretAccessToken> = authentication_with_browser(client_id)?;
-    let secret_access_token = SecretString::from(response_secret_access_token.expose_secret().access_token.clone());
+    let secret_response_access_token: SecretBox<ResponseSecretAccessToken> = authentication_with_browser(client_id)?;
+    let secret_access_token = SecretString::from(secret_response_access_token.expose_secret().access_token.clone());
     println!("{YELLOW}  Encrypt data and save file{RESET}");
-    encrypt_and_save_file(private_file_name, encrypted_file_name, response_secret_access_token)?;
+    encrypt_and_save_file(private_file_name, encrypted_file_name, secret_response_access_token)?;
     Ok(secret_access_token)
 }
 
@@ -222,7 +225,7 @@ fn authentication_with_browser(client_id: &str) -> anyhow::Result<SecretBox<Resp
 
     println!("{YELLOW}  Send request with device_id and retrieve access tokens{RESET}");
     println!("{YELLOW}  wait...{RESET}");
-    let response_secret_access_token: SecretBox<ResponseSecretAccessToken> = SecretBox::new(
+    let secret_response_access_token: SecretBox<ResponseSecretAccessToken> = SecretBox::new(
         reqwest::blocking::Client::new()
             .post(" https://github.com/login/oauth/access_token")
             .header("Content-Type", "application/json")
@@ -236,7 +239,7 @@ fn authentication_with_browser(client_id: &str) -> anyhow::Result<SecretBox<Resp
             .json()?,
     );
 
-    Ok(response_secret_access_token)
+    Ok(secret_response_access_token)
 }
 
 /// encrypt and save file
@@ -251,7 +254,7 @@ fn authentication_with_browser(client_id: &str) -> anyhow::Result<SecretBox<Resp
 fn encrypt_and_save_file(
     identity_private_file_path: &camino::Utf8Path,
     encrypted_file_name: &camino::Utf8Path,
-    response_secret_access_token: SecretBox<ResponseSecretAccessToken>,
+    secret_response_access_token: SecretBox<ResponseSecretAccessToken>,
 ) -> anyhow::Result<()> {
     /// Internal unction Generate a random seed
     fn random_seed_bytes() -> [u8; 32] {
@@ -260,80 +263,44 @@ fn encrypt_and_save_file(
         aes_gcm::aead::OsRng.fill_bytes(&mut password);
         password
     }
-    /// Internal function
-    /// Encrypts secret_string with secret_passcode_bytes
-    ///
-    /// secret_passcode_bytes must be 32 bytes
-    /// returns the encrypted_string
-    fn encrypt_symmetric(secret_passcode_bytes: SecretBox<[u8; 32]>, secret_string: SecretString) -> anyhow::Result<String> {
-        // nonce is salt
-        let nonce = <aes_gcm::Aes256Gcm as aes_gcm::AeadCore>::generate_nonce(&mut aes_gcm::aead::OsRng);
-        let Ok(cipher_text_encrypted) = aes_gcm::aead::Aead::encrypt(
-            // cipher_secret is the true passcode, here I don't know how to use secrecy, because the type has not the trait Zeroize
-            &<aes_gcm::Aes256Gcm as aes_gcm::KeyInit>::new(secret_passcode_bytes.expose_secret().into()),
-            &nonce,
-            secret_string.expose_secret().as_bytes(),
-        ) else {
-            panic!("{RED}Error: Encryption failed. {RESET}");
-        };
+    let secret_string = SecretString::from(serde_json::to_string(&secret_response_access_token.expose_secret())?);
 
-        let mut encrypted_bytes = nonce.to_vec();
-        encrypted_bytes.extend_from_slice(&cipher_text_encrypted);
-        let encrypted_string = <base64ct::Base64 as base64ct::Encoding>::encode_string(&encrypted_bytes);
-        Ok(encrypted_string)
-    }
-    let secret_string = SecretString::from(serde_json::to_string(&response_secret_access_token.expose_secret())?);
-
-    let seed_bytes_plain_32bytes = random_seed_bytes();
+    let plain_seed_bytes_32bytes = random_seed_bytes();
     println!("{YELLOW}  Unlock private key to encrypt the secret symmetrically{RESET}");
-    let secret_passcode_32bytes: SecretBox<[u8; 32]> = user_input_passphrase_and_sign_seed_x(seed_bytes_plain_32bytes, &identity_private_file_path)?;
+    let secret_passcode_32bytes: SecretBox<[u8; 32]> = ende::sign_seed_with_ssh_agent_or_identity_file(identity_private_file_path, plain_seed_bytes_32bytes)?;
 
     println!("{YELLOW}  Encrypt the secret symmetrically {RESET}");
-    let encrypted_string = encrypt_symmetric(secret_passcode_32bytes, secret_string)?;
+    let encrypted_string = ende::encrypt_symmetric(secret_passcode_32bytes, secret_string)?;
 
     // the file will contain json with 3 plain text fields: fingerprint, seed, encrypted, expiration
-    let seed_string_plain = <base64ct::Base64 as base64ct::Encoding>::encode_string(&seed_bytes_plain_32bytes);
+    let plain_seed_string =     ende::encode64_from_32bytes_to_string(plain_seed_bytes_32bytes)?;
+
     // calculate expiration minus 10 minutes or 600 seconds
     let utc_now = chrono::Utc::now();
     let access_token_expiration = utc_now
-        .checked_add_signed(chrono::Duration::seconds(response_secret_access_token.expose_secret().expires_in - 600))
+        .checked_add_signed(chrono::Duration::seconds(secret_response_access_token.expose_secret().expires_in - 600))
         .context("checked_add_signed")?
         .to_rfc3339();
     let refresh_token_expiration = utc_now
-        .checked_add_signed(chrono::Duration::seconds(response_secret_access_token.expose_secret().refresh_token_expires_in - 600))
+        .checked_add_signed(chrono::Duration::seconds(secret_response_access_token.expose_secret().refresh_token_expires_in - 600))
         .context("checked_add_signed")?
         .to_rfc3339();
 
     let enc_file_json = ende::EncryptedTextWithMetadata {
         identity_file_path: identity_private_file_path.to_string(),
-        plain_seed_string: seed_string_plain,
+        plain_seed_string: plain_seed_string,
         plain_encrypted_text: encrypted_string,
         access_token_expiration: Some(access_token_expiration),
         refresh_token_expiration: Some(refresh_token_expiration),
     };
     let file_text = serde_json::to_string_pretty(&enc_file_json)?;
     // encode it just to obscure it a little bit
-    let file_text = <base64ct::Base64 as base64ct::Encoding>::encode_string(file_text.as_bytes());
+    let file_text =ende::encode64_from_string_to_string(&file_text);
 
     std::fs::write(encrypted_file_name, file_text)?;
     println!("{YELLOW}  Encrypted text saved to file.{RESET}");
 
     Ok(())
-}
-
-/// get the file json with expiration dates
-fn open_file_get_json(encrypted_file_name: &camino::Utf8Path) -> anyhow::Result<ende::EncryptedTextWithMetadata> {
-    if !camino::Utf8Path::new(&encrypted_file_name).exists() {
-        anyhow::bail!("{RED}Error: File {encrypted_file_name} does not exist! {RESET}");
-    }
-
-    let file_text = std::fs::read_to_string(encrypted_file_name)?;
-    // it is encoded just to obscure it a little
-    let file_text = <base64ct::Base64 as base64ct::Encoding>::decode_vec(&file_text)?;
-    let file_text = String::from_utf8(file_text)?;
-    // deserialize json into struct
-    let enc_file_json: ende::EncryptedTextWithMetadata = serde_json::from_str(&file_text)?;
-    Ok(enc_file_json)
 }
 
 /// decrypt file
@@ -344,135 +311,21 @@ fn open_file_get_json(encrypted_file_name: &camino::Utf8Path) -> anyhow::Result<
 /// Only the "owner" can unlock the private key and sign correctly.  
 /// This signature will be used as the true passcode for symmetrical decryption.  
 fn decrypt_file_json(enc_file_json: ende::EncryptedTextWithMetadata) -> anyhow::Result<SecretBox<ResponseSecretAccessToken>> {
-    /// Internal function
-    /// Decrypts encrypted_string with secret_passcode_bytes
-    ///
-    /// secret_passcode_bytes must be 32 bytes or more
-    /// Returns the secret_string
-    fn decrypt_symmetric(secret_passcode_32bytes: SecretBox<[u8; 32]>, encrypted_string: String) -> anyhow::Result<SecretBox<ResponseSecretAccessToken>> {
-        let encrypted_bytes = <base64ct::Base64 as base64ct::Encoding>::decode_vec(&encrypted_string)?;
-        // nonce is salt
-        let nonce = rsa::sha2::digest::generic_array::GenericArray::from_slice(&encrypted_bytes[..12]);
-        let cipher_text = &encrypted_bytes[12..];
-
-        let Ok(decrypted_bytes) = aes_gcm::aead::Aead::decrypt(
-            // cipher_secret is the true passcode, here I don't know how to use secrecy, because the type has not the trait Zeroize
-            &<aes_gcm::Aes256Gcm as aes_gcm::KeyInit>::new(secret_passcode_32bytes.expose_secret().into()),
-            nonce,
-            cipher_text,
-        ) else {
-            panic!("{RED}Error: Decryption failed. {RESET}");
-        };
-        let decrypted_string = String::from_utf8(decrypted_bytes).unwrap();
-        let response_secret_access_token: SecretBox<ResponseSecretAccessToken> = SecretBox::new(Box::new(serde_json::from_str(&decrypted_string)?));
-
-        Ok(response_secret_access_token)
-    }
 
     // the private key file is written inside the file
-    let identity_private_file_path = camino::Utf8Path::new(&enc_file_json.identity_file_path);
+    let identity_private_file_path = camino::Utf8PathBuf::from(&enc_file_json.identity_file_path);
     if !camino::Utf8Path::new(&identity_private_file_path).exists() {
         anyhow::bail!("{RED}Error: File {identity_private_file_path} does not exist! {RESET}");
     }
 
-    let seed_bytes_plain = <base64ct::Base64 as base64ct::Encoding>::decode_vec(&enc_file_json.plain_seed_string)?;
-    let seed_bytes_plain_32bytes: [u8; 32] = seed_bytes_plain[..32].try_into()?;
+    let plain_seed_bytes_32bytes = ende::decode64_from_string_to_32bytes(&enc_file_json.plain_seed_string)?;
 
     // first try to use the private key from ssh-agent, else use the private file with user interaction
-    let maybe_secret_passcode_32bytes = use_ssh_agent_to_sign_seed(seed_bytes_plain_32bytes, identity_private_file_path);
-    let secret_passcode_32bytes: SecretBox<[u8; 32]> = if maybe_secret_passcode_32bytes.is_ok() {
-        maybe_secret_passcode_32bytes.unwrap()
-    } else {
-        // ask user to think about adding key into ssh-agent with ssh-add
-        println!("   {YELLOW}SSH key for encrypted secret_token is not found in the ssh-agent.{RESET}");
-        println!("   {YELLOW}Without ssh-agent, you will have to type the private key passphrase every time.{RESET}");
-        println!("   {YELLOW}This is more secure, but inconvenient.{RESET}");
-        println!("   {YELLOW}WARNING: using ssh-agent is less secure, because there is no need for user interaction.{RESET}");
-        println!("   {YELLOW}Knowing this, you can manually add the SSH identity to ssh-agent for 1 hour:{RESET}");
-        println!("{GREEN}ssh-add -t 1h {identity_private_file_path}{RESET}");
-        println!("   {YELLOW}Unlock the private key to decrypt the saved file.{RESET}");
-
-        user_input_passphrase_and_sign_seed_x(seed_bytes_plain_32bytes, identity_private_file_path)?
-    };
-
+    let secret_passcode_32bytes: SecretBox<[u8; 32]> = ende::sign_seed_with_ssh_agent_or_identity_file(&identity_private_file_path,plain_seed_bytes_32bytes)?;
+   
     // decrypt the data
-    let response_secret_access_token = decrypt_symmetric(secret_passcode_32bytes, enc_file_json.plain_encrypted_text)?;
+    let decrypted_string = ende::decrypt_symmetric(secret_passcode_32bytes, enc_file_json.plain_encrypted_text)?;
+    let secret_response_access_token: SecretBox<ResponseSecretAccessToken> = SecretBox::new(Box::new(serde_json::from_str(&decrypted_string.expose_secret())?));
 
-    Ok(response_secret_access_token)
-}
-
-/// User must input the passphrase to unlock the private key file.
-/// Sign the seed with the private key into 32 bytes.
-/// This will be the true passcode for symmetrical encryption and decryption.
-fn user_input_passphrase_and_sign_seed_x(seed_bytes_plain_32bytes: [u8; 32], identity_private_file_path: &camino::Utf8Path) -> anyhow::Result<SecretBox<[u8; 32]>> {
-    /// Internal function for user input passphrase
-    fn user_input_secret_passphrase() -> anyhow::Result<SecretString> {
-        eprintln!(" ");
-        eprintln!("   {BLUE}Enter the passphrase for the SSH private key:{RESET}");
-
-        let secret_passphrase = SecretString::from(inquire::Password::new("").without_confirmation().with_display_mode(inquire::PasswordDisplayMode::Masked).prompt()?);
-
-        Ok(secret_passphrase)
-    }
-    // the user is the only one that knows the passphrase to unlock the private key
-    let secret_user_passphrase: SecretString = user_input_secret_passphrase()?;
-
-    // sign_with_ssh_identity_file
-    println!("{YELLOW}  Use ssh private key from file {RESET}");
-    let private_key = ssh_key::PrivateKey::read_openssh_file(identity_private_file_path.as_std_path())?;
-    println!("{YELLOW}  Unlock the private key {RESET}");
-
-    // cannot use secrecy: PrivateKey does not have trait Zeroize
-    let mut private_key_secret = private_key.decrypt(secret_user_passphrase.expose_secret())?;
-
-    // FYI: this type of signature is compatible with ssh-agent because it does not involve namespace
-    println!("{YELLOW}  Sign the seed {RESET}");
-
-    let mut secret_passcode_32bytes = SecretBox::new(Box::new([0u8; 32]));
-    // only the data part of the signature goes into as_bytes.
-    // only the first 32 bytes
-    secret_passcode_32bytes
-        .expose_secret_mut()
-        .copy_from_slice(&rsa::signature::SignerMut::try_sign(&mut private_key_secret, &seed_bytes_plain_32bytes)?.as_bytes().to_owned()[0..32]);
-
-    Ok(secret_passcode_32bytes)
-}
-
-/// Sign seed with ssh-agent
-///
-/// returns secret_password_bytes
-fn use_ssh_agent_to_sign_seed(seed_bytes_plain_32bytes: [u8; 32], identity_private_file_path: &camino::Utf8Path) -> anyhow::Result<SecretBox<[u8; 32]>> {
-    /// Internal function returns the public_key inside ssh-add
-    fn public_key_from_ssh_agent(client: &mut ssh_agent_client_rs::Client, fingerprint_from_file: &str) -> anyhow::Result<ssh_key::PublicKey> {
-        let vec_public_key = client.list_identities()?;
-
-        for public_key in vec_public_key.iter() {
-            let fingerprint_from_agent = public_key.key_data().fingerprint(Default::default()).to_string();
-
-            if fingerprint_from_agent == fingerprint_from_file {
-                return Ok(public_key.to_owned());
-            }
-        }
-        anyhow::bail!("This identity is not added to ssh-agent.")
-    }
-    let identity_public_file_path = format!("{identity_private_file_path}.pub");
-    let identity_public_file_path = camino::Utf8Path::new(&identity_public_file_path);
-    let public_key = ssh_key::PublicKey::read_openssh_file(&identity_public_file_path.as_std_path())?;
-    let fingerprint_from_file = public_key.fingerprint(Default::default()).to_string();
-
-    println!("{YELLOW}  Connect to ssh-agent on SSH_AUTH_SOCK{RESET}");
-    let var_ssh_auth_sock = std::env::var("SSH_AUTH_SOCK")?;
-    let path_ssh_auth_sock = camino::Utf8Path::new(&var_ssh_auth_sock);
-    let mut ssh_agent_client = ssh_agent_client_rs::Client::connect(&path_ssh_auth_sock.as_std_path())?;
-
-    let public_key = public_key_from_ssh_agent(&mut ssh_agent_client, &fingerprint_from_file)?;
-
-    let mut secret_passcode_32bytes = SecretBox::new(Box::new([0u8; 32]));
-    // sign with public key from ssh-agent
-    // only the data part of the signature goes into as_bytes.
-    secret_passcode_32bytes
-        .expose_secret_mut()
-        .copy_from_slice(&ssh_agent_client.sign(&public_key, &seed_bytes_plain_32bytes)?.as_bytes().to_owned()[0..32]);
-
-    Ok(secret_passcode_32bytes)
+    Ok(secret_response_access_token)
 }
