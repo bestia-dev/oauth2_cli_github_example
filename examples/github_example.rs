@@ -2,10 +2,10 @@
 
 // cargo run --example github_example
 
-#[path = "../src/github_api_token_with_oauth2_mod.rs"]
+#[path = "../src/encrypt_decrypt_with_ssh_key_mod/github_api_token_with_oauth2_mod.rs"]
 mod github_api_token_with_oauth2_mod;
 
-#[path = "../src/encrypt_decrypt_with_ssh_key_mod.rs"]
+#[path = "../src/encrypt_decrypt_with_ssh_key_mod/mod.rs"]
 mod encrypt_decrypt_with_ssh_key_mod;
 
 use secrecy::ExposeSecret;

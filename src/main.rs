@@ -94,10 +94,7 @@
 //!
 // endregion: auto_md_to_doc_comments include README.md A //!
 
-mod crates_io_api_token_mod;
-mod docker_hub_api_token_mod;
 mod encrypt_decrypt_with_ssh_key_mod;
-mod github_api_token_with_oauth2_mod;
 
 use secrecy::ExposeSecret;
 
@@ -106,19 +103,19 @@ use secrecy::ExposeSecret;
 /// to avoid the warning `Code is never used`.  
 /// But the true code separated by topic is in the `examples` folder.  
 fn main() -> anyhow::Result<()> {
-    let docker_hub_access_secret_token = docker_hub_api_token_mod::get_docker_hub_secret_token("docker_io_secret_token_ssh_1")?;
-    println!("{}", docker_hub_access_secret_token.expose_secret());
+    let secret_docker_hub_access_token = encrypt_decrypt_with_ssh_key_mod::docker_hub_api_token_mod::get_docker_hub_secret_token("docker_io_secret_token_ssh_1")?;
+    println!("{}", secret_docker_hub_access_token.expose_secret());
 
-    let crates_io_access_secret_token = crates_io_api_token_mod::get_crates_io_secret_token("crates_io_secret_token_ssh_1")?;
-    println!("{}", crates_io_access_secret_token.expose_secret());
+    let secret_crates_io_access_token = encrypt_decrypt_with_ssh_key_mod::crates_io_api_token_mod::get_crates_io_secret_token("crates_io_secret_token_ssh_1")?;
+    println!("{}", secret_crates_io_access_token.expose_secret());
 
     // read config client id
-    let client_id = std::fs::read_to_string("/home/rustdevuser/rustprojects/oauth2_cli_github_example_config/client_id.txt")?;
+    let client_id = std::fs::read_to_string("../oauth2_cli_github_example_config/client_id.txt")?;
     // the private key, public key and the encrypted file will have the same bare name
-    let file_bare_name = std::fs::read_to_string("/home/rustdevuser/rustprojects/oauth2_cli_github_example_config/file_bare_name.txt")?;
+    let file_bare_name = std::fs::read_to_string("../oauth2_cli_github_example_config/file_bare_name.txt")?;
 
-    let github_access_secret_token = github_api_token_with_oauth2_mod::get_github_secret_token(&client_id, &file_bare_name)?;
-    println!("{}", github_access_secret_token.expose_secret());
+    let secret_github_access_token = encrypt_decrypt_with_ssh_key_mod::github_api_token_with_oauth2_mod::get_github_secret_token(&client_id, &file_bare_name)?;
+    println!("{}", secret_github_access_token.expose_secret());
 
     Ok(())
 }

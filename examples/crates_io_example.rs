@@ -2,10 +2,10 @@
 
 // cargo run --example crates_io_example
 
-#[path = "../src/crates_io_api_token_mod.rs"]
+#[path = "../src/encrypt_decrypt_with_ssh_key_mod/crates_io_api_token_mod.rs"]
 mod crates_io_api_token_mod;
 
-#[path = "../src/encrypt_decrypt_with_ssh_key_mod.rs"]
+#[path = "../src/encrypt_decrypt_with_ssh_key_mod/mod.rs"]
 mod encrypt_decrypt_with_ssh_key_mod;
 
 use secrecy::ExposeSecret;

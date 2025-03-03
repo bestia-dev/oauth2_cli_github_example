@@ -7,6 +7,10 @@
 //!
 // endregion: auto_md_to_doc_comments include doc_comments/encrypt_decrypt_with_ssh_key_mod.md A //!
 
+pub mod crates_io_api_token_mod;
+pub mod docker_hub_api_token_mod;
+pub mod github_api_token_with_oauth2_mod;
+
 // region: Public API constants
 // ANSI colors for Linux terminal
 // https://github.com/shiena/ansicolor/blob/master/README.md
@@ -52,16 +56,16 @@ pub(crate) fn random_seed_32bytes_and_string() -> anyhow::Result<([u8; 32], Stri
 /// Get the string from the file that is base64 encoded
 ///
 /// It is encoded just to obscure it a little.
-pub(crate) fn open_file_get_string(encrypted_file_name: &camino::Utf8Path) -> anyhow::Result<String> {
-    if !camino::Utf8Path::new(&encrypted_file_name).exists() {
-        anyhow::bail!("{RED}Error: File {encrypted_file_name} does not exist! {RESET}");
+pub(crate) fn open_file_b64_get_string(plain_file_b64_path: &camino::Utf8Path) -> anyhow::Result<String> {
+    if !camino::Utf8Path::new(&plain_file_b64_path).exists() {
+        anyhow::bail!("{RED}Error: File {plain_file_b64_path} does not exist! {RESET}");
     }
 
-    let file_text = std::fs::read_to_string(encrypted_file_name)?;
+    let plain_file_text = std::fs::read_to_string(plain_file_b64_path)?;
     // it is encoded just to obscure it a little
-    let file_text = decode64_from_string_to_string(&file_text)?;
+    let plain_file_text = decode64_from_string_to_string(&plain_file_text)?;
 
-    Ok(file_text)
+    Ok(plain_file_text)
 }
 
 /// shorten the `Vec<u8> to [u8;32]`  
@@ -188,7 +192,7 @@ fn sign_seed_with_ssh_agent(plain_seed_bytes_32bytes: [u8; 32], private_key_file
 /// User must input the passphrase to unlock the private key file.  
 /// This will be the true passcode for symmetrical encryption and decryption.  
 /// Returns secret_password_bytes
-pub(crate) fn sign_seed_with_private_key_file(plain_seed_bytes_32bytes: [u8; 32], private_key_file_path: &camino::Utf8Path) -> anyhow::Result<SecretBox<[u8; 32]>> {
+fn sign_seed_with_private_key_file(plain_seed_bytes_32bytes: [u8; 32], private_key_file_path: &camino::Utf8Path) -> anyhow::Result<SecretBox<[u8; 32]>> {
     /// Internal function for user input passphrase
     fn user_input_secret_passphrase() -> anyhow::Result<SecretString> {
         eprintln!(" ");

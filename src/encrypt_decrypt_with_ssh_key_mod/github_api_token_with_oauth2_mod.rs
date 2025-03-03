@@ -107,7 +107,7 @@ pub(crate) fn get_github_secret_token(client_id: &str, file_bare_name: &str) -> 
         return Ok(secret_access_token);
     } else {
         println!("{YELLOW}  Encrypted file {encrypted_file_name} exist.{RESET}");
-        let plain_file_text = ende::open_file_get_string(&encrypted_file_name)?;
+        let plain_file_text = ende::open_file_b64_get_string(&encrypted_file_name)?;
         // deserialize json into struct
         let encrypted_text_with_metadata: ende::EncryptedTextWithMetadata = serde_json::from_str(&plain_file_text)?;
 
