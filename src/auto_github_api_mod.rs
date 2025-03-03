@@ -4,6 +4,7 @@
 //! WARNING: Never pass the secret API secret_token to this crate library.
 //! Pass the function send_to_github_api_with_secret_token() as a parameter. It encapsulates the secret_token.
 
+#![allow(dead_code)]
 use cargo_auto_lib as cl;
 // traits must be in scope (Rust strangeness)
 use cl::CargoTomlPublicApiMethods;
@@ -18,7 +19,7 @@ use crate::encrypt_decrypt_with_ssh_key_mod::github_api_token_with_oauth2_mod::s
 use crate::encrypt_decrypt_with_ssh_key_mod::github_api_token_with_oauth2_mod::upload_to_github_with_secret_token;
 
 /// Has git remote
-pub fn git_has_remote() -> bool {
+pub(crate) fn git_has_remote() -> bool {
     // git remote returns only "origin" if exists or nothing if it does not exist
     let output = std::process::Command::new("git").arg("remote").output().unwrap();
     // return
@@ -26,7 +27,7 @@ pub fn git_has_remote() -> bool {
 }
 
 /// Has git upstream
-pub fn git_has_upstream() -> bool {
+pub(crate) fn git_has_upstream() -> bool {
     // git branch -vv returns upstream branches in angle brackets []
     let output = std::process::Command::new("git").arg("branch").arg("-vv").output().unwrap();
     // return
@@ -36,7 +37,7 @@ pub fn git_has_upstream() -> bool {
 /// Interactive ask to create a new remote GitHub repository
 ///
 /// Use a function pointer to send_to_github_api_with_secret_token() to avoid passing the secret_token.
-pub fn new_remote_github_repository() -> Option<()> {
+pub(crate) fn new_remote_github_repository() -> Option<()> {
     // early error if Repository contains the placeholder "github_owner" or does not contain the true github_owner
     let cargo_toml = cl::CargoToml::read();
     let package_name = cargo_toml.package_name();
@@ -154,7 +155,7 @@ pub fn new_remote_github_repository() -> Option<()> {
 /// I want to avoid GitHub API at every git push. I will store the old description and topics
 /// in the file automation_tasks_rs/.old_metadata.json
 /// So I can compare first locally and only when they differ call the Github API.
-pub fn description_and_topics_to_github() {
+pub(crate) fn description_and_topics_to_github() {
     let cargo_toml = cl::CargoToml::read();
     let repo_name = cargo_toml.package_name();
     let github_owner_or_organization = cargo_toml.github_owner().unwrap();
@@ -225,7 +226,7 @@ pub fn description_and_topics_to_github() {
 }
 
 /// GitHub api get authenticated user
-pub fn github_api_get_authenticated_user() -> reqwest::blocking::RequestBuilder {
+pub(crate) fn github_api_get_authenticated_user() -> reqwest::blocking::RequestBuilder {
     /*
         https://docs.github.com/en/rest/users/users?apiVersion=2022-11-28#get-the-authenticated-user
 
@@ -250,7 +251,7 @@ pub fn github_api_get_authenticated_user() -> reqwest::blocking::RequestBuilder 
 }
 
 /// GitHub api get organization
-pub fn github_api_get_organization(organization: &str) -> reqwest::blocking::RequestBuilder {
+pub(crate) fn github_api_get_organization(organization: &str) -> reqwest::blocking::RequestBuilder {
     /*
         https://docs.github.com/en/rest/orgs/orgs?apiVersion=2022-11-28#get-an-organization
 
@@ -275,7 +276,7 @@ pub fn github_api_get_organization(organization: &str) -> reqwest::blocking::Req
 }
 
 /// GitHub api get repository
-pub fn github_api_get_repository(github_owner_or_organization: &str, repo_name: &str) -> reqwest::blocking::RequestBuilder {
+pub(crate) fn github_api_get_repository(github_owner_or_organization: &str, repo_name: &str) -> reqwest::blocking::RequestBuilder {
     /*
         https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#get-a-repository
 
@@ -296,7 +297,7 @@ pub fn github_api_get_repository(github_owner_or_organization: &str, repo_name: 
 
 /// Create a new github User repository
 /// TODO: slightly different API call for organization repository. How to distinguish user and organization?
-pub fn github_api_user_repository_new(github_owner: &str, name: &str, description: &str) -> reqwest::blocking::RequestBuilder {
+pub(crate) fn github_api_user_repository_new(github_owner: &str, name: &str, description: &str) -> reqwest::blocking::RequestBuilder {
     /*
     https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#create-a-repository-for-the-authenticated-user
 
@@ -345,7 +346,7 @@ pub fn github_api_user_repository_new(github_owner: &str, name: &str, descriptio
 }
 
 /// Create a new github organization repository
-pub fn github_api_organization_repository_new(organization: &str, name: &str, description: &str) -> reqwest::blocking::RequestBuilder {
+pub(crate) fn github_api_organization_repository_new(organization: &str, name: &str, description: &str) -> reqwest::blocking::RequestBuilder {
     /*
     https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#create-a-repository-for-the-authenticated-user
 
@@ -396,7 +397,7 @@ pub fn github_api_organization_repository_new(organization: &str, name: &str, de
 }
 
 /// GitHub api update description
-pub fn github_api_update_description(github_owner_or_organization: &str, repo_name: &str, description: &str) -> reqwest::blocking::RequestBuilder {
+pub(crate) fn github_api_update_description(github_owner_or_organization: &str, repo_name: &str, description: &str) -> reqwest::blocking::RequestBuilder {
     /*
     https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#update-a-repository
 
@@ -442,7 +443,7 @@ pub fn github_api_update_description(github_owner_or_organization: &str, repo_na
 }
 
 /// GitHub API replace all topics
-pub fn github_api_replace_all_topics(github_owner_or_organization: &str, repo_name: &str, topics: &Vec<String>) -> reqwest::blocking::RequestBuilder {
+pub(crate) fn github_api_replace_all_topics(github_owner_or_organization: &str, repo_name: &str, topics: &Vec<String>) -> reqwest::blocking::RequestBuilder {
     /*
     https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#replace-all-repository-topics
     curl -L \
@@ -468,7 +469,7 @@ pub fn github_api_replace_all_topics(github_owner_or_organization: &str, repo_na
 }
 
 /// GitHub API create-a-github-pages-site
-pub fn github_api_create_a_github_pages_site(github_owner_or_organization: &str, repo_name: &str) -> reqwest::blocking::RequestBuilder {
+pub(crate) fn github_api_create_a_github_pages_site(github_owner_or_organization: &str, repo_name: &str) -> reqwest::blocking::RequestBuilder {
     /*
         https://docs.github.com/en/rest/pages/pages?apiVersion=2022-11-28#create-a-github-pages-site
         curl -L \
@@ -505,7 +506,7 @@ pub fn github_api_create_a_github_pages_site(github_owner_or_organization: &str,
 }
 
 /// Upload asset to github release  
-pub fn github_api_upload_asset_to_release(github_owner_or_organization: &str, repo: &str, release_id: &str, path_to_file: &str) {
+pub(crate) fn github_api_upload_asset_to_release(github_owner_or_organization: &str, repo: &str, release_id: &str, path_to_file: &str) {
     println!("    {YELLOW}Uploading file to GitHub release: {path_to_file}{RESET}");
     let file = camino::Utf8Path::new(&path_to_file);
     let file_name = file.file_name().unwrap();
@@ -528,13 +529,13 @@ pub fn github_api_upload_asset_to_release(github_owner_or_organization: &str, re
             .header("Content-Length", file_size.to_string())
             .body(body);
 
-        upload_to_github_with_secret_token(req).await;
+        let _ = upload_to_github_with_secret_token(req).await;
     });
     // endregion: async code made sync locally
 }
 
 /// Create new release on Github
-pub fn github_api_create_new_release(github_owner_or_organization: &str, repo: &str, tag_name_version: &str, name: &str, branch: &str, body_md_text: &str) -> reqwest::blocking::RequestBuilder {
+pub(crate) fn github_api_create_new_release(github_owner_or_organization: &str, repo: &str, tag_name_version: &str, name: &str, branch: &str, body_md_text: &str) -> reqwest::blocking::RequestBuilder {
     /*
     https://docs.github.com/en/rest/releases/releases?apiVersion=2022-11-28#create-a-release
     Request like :

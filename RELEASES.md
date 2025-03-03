@@ -26,5 +26,7 @@ The TODO section is part of the [README.md](https://github.com/bestia-dev/oauth2
 
 - update cargo toml and secrecy
 
+- secret_vault_mod
+
 ## Version 0.0.1
 

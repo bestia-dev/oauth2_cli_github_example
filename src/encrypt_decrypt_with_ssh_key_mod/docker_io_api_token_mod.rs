@@ -1,14 +1,13 @@
-// docker_hub_api_token_mod.rs
+// docker_io_api_token_mod.rs
 
-// region: auto_md_to_doc_comments include doc_comments/docker_hub_api_token_mod.md A //!
+// region: auto_md_to_doc_comments include doc_comments/docker_io_api_token_mod.md A //!
 //! # decrypt docker.io api token from file or ask the user to input the access token, encrypt it and save into file
 //!
 //! Publish to docker.io needs the docker.io secret access_token. This is a secret important just like a password or even more.  
-//! There is the original "cargo login" function that saves this critical secret in plain text in `~/.cargo/credentials.toml`.  Plain-text for secrets in a well-known file is a big no-no. Every malware will just upload it in a millisecond.  
 //!
 //! I don't want to pass secret to an "obscure" library crate that is difficult to review and can change in any point in time to become malicious.  
 //!
-//! Instead of that, copy and paste this module `docker_hub_api_token_mod.rs` file into your project.  
+//! Instead of that, copy and paste this module `crates_io_api_token_mod.rs` file into your project.  
 //! The secrets will stay in your codebase that is easy to inspect and guaranteed that will never change without your consent.  
 //!
 //! ## encrypt_decrypt_with_ssh_key_mod
@@ -38,7 +37,9 @@
 //! secrecy = "0.10.3"
 //! ```
 //!
-// endregion: auto_md_to_doc_comments include doc_comments/docker_hub_api_token_mod.md A //!
+// endregion: auto_md_to_doc_comments include doc_comments/docker_io_api_token_mod.md A //!
+
+#![allow(dead_code)]
 
 use secrecy::{SecretBox, SecretString};
 
@@ -82,6 +83,7 @@ pub(crate) fn get_docker_hub_secret_token(file_bare_name: &str) -> anyhow::Resul
             plain_encrypted_text: plain_encrypted_text,
             access_token_expiration: None,
             refresh_token_expiration: None,
+            token_name: None,
         };
         let file_text = serde_json::to_string_pretty(&encrypted_text_with_metadata)?;
         // encode it just to obscure it a little bit

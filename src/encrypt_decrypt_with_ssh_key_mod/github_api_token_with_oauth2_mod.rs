@@ -68,6 +68,8 @@
 //!
 // endregion: auto_md_to_doc_comments include doc_comments/github_api_token_with_oauth2_mod.md A //!
 
+#![allow(dead_code)]
+
 use anyhow::Context;
 use secrecy::{ExposeSecret, SecretBox, SecretString};
 
@@ -279,6 +281,7 @@ fn encrypt_and_save_file(private_key_file_path: &camino::Utf8Path, encrypted_fil
         plain_encrypted_text: encrypted_string,
         access_token_expiration: Some(access_token_expiration),
         refresh_token_expiration: Some(refresh_token_expiration),
+        token_name: None,
     };
     let plain_file_text = serde_json::to_string_pretty(&encrypted_text_with_metadata)?;
     // encode it just to obscure it a little bit
@@ -356,7 +359,7 @@ pub(crate) fn send_to_github_api_with_secret_token(req: reqwest::blocking::Reque
 /// The RequestBuilder is created somewhere in the library crate.
 /// The client can be passed to the library. It will not reveal the secret_token.
 /// This is basically an async fn, but use of `async fn` in public traits is discouraged...
-pub async fn upload_to_github_with_secret_token(req: reqwest::RequestBuilder) -> anyhow::Result<serde_json::Value> {
+pub(crate) async fn upload_to_github_with_secret_token(req: reqwest::RequestBuilder) -> anyhow::Result<serde_json::Value> {
     // read config client id
     let client_id = std::fs::read_to_string("../oauth2_cli_github_example_config/client_id.txt")?;
     // the private key, public key and the encrypted file will have the same bare name

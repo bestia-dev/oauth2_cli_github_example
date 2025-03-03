@@ -8,8 +8,9 @@
 // endregion: auto_md_to_doc_comments include doc_comments/encrypt_decrypt_with_ssh_key_mod.md A //!
 
 pub mod crates_io_api_token_mod;
-pub mod docker_hub_api_token_mod;
+pub mod docker_io_api_token_mod;
 pub mod github_api_token_with_oauth2_mod;
+pub mod secret_vault_mod;
 
 // region: Public API constants
 // ANSI colors for Linux terminal
@@ -36,6 +37,7 @@ pub(crate) struct EncryptedTextWithMetadata {
     pub(crate) private_key_file_path: String,
     pub(crate) plain_seed_string: String,
     pub(crate) plain_encrypted_text: String,
+    pub(crate) token_name: Option<String>,
     pub(crate) access_token_expiration: Option<String>,
     pub(crate) refresh_token_expiration: Option<String>,
 }

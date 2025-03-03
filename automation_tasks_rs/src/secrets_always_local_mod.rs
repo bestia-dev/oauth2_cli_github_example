@@ -127,19 +127,19 @@ pub(crate) mod secrecy_mod {
     }
 
     impl SecretEncryptedString {
-        pub fn new_with_secret_string(secret_string: secrecy::SecretString, session_passcode: &secrecy::SecretBox<Vec<u8>>) -> Self {
+        pub(crate) fn  new_with_secret_string(secret_string: secrecy::SecretString, session_passcode: &secrecy::SecretBox<Vec<u8>>) -> Self {
             let encryptor = super::encrypt_mod::Encryptor::new_for_encrypt(secret_string, &session_passcode);
             let encrypted_string = encryptor.encrypt_symmetric().unwrap();
 
             SecretEncryptedString { encrypted_string }
         }
 
-        pub fn new_with_string(secret_string: String, session_passcode: &secrecy::SecretBox<Vec<u8>>) -> Self {
+        pub(crate) fn  new_with_string(secret_string: String, session_passcode: &secrecy::SecretBox<Vec<u8>>) -> Self {
             let secret_string = secrecy::SecretString::from(secret_string);
             Self::new_with_secret_string(secret_string, session_passcode)
         }
 
-        pub fn expose_decrypted_secret(&self, session_passcode: &secrecy::SecretBox<Vec<u8>>) -> secrecy::SecretString {
+        pub(crate) fn  expose_decrypted_secret(&self, session_passcode: &secrecy::SecretBox<Vec<u8>>) -> secrecy::SecretString {
             let mut decryptor = super::decrypt_mod::Decryptor::new_for_decrypt(&session_passcode);
             decryptor.decrypt_symmetric(&self.encrypted_string);
             decryptor.return_secret_string().clone()
@@ -157,13 +157,13 @@ pub(crate) mod ssh_mod {
     }
 
     impl SshContext {
-        pub fn new() -> Self {
+        pub(crate) fn  new() -> Self {
             SshContext {
                 signed_passcode_is_a_secret: secrecy::SecretBox::new(Box::new(vec![])),
                 decrypted_string: secrecy::SecretString::from("".to_string()),
             }
         }
-        pub fn get_decrypted_string(&self) -> secrecy::SecretString {
+        pub(crate) fn  get_decrypted_string(&self) -> secrecy::SecretString {
             self.decrypted_string.clone()
         }
     }
@@ -277,7 +277,7 @@ pub(crate) mod ssh_mod {
     /// Expand path and check if private key file exists
     ///
     /// Inform the user how to generate private key file.
-    pub fn expand_path_check_private_key_exists(private_key_file_path: &camino::Utf8Path) -> camino::Utf8PathBuf {
+    pub(crate) fn  expand_path_check_private_key_exists(private_key_file_path: &camino::Utf8Path) -> camino::Utf8PathBuf {
         let private_key_file_path_expanded = cargo_auto_encrypt_secret_lib::file_path_home_expand(private_key_file_path);
         if !camino::Utf8Path::new(&private_key_file_path_expanded).exists() {
             eprintln!("{RED}Private key file {private_key_file_path_expanded} that contains the SSH private key does not exist! {RESET}");
@@ -324,7 +324,7 @@ pub(crate) mod github_mod {
         /// Create new GitHub client
         ///
         /// Interactively ask the user to input the GitHub secret_token.
-        pub fn new_interactive_input_secret_token() -> Self {
+        pub(crate) fn  new_interactive_input_secret_token() -> Self {
             let mut github_client = Self::new_wo_secret_token();
 
             println!("{BLUE}Enter the GitHub API secret_token:{RESET}");
@@ -357,7 +357,7 @@ pub(crate) mod github_mod {
         /// To decrypt it, use the SSH passphrase. That is much easier to type than typing the secret_token.
         /// it is then possible also to have the ssh key in ssh-agent and write the passphrase only once.
         /// But this great user experience comes with security concerns. The secret_token is accessible if the attacker is very dedicated.
-        pub fn new_with_stored_secret_token() -> Self {
+        pub(crate) fn  new_with_stored_secret_token() -> Self {
             /// Internal function for DRY Don't Repeat Yourself
             fn read_secret_token_and_decrypt_return_github_client(mut ssh_context: super::ssh_mod::SshContext, encrypted_string_file_path: &camino::Utf8Path) -> GitHubClient {
                 // read the secret_token and decrypt
@@ -399,7 +399,7 @@ pub(crate) mod github_mod {
 
         /// decrypts the secret_token in memory
         #[allow(dead_code)]
-        pub fn decrypt_secret_token_in_memory(&self) -> secrecy::SecretString {
+        pub(crate) fn  decrypt_secret_token_in_memory(&self) -> secrecy::SecretString {
             self.encrypted_token.expose_decrypted_secret(&self.session_passcode)
         }
     }
@@ -510,7 +510,7 @@ pub(crate) mod crates_io_mod {
         ///
         /// Interactively ask the user to input the crates.io secret_token.
         #[allow(dead_code)]
-        pub fn new_interactive_input_secret_token() -> Self {
+        pub(crate) fn  new_interactive_input_secret_token() -> Self {
             let mut crates_io_client = Self::new_wo_secret_token();
 
             println!("{BLUE}Enter the crates.io secret_token:{RESET}");
@@ -545,7 +545,7 @@ pub(crate) mod crates_io_mod {
         /// It is then possible also to have the ssh key in ssh-agent and write the passphrase only once.
         /// But this great user experience comes with security concerns. The secret_token is accessible if the attacker is very dedicated.
         #[allow(dead_code)]
-        pub fn new_with_stored_secret_token() -> Self {
+        pub(crate) fn  new_with_stored_secret_token() -> Self {
             /// Internal function for DRY Don't Repeat Yourself
             fn read_secret_token_and_decrypt_return_crates_io_client(mut ssh_context: super::ssh_mod::SshContext, encrypted_string_file_path: &camino::Utf8Path) -> CratesIoClient {
                 cargo_auto_encrypt_secret_lib::decrypt_with_ssh_interactive_from_file(&mut ssh_context, encrypted_string_file_path);
@@ -596,7 +596,7 @@ pub(crate) mod crates_io_mod {
 
         /// decrypts the secret_token in memory
         #[allow(dead_code)]
-        pub fn decrypt_secret_token_in_memory(&self) -> secrecy::SecretString {
+        pub(crate) fn  decrypt_secret_token_in_memory(&self) -> secrecy::SecretString {
             self.encrypted_token.expose_decrypted_secret(&self.session_passcode)
         }
 
@@ -605,7 +605,7 @@ pub(crate) mod crates_io_mod {
         /// This function encapsulates the secret crates.io secret_token.
         /// The client can be passed to the library. It will not reveal the secret_token.
         #[allow(dead_code)]
-        pub fn publish_to_crates_io(&self) {
+        pub(crate) fn  publish_to_crates_io(&self) {
             // the secret_token is redacted when print on screen
             ShellCommandLimitedDoubleQuotesSanitizer::new(r#"cargo publish --token "{secret_token}" "#)
                 .unwrap_or_else(|e| panic!("{e}"))
@@ -646,7 +646,7 @@ pub(crate) mod docker_hub_mod {
         ///
         /// Interactively ask the user to input the docker hub secret_token.
         #[allow(dead_code)]
-        pub fn new_interactive_input_secret_token() -> Self {
+        pub(crate) fn  new_interactive_input_secret_token() -> Self {
             let mut docker_hub_client = Self::new_wo_secret_token();
 
             println!("{BLUE}Enter the docker hub secret_token:{RESET}");
@@ -681,7 +681,7 @@ pub(crate) mod docker_hub_mod {
         /// It is then possible also to have the ssh key in ssh-agent and write the passphrase only once.
         /// But this great user experience comes with security concerns. The secret_token is accessible if the attacker is very dedicated.
         #[allow(dead_code)]
-        pub fn new_with_stored_secret_token(user_name: &str, registry: &str) -> Self {
+        pub(crate) fn  new_with_stored_secret_token(user_name: &str, registry: &str) -> Self {
             /// Internal function for DRY Don't Repeat Yourself
             fn read_secret_token_and_decrypt_return_docker_hub_client(mut ssh_context: super::ssh_mod::SshContext, encrypted_string_file_path: &camino::Utf8Path) -> DockerHubClient {
                 cargo_auto_encrypt_secret_lib::decrypt_with_ssh_interactive_from_file(&mut ssh_context, encrypted_string_file_path);
@@ -738,7 +738,7 @@ pub(crate) mod docker_hub_mod {
 
         /// decrypts the secret_token in memory
         #[allow(dead_code)]
-        pub fn decrypt_secret_token_in_memory(&self) -> secrecy::SecretString {
+        pub(crate) fn  decrypt_secret_token_in_memory(&self) -> secrecy::SecretString {
             self.encrypted_token.expose_decrypted_secret(&self.session_passcode)
         }
 
@@ -747,7 +747,7 @@ pub(crate) mod docker_hub_mod {
         /// This function encapsulates the secret docker hub secret_token.
         /// The client can be passed to the library. It will not reveal the secret_token.
         #[allow(dead_code)]
-        pub fn push_to_docker_hub(&self, image_url: &str, user_name: &str) {
+        pub(crate) fn  push_to_docker_hub(&self, image_url: &str, user_name: &str) {
             // the secret_token can be used in place of the password in --cred
             ShellCommandLimitedDoubleQuotesSanitizer::new(r#"podman push --creds "{user_name}:{secret_token}" "{image_url}" "#)
                 .unwrap_or_else(|e| panic!("{e}"))

@@ -4,7 +4,7 @@
 //! # oauth2_cli_github_example
 //!
 //! **Example of GitHub api with Oauth2 CLI**  
-//! ***version: 2025.225.2041 date: 2025-02-25 author: [bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/oauth2_cli_github_example)***
+//! ***version: 2025.303.1435 date: 2025-03-03 author: [bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/oauth2_cli_github_example)***
 //!
 //!  ![work-in-progress](https://img.shields.io/badge/work_in_progress-yellow)
 //!  ![tutorial](https://img.shields.io/badge/tutorial-orange)
@@ -104,7 +104,21 @@ use secrecy::ExposeSecret;
 /// to avoid the warning `Code is never used`.  
 /// But the true code separated by topic is in the `examples` folder.  
 fn main() -> anyhow::Result<()> {
-    let secret_docker_hub_access_token = encrypt_decrypt_with_ssh_key_mod::docker_hub_api_token_mod::get_docker_hub_secret_token("docker_io_secret_token_ssh_1")?;
+    encrypt_decrypt_with_ssh_key_mod::secret_vault_mod::store_secret_token_to_vault("vault_ssh_1", "test_1")?;
+    encrypt_decrypt_with_ssh_key_mod::secret_vault_mod::store_secret_token_to_vault("vault_ssh_1", "test_2")?;
+
+    let vec_string = encrypt_decrypt_with_ssh_key_mod::secret_vault_mod::list_token_from_vault("vault_ssh_1")?;
+    println!("{:?}", vec_string);
+
+    let secret_token = encrypt_decrypt_with_ssh_key_mod::secret_vault_mod::show_secret_token_from_vault("vault_ssh_1", "test_1")?;
+    println!("{}", secret_token.expose_secret());
+    let secret_token = encrypt_decrypt_with_ssh_key_mod::secret_vault_mod::show_secret_token_from_vault("vault_ssh_1", "test_2")?;
+    println!("{}", secret_token.expose_secret());
+
+    encrypt_decrypt_with_ssh_key_mod::secret_vault_mod::delete_token_from_vault("vault_ssh_1", "test_1")?;
+    encrypt_decrypt_with_ssh_key_mod::secret_vault_mod::delete_token_from_vault("vault_ssh_1", "test_2")?;
+
+    let secret_docker_hub_access_token = encrypt_decrypt_with_ssh_key_mod::docker_io_api_token_mod::get_docker_hub_secret_token("docker_io_secret_token_ssh_1")?;
     println!("{}", secret_docker_hub_access_token.expose_secret());
 
     let secret_crates_io_access_token = encrypt_decrypt_with_ssh_key_mod::crates_io_api_token_mod::get_crates_io_secret_token("crates_io_secret_token_ssh_1")?;

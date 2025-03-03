@@ -40,6 +40,8 @@
 //!
 // endregion: auto_md_to_doc_comments include doc_comments/crates_io_api_token_mod.md A //!
 
+#![allow(dead_code)]
+
 use secrecy::{SecretBox, SecretString};
 
 use crate::encrypt_decrypt_with_ssh_key_mod as ende;
@@ -94,6 +96,7 @@ pub(crate) fn get_crates_io_secret_token(file_bare_name: &str) -> anyhow::Result
             plain_encrypted_text: plain_encrypted_text,
             access_token_expiration: None,
             refresh_token_expiration: None,
+            token_name: None,
         };
         let file_text = serde_json::to_string_pretty(&encrypted_text_with_metadata)?;
         // encode it just to obscure it a little bit

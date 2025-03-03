@@ -39,7 +39,7 @@ fn main() {
 /// Initialize tracing to file logs/automation_tasks_rs.log
 ///
 /// The folder logs/ is in .gitignore and will not be committed.
-pub fn tracing_init() {
+fn tracing_init() {
     // uncomment this line to enable tracing to file
     // let file_appender = tracing_appender::rolling::daily("logs", "automation_tasks_rs.log");
 
