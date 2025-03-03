@@ -18,6 +18,90 @@ line 1 column 1690 - Warning: trimming empty <button>
 This document has errors that must be fixed before
 using HTML Tidy to generate a tidied up version.
 
+./docs/src/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/docker_io_api_token_mod.rs.html
+Document: "2" is not a file!
+
+line 1 column 2071 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2071 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2087 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2177 - Warning: <div> isn't allowed in <h1> elements
+line 1 column 2261 - Warning: discarding unexpected </div>
+line 1 column 2298 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2298 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2315 - Warning: discarding unexpected </rustdoc-toolbar>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/src/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/secret_vault_mod.rs.html
+Document: "2" is not a file!
+
+line 1 column 2057 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2057 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2073 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2163 - Warning: <div> isn't allowed in <h1> elements
+line 1 column 2247 - Warning: discarding unexpected </div>
+line 1 column 2277 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2277 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2294 - Warning: discarding unexpected </rustdoc-toolbar>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/src/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/crates_io_api_token_mod.rs.html
+Document: "2" is not a file!
+
+line 1 column 2071 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2071 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2087 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2177 - Warning: <div> isn't allowed in <h1> elements
+line 1 column 2261 - Warning: discarding unexpected </div>
+line 1 column 2298 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2298 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2315 - Warning: discarding unexpected </rustdoc-toolbar>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/src/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/github_api_token_with_oauth2_mod.rs.html
+Document: "2" is not a file!
+
+line 1 column 2089 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2089 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2105 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2195 - Warning: <div> isn't allowed in <h1> elements
+line 1 column 2279 - Warning: discarding unexpected </div>
+line 1 column 2325 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2325 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2342 - Warning: discarding unexpected </rustdoc-toolbar>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/src/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/mod.rs.html
+Document: "2" is not a file!
+
+line 1 column 2031 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2031 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2047 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2137 - Warning: <div> isn't allowed in <h1> elements
+line 1 column 2221 - Warning: discarding unexpected </div>
+line 1 column 2238 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2238 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2255 - Warning: discarding unexpected </rustdoc-toolbar>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/src/oauth2_cli_github_example/auto_github_api_mod.rs.html
+Document: "2" is not a file!
+
+line 1 column 1994 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 1994 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2010 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2100 - Warning: <div> isn't allowed in <h1> elements
+line 1 column 2151 - Warning: discarding unexpected </div>
+line 1 column 2184 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2184 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2201 - Warning: discarding unexpected </rustdoc-toolbar>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
 ./docs/src/oauth2_cli_github_example/main.rs.html
 Document: "2" is not a file!
 
@@ -29,48 +113,6 @@ line 1 column 2121 - Warning: discarding unexpected </div>
 line 1 column 2139 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
 line 1 column 2139 - Warning: discarding unexpected <rustdoc-toolbar>
 line 1 column 2156 - Warning: discarding unexpected </rustdoc-toolbar>
-This document has errors that must be fixed before
-using HTML Tidy to generate a tidied up version.
-
-./docs/src/oauth2_cli_github_example/crates_io_api_token_mod.rs.html
-Document: "2" is not a file!
-
-line 1 column 2002 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2002 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2018 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 2108 - Warning: <div> isn't allowed in <h1> elements
-line 1 column 2159 - Warning: discarding unexpected </div>
-line 1 column 2196 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2196 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 2213 - Warning: discarding unexpected </rustdoc-toolbar>
-This document has errors that must be fixed before
-using HTML Tidy to generate a tidied up version.
-
-./docs/src/oauth2_cli_github_example/github_api_token_with_oauth2_mod.rs.html
-Document: "2" is not a file!
-
-line 1 column 2020 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2020 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2036 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 2126 - Warning: <div> isn't allowed in <h1> elements
-line 1 column 2177 - Warning: discarding unexpected </div>
-line 1 column 2223 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2223 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 2240 - Warning: discarding unexpected </rustdoc-toolbar>
-This document has errors that must be fixed before
-using HTML Tidy to generate a tidied up version.
-
-./docs/src/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod.rs.html
-Document: "2" is not a file!
-
-line 1 column 2020 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2020 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2036 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 2126 - Warning: <div> isn't allowed in <h1> elements
-line 1 column 2177 - Warning: discarding unexpected </div>
-line 1 column 2223 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2223 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 2240 - Warning: discarding unexpected </rustdoc-toolbar>
 This document has errors that must be fixed before
 using HTML Tidy to generate a tidied up version.
 
@@ -87,538 +129,128 @@ line 1 column 1946 - Warning: trimming empty <button>
 This document has errors that must be fixed before
 using HTML Tidy to generate a tidied up version.
 
-./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/fn.sign_seed_with_ssh_agent_or_identity_file.html
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/fn.open_file_b64_get_string.html
 Document: "2" is not a file!
 
-line 1 column 2438 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2438 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2454 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 2863 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2863 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 2880 - Warning: discarding unexpected </rustdoc-toolbar>
-line 1 column 1885 - Warning: trimming empty <button>
+line 1 column 2442 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2442 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2458 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2850 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2850 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2867 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1889 - Warning: trimming empty <button>
 This document has errors that must be fixed before
 using HTML Tidy to generate a tidied up version.
 
-./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/constant.GREEN.html
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/docker_io_api_token_mod/fn.get_docker_hub_secret_token.html
 Document: "2" is not a file!
 
-line 1 column 2388 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2388 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2404 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 2783 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2783 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 2800 - Warning: discarding unexpected </rustdoc-toolbar>
-line 1 column 1835 - Warning: trimming empty <button>
+line 1 column 2528 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2528 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2544 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 3000 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 3000 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 3017 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1922 - Warning: trimming empty <button>
 This document has errors that must be fixed before
 using HTML Tidy to generate a tidied up version.
 
-./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/struct.EncryptedTextWithMetadata.html
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/docker_io_api_token_mod/index.html
 Document: "2" is not a file!
 
-line 1 column 5501 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 5501 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 5517 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 5912 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 5912 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 5929 - Warning: discarding unexpected </rustdoc-toolbar>
-line 8 column 2251 - Warning: missing </summary> before <section>
-line 8 column 2955 - Warning: discarding unexpected </summary>
-line 8 column 3032 - Warning: missing </summary> before <section>
-line 8 column 3775 - Warning: <div> isn't allowed in <h4> elements
-line 9 column 163 - Warning: discarding unexpected </div>
-line 9 column 184 - Warning: discarding unexpected </summary>
-line 9 column 461 - Warning: missing </summary> before <section>
-line 9 column 1117 - Warning: discarding unexpected </summary>
-line 9 column 1194 - Warning: missing </summary> before <section>
-line 9 column 2095 - Warning: <div> isn't allowed in <h4> elements
-line 10 column 148 - Warning: discarding unexpected </div>
-line 10 column 169 - Warning: discarding unexpected </summary>
-line 10 column 3989 - Warning: missing </summary> before <section>
-line 10 column 4347 - Warning: <div> isn't allowed in <h3> elements
-line 11 column 149 - Warning: discarding unexpected </div>
-line 11 column 170 - Warning: discarding unexpected </summary>
-line 11 column 247 - Warning: missing </summary> before <section>
-line 11 column 752 - Warning: discarding unexpected </summary>
-line 11 column 1008 - Warning: missing </summary> before <section>
-line 11 column 1413 - Warning: <div> isn't allowed in <h3> elements
-line 12 column 139 - Warning: discarding unexpected </div>
-line 12 column 160 - Warning: discarding unexpected </summary>
-line 12 column 237 - Warning: missing </summary> before <section>
-line 12 column 718 - Warning: discarding unexpected </summary>
-line 12 column 967 - Warning: missing </summary> before <section>
-line 12 column 1387 - Warning: <div> isn't allowed in <h3> elements
-line 13 column 139 - Warning: discarding unexpected </div>
-line 13 column 160 - Warning: discarding unexpected </summary>
-line 13 column 237 - Warning: missing </summary> before <section>
-line 13 column 745 - Warning: discarding unexpected </summary>
-line 13 column 999 - Warning: missing </summary> before <section>
-line 13 column 1416 - Warning: discarding unexpected </summary>
-line 13 column 1493 - Warning: missing </summary> before <section>
-line 13 column 1866 - Warning: discarding unexpected </summary>
-line 14 column 77 - Warning: missing </summary> before <section>
-line 14 column 257 - Warning: discarding unexpected </summary>
-line 14 column 334 - Warning: missing </summary> before <section>
-line 14 column 569 - Warning: discarding unexpected </summary>
-line 15 column 111 - Warning: missing </summary> before <section>
-line 15 column 349 - Warning: discarding unexpected </summary>
-line 16 column 128 - Warning: missing </summary> before <section>
-line 16 column 537 - Warning: <div> isn't allowed in <h3> elements
-line 17 column 146 - Warning: discarding unexpected </div>
-line 17 column 167 - Warning: discarding unexpected </summary>
-line 17 column 244 - Warning: missing </summary> before <section>
-line 17 column 617 - Warning: discarding unexpected </summary>
-line 20 column 77 - Warning: missing </summary> before <section>
-line 20 column 492 - Warning: discarding unexpected </summary>
-line 20 column 555 - Warning: missing </summary> before <section>
-line 20 column 981 - Warning: discarding unexpected </summary>
-line 20 column 1123 - Warning: missing </summary> before <section>
-line 20 column 1547 - Warning: <div> isn't allowed in <h3> elements
-line 21 column 146 - Warning: discarding unexpected </div>
-line 21 column 167 - Warning: discarding unexpected </summary>
-line 21 column 230 - Warning: missing </summary> before <section>
-line 21 column 790 - Warning: discarding unexpected </summary>
-line 21 column 934 - Warning: missing </summary> before <section>
-line 21 column 1801 - Warning: discarding unexpected </summary>
-line 21 column 1933 - Warning: missing </summary> before <section>
-line 21 column 2357 - Warning: <div> isn't allowed in <h3> elements
-line 22 column 155 - Warning: discarding unexpected </div>
-line 22 column 176 - Warning: discarding unexpected </summary>
-line 22 column 239 - Warning: missing </summary> before <section>
-line 22 column 984 - Warning: discarding unexpected </summary>
-line 22 column 1128 - Warning: missing </summary> before <section>
-line 22 column 1991 - Warning: discarding unexpected </summary>
-line 22 column 2123 - Warning: missing </summary> before <section>
-line 22 column 2296 - Warning: <div> isn't allowed in <h3> elements
-line 23 column 27 - Warning: discarding unexpected </div>
-line 23 column 48 - Warning: discarding unexpected </summary>
-line 23 column 315 - Warning: missing </summary> before <section>
-line 23 column 507 - Warning: discarding unexpected </summary>
-line 23 column 584 - Warning: missing </summary> before <section>
-line 23 column 831 - Warning: <div> isn't allowed in <h4> elements
-line 24 column 153 - Warning: discarding unexpected </div>
-line 24 column 174 - Warning: discarding unexpected </summary>
-line 25 column 113 - Warning: missing </summary> before <section>
-line 25 column 375 - Warning: discarding unexpected </summary>
-line 26 column 498 - Warning: <div> isn't allowed in <h3> elements
-line 27 column 173 - Warning: discarding unexpected </div>
-line 27 column 368 - Warning: <div> isn't allowed in <h3> elements
-line 28 column 16 - Warning: discarding unexpected </div>
-line 1 column 1905 - Warning: trimming empty <button>
-line 8 column 2251 - Warning: trimming empty <summary>
-line 8 column 3032 - Warning: trimming empty <summary>
-line 9 column 461 - Warning: trimming empty <summary>
-line 9 column 1194 - Warning: trimming empty <summary>
-line 10 column 3989 - Warning: trimming empty <summary>
-line 11 column 247 - Warning: trimming empty <summary>
-line 11 column 1008 - Warning: trimming empty <summary>
-line 12 column 237 - Warning: trimming empty <summary>
-line 12 column 967 - Warning: trimming empty <summary>
-line 13 column 237 - Warning: trimming empty <summary>
-line 13 column 999 - Warning: trimming empty <summary>
-line 13 column 1493 - Warning: trimming empty <summary>
-line 14 column 77 - Warning: trimming empty <summary>
-line 14 column 334 - Warning: trimming empty <summary>
-line 15 column 111 - Warning: trimming empty <summary>
-line 16 column 128 - Warning: trimming empty <summary>
-line 17 column 244 - Warning: trimming empty <summary>
-line 20 column 77 - Warning: trimming empty <summary>
-line 20 column 555 - Warning: trimming empty <summary>
-line 20 column 1123 - Warning: trimming empty <summary>
-line 21 column 230 - Warning: trimming empty <summary>
-line 21 column 934 - Warning: trimming empty <summary>
-line 21 column 1933 - Warning: trimming empty <summary>
-line 22 column 239 - Warning: trimming empty <summary>
-line 22 column 1128 - Warning: trimming empty <summary>
-line 22 column 2123 - Warning: trimming empty <summary>
-line 23 column 315 - Warning: trimming empty <summary>
-line 23 column 584 - Warning: trimming empty <summary>
-line 25 column 113 - Warning: trimming empty <summary>
+line 1 column 3449 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 3449 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 3465 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 3849 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 3849 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 3866 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1979 - Warning: trimming empty <button>
 This document has errors that must be fixed before
 using HTML Tidy to generate a tidied up version.
 
-./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/fn.sign_seed_with_identity_file.html
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/github_api_token_with_oauth2_mod/fn.upload_to_github_with_secret_token.html
 Document: "2" is not a file!
 
-line 1 column 2450 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2450 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2466 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 2862 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2862 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 2879 - Warning: discarding unexpected </rustdoc-toolbar>
-line 1 column 1897 - Warning: trimming empty <button>
+line 1 column 2548 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2548 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2564 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 3036 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 3036 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 3053 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1928 - Warning: trimming empty <button>
 This document has errors that must be fixed before
 using HTML Tidy to generate a tidied up version.
 
-./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/fn.encode64_from_bytes_to_string.html
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/github_api_token_with_oauth2_mod/fn.encrypt_and_save_file.html
 Document: "2" is not a file!
 
-line 1 column 2430 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2430 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2446 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 2843 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2843 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 2860 - Warning: discarding unexpected </rustdoc-toolbar>
-line 1 column 1877 - Warning: trimming empty <button>
+line 1 column 2540 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2540 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2556 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 3015 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 3015 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 3032 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1920 - Warning: trimming empty <button>
 This document has errors that must be fixed before
 using HTML Tidy to generate a tidied up version.
 
-./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/fn.encode64_from_string_to_string.html
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/github_api_token_with_oauth2_mod/fn.decrypt_text_with_metadata.html
 Document: "2" is not a file!
 
-line 1 column 2432 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2432 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2448 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 2846 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2846 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 2863 - Warning: discarding unexpected </rustdoc-toolbar>
-line 1 column 1879 - Warning: trimming empty <button>
+line 1 column 2550 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2550 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2566 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 3030 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 3030 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 3047 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1930 - Warning: trimming empty <button>
 This document has errors that must be fixed before
 using HTML Tidy to generate a tidied up version.
 
-./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/fn.encode64_from_32bytes_to_string.html
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/github_api_token_with_oauth2_mod/fn.authenticate_with_browser_and_save_file.html
 Document: "2" is not a file!
 
-line 1 column 2434 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2434 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2450 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 2849 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2849 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 2866 - Warning: discarding unexpected </rustdoc-toolbar>
-line 1 column 1881 - Warning: trimming empty <button>
+line 1 column 2650 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2650 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2666 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 3143 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 3143 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 3160 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 2030 - Warning: trimming empty <button>
 This document has errors that must be fixed before
 using HTML Tidy to generate a tidied up version.
 
-./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/fn.sign_seed_with_ssh_agent.html
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/github_api_token_with_oauth2_mod/struct.SecretResponseAccessToken.html
 Document: "2" is not a file!
 
-line 1 column 2436 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2436 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2452 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 2844 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2844 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 2861 - Warning: discarding unexpected </rustdoc-toolbar>
-line 1 column 1883 - Warning: trimming empty <button>
-This document has errors that must be fixed before
-using HTML Tidy to generate a tidied up version.
-
-./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/fn.random_seed_32bytes.html
-Document: "2" is not a file!
-
-line 1 column 2408 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2408 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2424 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 2811 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2811 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 2828 - Warning: discarding unexpected </rustdoc-toolbar>
-line 1 column 1855 - Warning: trimming empty <button>
-This document has errors that must be fixed before
-using HTML Tidy to generate a tidied up version.
-
-./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/constant.YELLOW.html
-Document: "2" is not a file!
-
-line 1 column 2389 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2389 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2405 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 2785 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2785 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 2802 - Warning: discarding unexpected </rustdoc-toolbar>
-line 1 column 1836 - Warning: trimming empty <button>
-This document has errors that must be fixed before
-using HTML Tidy to generate a tidied up version.
-
-./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/constant.RESET.html
-Document: "2" is not a file!
-
-line 1 column 2388 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2388 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2404 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 2783 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2783 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 2800 - Warning: discarding unexpected </rustdoc-toolbar>
-line 1 column 1835 - Warning: trimming empty <button>
-This document has errors that must be fixed before
-using HTML Tidy to generate a tidied up version.
-
-./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/fn.open_file_get_string.html
-Document: "2" is not a file!
-
-line 1 column 2438 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2438 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2454 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 2842 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2842 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 2859 - Warning: discarding unexpected </rustdoc-toolbar>
-line 1 column 1885 - Warning: trimming empty <button>
-This document has errors that must be fixed before
-using HTML Tidy to generate a tidied up version.
-
-./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/fn.encrypt_symmetric.html
-Document: "2" is not a file!
-
-line 1 column 2460 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2460 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2476 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 2861 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2861 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 2878 - Warning: discarding unexpected </rustdoc-toolbar>
-line 1 column 1907 - Warning: trimming empty <button>
-This document has errors that must be fixed before
-using HTML Tidy to generate a tidied up version.
-
-./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/fn.decode64_from_string_to_32bytes.html
-Document: "2" is not a file!
-
-line 1 column 2434 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2434 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2450 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 2849 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2849 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 2866 - Warning: discarding unexpected </rustdoc-toolbar>
-line 1 column 1881 - Warning: trimming empty <button>
-This document has errors that must be fixed before
-using HTML Tidy to generate a tidied up version.
-
-./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/constant.RED.html
-Document: "2" is not a file!
-
-line 1 column 2386 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2386 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2402 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 2779 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2779 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 2796 - Warning: discarding unexpected </rustdoc-toolbar>
-line 1 column 1833 - Warning: trimming empty <button>
-This document has errors that must be fixed before
-using HTML Tidy to generate a tidied up version.
-
-./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/index.html
-Document: "2" is not a file!
-
-line 1 column 3109 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 3109 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 3125 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 3448 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 3448 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 3465 - Warning: discarding unexpected </rustdoc-toolbar>
-line 1 column 1888 - Warning: trimming empty <button>
-This document has errors that must be fixed before
-using HTML Tidy to generate a tidied up version.
-
-./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/fn.shorten_vec_bytes_to_32bytes.html
-Document: "2" is not a file!
-
-line 1 column 2435 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2435 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2451 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 2847 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2847 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 2864 - Warning: discarding unexpected </rustdoc-toolbar>
-line 1 column 1882 - Warning: trimming empty <button>
-This document has errors that must be fixed before
-using HTML Tidy to generate a tidied up version.
-
-./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/fn.decrypt_symmetric.html
-Document: "2" is not a file!
-
-line 1 column 2444 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2444 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2460 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 2845 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2845 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 2862 - Warning: discarding unexpected </rustdoc-toolbar>
-line 1 column 1891 - Warning: trimming empty <button>
-This document has errors that must be fixed before
-using HTML Tidy to generate a tidied up version.
-
-./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/constant.BLUE.html
-Document: "2" is not a file!
-
-line 1 column 2387 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2387 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2403 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 2781 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2781 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 2798 - Warning: discarding unexpected </rustdoc-toolbar>
-line 1 column 1834 - Warning: trimming empty <button>
-This document has errors that must be fixed before
-using HTML Tidy to generate a tidied up version.
-
-./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/fn.decode64_from_string_to_string.html
-Document: "2" is not a file!
-
-line 1 column 2432 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2432 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2448 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 2846 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2846 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 2863 - Warning: discarding unexpected </rustdoc-toolbar>
-line 1 column 1879 - Warning: trimming empty <button>
-This document has errors that must be fixed before
-using HTML Tidy to generate a tidied up version.
-
-./docs/oauth2_cli_github_example/github_api_token_with_oauth2_mod/fn.encrypt_and_save_file.html
-Document: "2" is not a file!
-
-line 1 column 2409 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2409 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2425 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 2814 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2814 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 2831 - Warning: discarding unexpected </rustdoc-toolbar>
-line 1 column 1856 - Warning: trimming empty <button>
-This document has errors that must be fixed before
-using HTML Tidy to generate a tidied up version.
-
-./docs/oauth2_cli_github_example/github_api_token_with_oauth2_mod/fn.user_input_passphrase_and_sign_seed_x.html
-Document: "2" is not a file!
-
-line 1 column 2590 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2590 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2606 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 3011 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 3011 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 3028 - Warning: discarding unexpected </rustdoc-toolbar>
-line 1 column 2037 - Warning: trimming empty <button>
-This document has errors that must be fixed before
-using HTML Tidy to generate a tidied up version.
-
-./docs/oauth2_cli_github_example/github_api_token_with_oauth2_mod/fn.use_ssh_agent_to_sign_seed.html
-Document: "2" is not a file!
-
-line 1 column 2417 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2417 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2433 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 2827 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2827 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 2844 - Warning: discarding unexpected </rustdoc-toolbar>
-line 1 column 1864 - Warning: trimming empty <button>
-This document has errors that must be fixed before
-using HTML Tidy to generate a tidied up version.
-
-./docs/oauth2_cli_github_example/github_api_token_with_oauth2_mod/fn.authenticate_with_browser_and_save_file.html
-Document: "2" is not a file!
-
-line 1 column 2519 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2519 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2535 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 2942 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2942 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 2959 - Warning: discarding unexpected </rustdoc-toolbar>
-line 1 column 1966 - Warning: trimming empty <button>
-This document has errors that must be fixed before
-using HTML Tidy to generate a tidied up version.
-
-./docs/oauth2_cli_github_example/github_api_token_with_oauth2_mod/fn.open_file_get_json.html
-Document: "2" is not a file!
-
-line 1 column 2424 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2424 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2440 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 2826 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2826 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 2843 - Warning: discarding unexpected </rustdoc-toolbar>
-line 1 column 1871 - Warning: trimming empty <button>
-This document has errors that must be fixed before
-using HTML Tidy to generate a tidied up version.
-
-./docs/oauth2_cli_github_example/github_api_token_with_oauth2_mod/fn.authentication_with_browser.html
-Document: "2" is not a file!
-
-line 1 column 2457 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2457 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2473 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 2868 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2868 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 2885 - Warning: discarding unexpected </rustdoc-toolbar>
-line 1 column 1904 - Warning: trimming empty <button>
-This document has errors that must be fixed before
-using HTML Tidy to generate a tidied up version.
-
-./docs/oauth2_cli_github_example/github_api_token_with_oauth2_mod/index.html
-Document: "2" is not a file!
-
-line 1 column 3901 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 3901 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 3917 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 4240 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 4240 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 4257 - Warning: discarding unexpected </rustdoc-toolbar>
-line 1 column 1940 - Warning: trimming empty <button>
-This document has errors that must be fixed before
-using HTML Tidy to generate a tidied up version.
-
-./docs/oauth2_cli_github_example/github_api_token_with_oauth2_mod/fn.decrypt_file_json.html
-Document: "2" is not a file!
-
-line 1 column 2396 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2396 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2412 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 2797 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2797 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 2814 - Warning: discarding unexpected </rustdoc-toolbar>
-line 1 column 1843 - Warning: trimming empty <button>
-This document has errors that must be fixed before
-using HTML Tidy to generate a tidied up version.
-
-./docs/oauth2_cli_github_example/github_api_token_with_oauth2_mod/fn.refresh_tokens.html
-Document: "2" is not a file!
-
-line 1 column 2440 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2440 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2456 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 2838 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2838 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 2855 - Warning: discarding unexpected </rustdoc-toolbar>
-line 1 column 1887 - Warning: trimming empty <button>
-This document has errors that must be fixed before
-using HTML Tidy to generate a tidied up version.
-
-./docs/oauth2_cli_github_example/github_api_token_with_oauth2_mod/fn.get_github_secret_token.html
-Document: "2" is not a file!
-
-line 1 column 2599 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2599 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2615 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 3006 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 3006 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 3023 - Warning: discarding unexpected </rustdoc-toolbar>
-line 1 column 2046 - Warning: trimming empty <button>
-This document has errors that must be fixed before
-using HTML Tidy to generate a tidied up version.
-
-./docs/oauth2_cli_github_example/github_api_token_with_oauth2_mod/struct.ResponseSecretAccessToken.html
-Document: "2" is not a file!
-
-line 1 column 5675 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 5675 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 5691 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 6086 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 6086 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 6103 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 5806 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 5806 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 5822 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 6287 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 6287 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 6304 - Warning: discarding unexpected </rustdoc-toolbar>
 line 8 column 2067 - Warning: missing </summary> before <section>
-line 8 column 2771 - Warning: discarding unexpected </summary>
-line 8 column 2848 - Warning: missing </summary> before <section>
-line 8 column 3591 - Warning: <div> isn't allowed in <h4> elements
+line 8 column 2841 - Warning: discarding unexpected </summary>
+line 8 column 2918 - Warning: missing </summary> before <section>
+line 8 column 3697 - Warning: <div> isn't allowed in <h4> elements
 line 9 column 163 - Warning: discarding unexpected </div>
 line 9 column 184 - Warning: discarding unexpected </summary>
 line 9 column 461 - Warning: missing </summary> before <section>
-line 9 column 1104 - Warning: discarding unexpected </summary>
-line 9 column 1181 - Warning: missing </summary> before <section>
-line 9 column 1570 - Warning: discarding unexpected </summary>
-line 9 column 1822 - Warning: missing </summary> before <section>
-line 9 column 2478 - Warning: discarding unexpected </summary>
-line 9 column 2555 - Warning: missing </summary> before <section>
-line 9 column 3456 - Warning: <div> isn't allowed in <h4> elements
+line 9 column 1174 - Warning: discarding unexpected </summary>
+line 9 column 1251 - Warning: missing </summary> before <section>
+line 9 column 1676 - Warning: discarding unexpected </summary>
+line 9 column 1928 - Warning: missing </summary> before <section>
+line 9 column 2654 - Warning: discarding unexpected </summary>
+line 9 column 2731 - Warning: missing </summary> before <section>
+line 9 column 3668 - Warning: <div> isn't allowed in <h4> elements
 line 10 column 148 - Warning: discarding unexpected </div>
 line 10 column 169 - Warning: discarding unexpected </summary>
 line 10 column 439 - Warning: missing </summary> before <section>
-line 10 column 964 - Warning: discarding unexpected </summary>
-line 10 column 1041 - Warning: missing </summary> before <section>
-line 10 column 1355 - Warning: discarding unexpected </summary>
-line 11 column 3694 - Warning: missing </summary> before <section>
-line 11 column 4052 - Warning: <div> isn't allowed in <h3> elements
+line 10 column 1034 - Warning: discarding unexpected </summary>
+line 10 column 1111 - Warning: missing </summary> before <section>
+line 10 column 1461 - Warning: discarding unexpected </summary>
+line 11 column 3898 - Warning: missing </summary> before <section>
+line 11 column 4256 - Warning: <div> isn't allowed in <h3> elements
 line 12 column 149 - Warning: discarding unexpected </div>
 line 12 column 170 - Warning: discarding unexpected </summary>
 line 12 column 247 - Warning: missing </summary> before <section>
@@ -687,16 +319,16 @@ line 27 column 498 - Warning: <div> isn't allowed in <h3> elements
 line 28 column 173 - Warning: discarding unexpected </div>
 line 28 column 368 - Warning: <div> isn't allowed in <h3> elements
 line 29 column 16 - Warning: discarding unexpected </div>
-line 1 column 1946 - Warning: trimming empty <button>
+line 1 column 2010 - Warning: trimming empty <button>
 line 8 column 2067 - Warning: trimming empty <summary>
-line 8 column 2848 - Warning: trimming empty <summary>
+line 8 column 2918 - Warning: trimming empty <summary>
 line 9 column 461 - Warning: trimming empty <summary>
-line 9 column 1181 - Warning: trimming empty <summary>
-line 9 column 1822 - Warning: trimming empty <summary>
-line 9 column 2555 - Warning: trimming empty <summary>
+line 9 column 1251 - Warning: trimming empty <summary>
+line 9 column 1928 - Warning: trimming empty <summary>
+line 9 column 2731 - Warning: trimming empty <summary>
 line 10 column 439 - Warning: trimming empty <summary>
-line 10 column 1041 - Warning: trimming empty <summary>
-line 11 column 3694 - Warning: trimming empty <summary>
+line 10 column 1111 - Warning: trimming empty <summary>
+line 11 column 3898 - Warning: trimming empty <summary>
 line 12 column 247 - Warning: trimming empty <summary>
 line 12 column 1008 - Warning: trimming empty <summary>
 line 13 column 237 - Warning: trimming empty <summary>
@@ -724,6 +356,715 @@ line 26 column 113 - Warning: trimming empty <summary>
 This document has errors that must be fixed before
 using HTML Tidy to generate a tidied up version.
 
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/github_api_token_with_oauth2_mod/fn.authentication_with_browser.html
+Document: "2" is not a file!
+
+line 1 column 2588 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2588 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2604 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 3069 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 3069 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 3086 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1968 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/github_api_token_with_oauth2_mod/index.html
+Document: "2" is not a file!
+
+line 1 column 4009 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 4009 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 4025 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 4418 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 4418 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 4435 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 2004 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/github_api_token_with_oauth2_mod/fn.refresh_tokens.html
+Document: "2" is not a file!
+
+line 1 column 2571 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2571 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2587 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 3039 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 3039 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 3056 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1951 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/github_api_token_with_oauth2_mod/fn.get_github_secret_token.html
+Document: "2" is not a file!
+
+line 1 column 2730 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2730 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2746 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 3207 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 3207 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 3224 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 2110 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/github_api_token_with_oauth2_mod/fn.send_to_github_api_with_secret_token.html
+Document: "2" is not a file!
+
+line 1 column 2644 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2644 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2660 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 3134 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 3134 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 3151 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 2024 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/constant.GREEN.html
+Document: "2" is not a file!
+
+line 1 column 2388 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2388 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2404 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2783 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2783 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2800 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1835 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/struct.EncryptedTextWithMetadata.html
+Document: "2" is not a file!
+
+line 1 column 5586 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 5586 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 5602 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 5997 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 5997 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 6014 - Warning: discarding unexpected </rustdoc-toolbar>
+line 9 column 2695 - Warning: missing </summary> before <section>
+line 9 column 3403 - Warning: discarding unexpected </summary>
+line 9 column 3480 - Warning: missing </summary> before <section>
+line 9 column 4227 - Warning: <div> isn't allowed in <h4> elements
+line 10 column 163 - Warning: discarding unexpected </div>
+line 10 column 184 - Warning: discarding unexpected </summary>
+line 10 column 461 - Warning: missing </summary> before <section>
+line 10 column 1121 - Warning: discarding unexpected </summary>
+line 10 column 1198 - Warning: missing </summary> before <section>
+line 10 column 2103 - Warning: <div> isn't allowed in <h4> elements
+line 11 column 148 - Warning: discarding unexpected </div>
+line 11 column 169 - Warning: discarding unexpected </summary>
+line 11 column 3989 - Warning: missing </summary> before <section>
+line 11 column 4347 - Warning: <div> isn't allowed in <h3> elements
+line 12 column 149 - Warning: discarding unexpected </div>
+line 12 column 170 - Warning: discarding unexpected </summary>
+line 12 column 247 - Warning: missing </summary> before <section>
+line 12 column 752 - Warning: discarding unexpected </summary>
+line 12 column 1008 - Warning: missing </summary> before <section>
+line 12 column 1413 - Warning: <div> isn't allowed in <h3> elements
+line 13 column 139 - Warning: discarding unexpected </div>
+line 13 column 160 - Warning: discarding unexpected </summary>
+line 13 column 237 - Warning: missing </summary> before <section>
+line 13 column 718 - Warning: discarding unexpected </summary>
+line 13 column 967 - Warning: missing </summary> before <section>
+line 13 column 1387 - Warning: <div> isn't allowed in <h3> elements
+line 14 column 139 - Warning: discarding unexpected </div>
+line 14 column 160 - Warning: discarding unexpected </summary>
+line 14 column 237 - Warning: missing </summary> before <section>
+line 14 column 745 - Warning: discarding unexpected </summary>
+line 14 column 999 - Warning: missing </summary> before <section>
+line 14 column 1416 - Warning: discarding unexpected </summary>
+line 14 column 1493 - Warning: missing </summary> before <section>
+line 14 column 1866 - Warning: discarding unexpected </summary>
+line 15 column 77 - Warning: missing </summary> before <section>
+line 15 column 257 - Warning: discarding unexpected </summary>
+line 15 column 334 - Warning: missing </summary> before <section>
+line 15 column 569 - Warning: discarding unexpected </summary>
+line 16 column 111 - Warning: missing </summary> before <section>
+line 16 column 349 - Warning: discarding unexpected </summary>
+line 17 column 128 - Warning: missing </summary> before <section>
+line 17 column 537 - Warning: <div> isn't allowed in <h3> elements
+line 18 column 146 - Warning: discarding unexpected </div>
+line 18 column 167 - Warning: discarding unexpected </summary>
+line 18 column 244 - Warning: missing </summary> before <section>
+line 18 column 617 - Warning: discarding unexpected </summary>
+line 21 column 77 - Warning: missing </summary> before <section>
+line 21 column 492 - Warning: discarding unexpected </summary>
+line 21 column 555 - Warning: missing </summary> before <section>
+line 21 column 981 - Warning: discarding unexpected </summary>
+line 21 column 1123 - Warning: missing </summary> before <section>
+line 21 column 1547 - Warning: <div> isn't allowed in <h3> elements
+line 22 column 146 - Warning: discarding unexpected </div>
+line 22 column 167 - Warning: discarding unexpected </summary>
+line 22 column 230 - Warning: missing </summary> before <section>
+line 22 column 790 - Warning: discarding unexpected </summary>
+line 22 column 934 - Warning: missing </summary> before <section>
+line 22 column 1801 - Warning: discarding unexpected </summary>
+line 22 column 1933 - Warning: missing </summary> before <section>
+line 22 column 2357 - Warning: <div> isn't allowed in <h3> elements
+line 23 column 155 - Warning: discarding unexpected </div>
+line 23 column 176 - Warning: discarding unexpected </summary>
+line 23 column 239 - Warning: missing </summary> before <section>
+line 23 column 984 - Warning: discarding unexpected </summary>
+line 23 column 1128 - Warning: missing </summary> before <section>
+line 23 column 1991 - Warning: discarding unexpected </summary>
+line 23 column 2123 - Warning: missing </summary> before <section>
+line 23 column 2296 - Warning: <div> isn't allowed in <h3> elements
+line 24 column 27 - Warning: discarding unexpected </div>
+line 24 column 48 - Warning: discarding unexpected </summary>
+line 24 column 315 - Warning: missing </summary> before <section>
+line 24 column 507 - Warning: discarding unexpected </summary>
+line 24 column 584 - Warning: missing </summary> before <section>
+line 24 column 831 - Warning: <div> isn't allowed in <h4> elements
+line 25 column 153 - Warning: discarding unexpected </div>
+line 25 column 174 - Warning: discarding unexpected </summary>
+line 26 column 113 - Warning: missing </summary> before <section>
+line 26 column 375 - Warning: discarding unexpected </summary>
+line 27 column 498 - Warning: <div> isn't allowed in <h3> elements
+line 28 column 173 - Warning: discarding unexpected </div>
+line 28 column 368 - Warning: <div> isn't allowed in <h3> elements
+line 29 column 16 - Warning: discarding unexpected </div>
+line 1 column 1905 - Warning: trimming empty <button>
+line 9 column 2695 - Warning: trimming empty <summary>
+line 9 column 3480 - Warning: trimming empty <summary>
+line 10 column 461 - Warning: trimming empty <summary>
+line 10 column 1198 - Warning: trimming empty <summary>
+line 11 column 3989 - Warning: trimming empty <summary>
+line 12 column 247 - Warning: trimming empty <summary>
+line 12 column 1008 - Warning: trimming empty <summary>
+line 13 column 237 - Warning: trimming empty <summary>
+line 13 column 967 - Warning: trimming empty <summary>
+line 14 column 237 - Warning: trimming empty <summary>
+line 14 column 999 - Warning: trimming empty <summary>
+line 14 column 1493 - Warning: trimming empty <summary>
+line 15 column 77 - Warning: trimming empty <summary>
+line 15 column 334 - Warning: trimming empty <summary>
+line 16 column 111 - Warning: trimming empty <summary>
+line 17 column 128 - Warning: trimming empty <summary>
+line 18 column 244 - Warning: trimming empty <summary>
+line 21 column 77 - Warning: trimming empty <summary>
+line 21 column 555 - Warning: trimming empty <summary>
+line 21 column 1123 - Warning: trimming empty <summary>
+line 22 column 230 - Warning: trimming empty <summary>
+line 22 column 934 - Warning: trimming empty <summary>
+line 22 column 1933 - Warning: trimming empty <summary>
+line 23 column 239 - Warning: trimming empty <summary>
+line 23 column 1128 - Warning: trimming empty <summary>
+line 23 column 2123 - Warning: trimming empty <summary>
+line 24 column 315 - Warning: trimming empty <summary>
+line 24 column 584 - Warning: trimming empty <summary>
+line 26 column 113 - Warning: trimming empty <summary>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/fn.encode64_from_bytes_to_string.html
+Document: "2" is not a file!
+
+line 1 column 2430 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2430 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2446 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2843 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2843 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2860 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1877 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/fn.encode64_from_string_to_string.html
+Document: "2" is not a file!
+
+line 1 column 2432 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2432 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2448 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2846 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2846 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2863 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1879 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/secret_vault_mod/fn.show_secret_token_from_vault.html
+Document: "2" is not a file!
+
+line 1 column 2506 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2506 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2522 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2972 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2972 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2989 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1917 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/secret_vault_mod/fn.store_secret_token_to_vault.html
+Document: "2" is not a file!
+
+line 1 column 2505 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2505 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2521 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2970 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2970 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2987 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1916 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/secret_vault_mod/fn.delete_token_from_vault.html
+Document: "2" is not a file!
+
+line 1 column 2504 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2504 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2520 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2965 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2965 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2982 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1915 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/secret_vault_mod/index.html
+Document: "2" is not a file!
+
+line 1 column 3075 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 3075 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 3091 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 3468 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 3468 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 3485 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1884 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/secret_vault_mod/fn.list_token_from_vault.html
+Document: "2" is not a file!
+
+line 1 column 2567 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2567 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2583 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 3026 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 3026 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 3043 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1978 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/fn.encode64_from_32bytes_to_string.html
+Document: "2" is not a file!
+
+line 1 column 2434 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2434 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2450 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2849 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2849 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2866 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1881 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/fn.sign_seed_with_ssh_agent.html
+Document: "2" is not a file!
+
+line 1 column 2436 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2436 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2452 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2844 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2844 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2861 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1883 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/fn.sign_seed_with_private_key_file.html
+Document: "2" is not a file!
+
+line 1 column 2453 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2453 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2469 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2868 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2868 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2885 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1900 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/fn.random_seed_32bytes_and_string.html
+Document: "2" is not a file!
+
+line 1 column 2419 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2419 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2435 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2833 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2833 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2850 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1866 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/constant.YELLOW.html
+Document: "2" is not a file!
+
+line 1 column 2389 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2389 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2405 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2785 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2785 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2802 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1836 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/constant.RESET.html
+Document: "2" is not a file!
+
+line 1 column 2388 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2388 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2404 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2783 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2783 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2800 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1835 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/fn.encrypt_symmetric.html
+Document: "2" is not a file!
+
+line 1 column 2460 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2460 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2476 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2861 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2861 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2878 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1907 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/fn.decode64_from_string_to_32bytes.html
+Document: "2" is not a file!
+
+line 1 column 2434 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2434 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2450 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2849 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2849 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2866 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1881 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/constant.RED.html
+Document: "2" is not a file!
+
+line 1 column 2386 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2386 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2402 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2779 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2779 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2796 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1833 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/crates_io_api_token_mod/fn.get_crates_io_secret_token.html
+Document: "2" is not a file!
+
+line 1 column 2527 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2527 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2543 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2998 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2998 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 3015 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1921 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/crates_io_api_token_mod/index.html
+Document: "2" is not a file!
+
+line 1 column 3449 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 3449 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 3465 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 3849 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 3849 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 3866 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1979 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/index.html
+Document: "2" is not a file!
+
+line 1 column 3164 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 3164 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 3180 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 3503 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 3503 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 3520 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1888 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/fn.shorten_vec_bytes_to_32bytes.html
+Document: "2" is not a file!
+
+line 1 column 2435 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2435 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2451 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2847 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2847 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2864 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1882 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/fn.decrypt_symmetric.html
+Document: "2" is not a file!
+
+line 1 column 2444 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2444 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2460 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2845 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2845 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2862 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1891 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/constant.BLUE.html
+Document: "2" is not a file!
+
+line 1 column 2387 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2387 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2403 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2781 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2781 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2798 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1834 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/fn.sign_seed_with_ssh_agent_or_private_key_file.html
+Document: "2" is not a file!
+
+line 1 column 2441 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2441 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2457 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2869 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2869 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2886 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1888 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/fn.decode64_from_string_to_string.html
+Document: "2" is not a file!
+
+line 1 column 2432 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2432 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2448 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2846 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2846 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2863 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1879 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/auto_github_api_mod/fn.github_api_user_repository_new.html
+Document: "2" is not a file!
+
+line 1 column 2501 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2501 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2517 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2902 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2902 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2919 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1971 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/auto_github_api_mod/fn.git_has_upstream.html
+Document: "2" is not a file!
+
+line 1 column 2363 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2363 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2379 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2750 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2750 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2767 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1833 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/auto_github_api_mod/fn.git_has_remote.html
+Document: "2" is not a file!
+
+line 1 column 2359 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2359 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2375 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2744 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2744 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2761 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1829 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/auto_github_api_mod/fn.github_api_update_description.html
+Document: "2" is not a file!
+
+line 1 column 2389 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2389 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2405 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2789 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2789 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2806 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1859 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/auto_github_api_mod/fn.github_api_get_organization.html
+Document: "2" is not a file!
+
+line 1 column 2385 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2385 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2401 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2783 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2783 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2800 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1855 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/auto_github_api_mod/fn.github_api_upload_asset_to_release.html
+Document: "2" is not a file!
+
+line 1 column 2395 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2395 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2411 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2800 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2800 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2817 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1865 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/auto_github_api_mod/fn.github_api_get_authenticated_user.html
+Document: "2" is not a file!
+
+line 1 column 2397 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2397 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2413 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2801 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2801 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2818 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1867 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/auto_github_api_mod/fn.github_api_create_a_github_pages_site.html
+Document: "2" is not a file!
+
+line 1 column 2405 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2405 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2421 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2813 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2813 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2830 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1875 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/auto_github_api_mod/fn.github_api_organization_repository_new.html
+Document: "2" is not a file!
+
+line 1 column 2412 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2412 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2428 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2821 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2821 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2838 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1882 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/auto_github_api_mod/fn.description_and_topics_to_github.html
+Document: "2" is not a file!
+
+line 1 column 2416 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2416 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2432 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2819 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2819 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2836 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1886 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/auto_github_api_mod/fn.new_remote_github_repository.html
+Document: "2" is not a file!
+
+line 1 column 2415 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2415 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2431 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2814 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2814 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2831 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1885 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/auto_github_api_mod/index.html
+Document: "2" is not a file!
+
+line 1 column 2776 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2776 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2792 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 3102 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 3102 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 3119 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 2012 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/auto_github_api_mod/fn.github_api_get_repository.html
+Document: "2" is not a file!
+
+line 1 column 2381 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2381 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2397 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2777 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2777 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2794 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1851 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/auto_github_api_mod/fn.github_api_create_new_release.html
+Document: "2" is not a file!
+
+line 1 column 2388 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2388 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2404 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2788 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2788 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2805 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1858 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/auto_github_api_mod/fn.github_api_replace_all_topics.html
+Document: "2" is not a file!
+
+line 1 column 2389 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2389 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2405 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2789 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2789 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2806 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1859 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
 ./docs/oauth2_cli_github_example/all.html
 Document: "2" is not a file!
 
@@ -731,32 +1072,6 @@ line 1 column 2423 - Error: <rustdoc-search> is not recognized! Did you mean to 
 line 1 column 2423 - Warning: discarding unexpected <rustdoc-search>
 line 1 column 2439 - Warning: discarding unexpected </rustdoc-search>
 line 1 column 1735 - Warning: trimming empty <button>
-This document has errors that must be fixed before
-using HTML Tidy to generate a tidied up version.
-
-./docs/oauth2_cli_github_example/crates_io_api_token_mod/fn.get_crates_io_secret_token.html
-Document: "2" is not a file!
-
-line 1 column 2396 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2396 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 2412 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 2797 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 2797 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 2814 - Warning: discarding unexpected </rustdoc-toolbar>
-line 1 column 1857 - Warning: trimming empty <button>
-This document has errors that must be fixed before
-using HTML Tidy to generate a tidied up version.
-
-./docs/oauth2_cli_github_example/crates_io_api_token_mod/index.html
-Document: "2" is not a file!
-
-line 1 column 3341 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 3341 - Warning: discarding unexpected <rustdoc-search>
-line 1 column 3357 - Warning: discarding unexpected </rustdoc-search>
-line 1 column 3671 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
-line 1 column 3671 - Warning: discarding unexpected <rustdoc-toolbar>
-line 1 column 3688 - Warning: discarding unexpected </rustdoc-toolbar>
-line 1 column 1915 - Warning: trimming empty <button>
 This document has errors that must be fixed before
 using HTML Tidy to generate a tidied up version.
 

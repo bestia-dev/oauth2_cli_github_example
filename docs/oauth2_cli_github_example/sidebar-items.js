@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["main"],"mod":["crates_io_api_token_mod","encrypt_decrypt_with_ssh_key_mod","github_api_token_with_oauth2_mod"]};
+window.SIDEBAR_ITEMS = {"fn":["main"],"mod":["auto_github_api_mod","encrypt_decrypt_with_ssh_key_mod"]};

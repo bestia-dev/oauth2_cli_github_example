@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["delete_token_from_vault","list_token_from_vault","show_secret_token_from_vault","store_secret_token_to_vault"]};

@@ -1,3 +1,3 @@
-var srcIndex = new Map(JSON.parse('[["oauth2_cli_github_example",["",[],["crates_io_api_token_mod.rs","encrypt_decrypt_with_ssh_key_mod.rs","github_api_token_with_oauth2_mod.rs","main.rs"]]]]'));
+var srcIndex = new Map(JSON.parse('[["oauth2_cli_github_example",["",[["encrypt_decrypt_with_ssh_key_mod",[],["crates_io_api_token_mod.rs","docker_io_api_token_mod.rs","github_api_token_with_oauth2_mod.rs","mod.rs","secret_vault_mod.rs"]]],["auto_github_api_mod.rs","main.rs"]]]]'));
 createSrcSidebar();
-//{"start":36,"fragment_lengths":[154]}
+//{"start":36,"fragment_lengths":[242]}

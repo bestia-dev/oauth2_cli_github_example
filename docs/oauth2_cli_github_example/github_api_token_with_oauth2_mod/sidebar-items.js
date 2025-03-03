@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"fn":["authenticate_with_browser_and_save_file","authentication_with_browser","decrypt_file_json","encrypt_and_save_file","get_github_secret_token","open_file_get_json","refresh_tokens","use_ssh_agent_to_sign_seed","user_input_passphrase_and_sign_seed_x"],"struct":["ResponseSecretAccessToken"]};
