@@ -29,7 +29,7 @@ use secrecy::{ExposeSecret, ExposeSecretMut, SecretBox, SecretString};
 /// Struct that represents the json data saved in the '*.enc' file
 #[derive(serde::Deserialize, serde::Serialize)]
 pub(crate) struct EncryptedTextWithMetadata {
-    pub(crate) identity_file_path: String,
+    pub(crate) private_key_file_path: String,
     pub(crate) plain_seed_string: String,
     pub(crate) plain_encrypted_text: String,
     pub(crate) access_token_expiration: Option<String>,
@@ -40,11 +40,13 @@ pub(crate) struct EncryptedTextWithMetadata {
 ///
 /// This seed will be signed with the private key and
 /// that will be the passcode for symmetric encryption
-pub(crate) fn random_seed_32bytes() -> [u8; 32] {
+/// We will need the bytes and the string representation
+pub(crate) fn random_seed_32bytes_and_string() -> anyhow::Result<([u8; 32], String)> {
     let mut seed_32bytes = [0_u8; 32];
     use aes_gcm::aead::rand_core::RngCore;
     aes_gcm::aead::OsRng.fill_bytes(&mut seed_32bytes);
-    seed_32bytes
+    let plain_seed_string = encode64_from_32bytes_to_string(seed_32bytes)?;
+    Ok((seed_32bytes, plain_seed_string))
 }
 
 /// Get the string from the file that is base64 encoded
@@ -122,8 +124,8 @@ pub(crate) fn decode64_from_string_to_string(string_to_decode: &str) -> anyhow::
 /// Else it uses the private key and ask the user to input the passphrase.
 /// The secret signed seed will be the actual password for symmetrical encryption.
 /// Returns secret_password_bytes
-pub(crate) fn sign_seed_with_ssh_agent_or_identity_file(identity_private_file_path: &camino::Utf8Path, plain_seed_bytes_32bytes: [u8; 32]) -> anyhow::Result<SecretBox<[u8; 32]>> {
-    let secret_passcode_32bytes_maybe = sign_seed_with_ssh_agent(plain_seed_bytes_32bytes, identity_private_file_path);
+pub(crate) fn sign_seed_with_ssh_agent_or_private_key_file(private_key_file_path: &camino::Utf8Path, plain_seed_bytes_32bytes: [u8; 32]) -> anyhow::Result<SecretBox<[u8; 32]>> {
+    let secret_passcode_32bytes_maybe = sign_seed_with_ssh_agent(plain_seed_bytes_32bytes, private_key_file_path);
     let secret_passcode_32bytes: SecretBox<[u8; 32]> = if secret_passcode_32bytes_maybe.is_ok() {
         secret_passcode_32bytes_maybe?
     } else {
@@ -132,11 +134,11 @@ pub(crate) fn sign_seed_with_ssh_agent_or_identity_file(identity_private_file_pa
         println!("   {YELLOW}Without ssh-agent, you will have to type the private key passphrase every time.{RESET}");
         println!("   {YELLOW}This is more secure, but inconvenient.{RESET}");
         println!("   {YELLOW}WARNING: using ssh-agent is less secure, because there is no need for user interaction.{RESET}");
-        println!("   {YELLOW}Knowing this, you can manually add the SSH identity to ssh-agent for 1 hour:{RESET}");
-        println!("{GREEN}ssh-add -t 1h {identity_private_file_path}{RESET}");
+        println!("   {YELLOW}Knowing this, you can manually add the SSH private key to ssh-agent for 1 hour:{RESET}");
+        println!("{GREEN}ssh-add -t 1h {private_key_file_path}{RESET}");
         println!("   {YELLOW}Unlock the private key to decrypt the saved file.{RESET}");
 
-        sign_seed_with_identity_file(plain_seed_bytes_32bytes, identity_private_file_path)?
+        sign_seed_with_private_key_file(plain_seed_bytes_32bytes, private_key_file_path)?
     };
     Ok(secret_passcode_32bytes)
 }
@@ -145,7 +147,7 @@ pub(crate) fn sign_seed_with_ssh_agent_or_identity_file(identity_private_file_pa
 ///
 /// This will be the true passcode for symmetrical encryption and decryption.  
 /// Returns secret_password_bytes  
-fn sign_seed_with_ssh_agent(plain_seed_bytes_32bytes: [u8; 32], identity_private_file_path: &camino::Utf8Path) -> anyhow::Result<SecretBox<[u8; 32]>> {
+fn sign_seed_with_ssh_agent(plain_seed_bytes_32bytes: [u8; 32], private_key_file_path: &camino::Utf8Path) -> anyhow::Result<SecretBox<[u8; 32]>> {
     /// Internal function returns the public_key inside ssh-add
     fn public_key_from_ssh_agent(client: &mut ssh_agent_client_rs::Client, fingerprint_from_file: &str) -> anyhow::Result<ssh_key::PublicKey> {
         let vec_public_key = client.list_identities()?;
@@ -157,11 +159,11 @@ fn sign_seed_with_ssh_agent(plain_seed_bytes_32bytes: [u8; 32], identity_private
                 return Ok(public_key.to_owned());
             }
         }
-        anyhow::bail!("This identity is not added to ssh-agent.")
+        anyhow::bail!("This private key is not added to ssh-agent.")
     }
-    let identity_public_file_path = format!("{identity_private_file_path}.pub");
-    let identity_public_file_path = camino::Utf8Path::new(&identity_public_file_path);
-    let public_key = ssh_key::PublicKey::read_openssh_file(&identity_public_file_path.as_std_path())?;
+    let public_key_file_path = format!("{private_key_file_path}.pub");
+    let public_key_file_path = camino::Utf8Path::new(&public_key_file_path);
+    let public_key = ssh_key::PublicKey::read_openssh_file(&public_key_file_path.as_std_path())?;
     let fingerprint_from_file = public_key.fingerprint(Default::default()).to_string();
 
     println!("{YELLOW}  Connect to ssh-agent on SSH_AUTH_SOCK{RESET}");
@@ -186,7 +188,7 @@ fn sign_seed_with_ssh_agent(plain_seed_bytes_32bytes: [u8; 32], identity_private
 /// User must input the passphrase to unlock the private key file.  
 /// This will be the true passcode for symmetrical encryption and decryption.  
 /// Returns secret_password_bytes
-pub(crate) fn sign_seed_with_identity_file(plain_seed_bytes_32bytes: [u8; 32], identity_private_file_path: &camino::Utf8Path) -> anyhow::Result<SecretBox<[u8; 32]>> {
+pub(crate) fn sign_seed_with_private_key_file(plain_seed_bytes_32bytes: [u8; 32], private_key_file_path: &camino::Utf8Path) -> anyhow::Result<SecretBox<[u8; 32]>> {
     /// Internal function for user input passphrase
     fn user_input_secret_passphrase() -> anyhow::Result<SecretString> {
         eprintln!(" ");
@@ -199,9 +201,9 @@ pub(crate) fn sign_seed_with_identity_file(plain_seed_bytes_32bytes: [u8; 32], i
     // the user is the only one that knows the passphrase to unlock the private key
     let secret_user_passphrase: SecretString = user_input_secret_passphrase()?;
 
-    // sign_with_ssh_identity_file
+    // sign_with_ssh_private_key_file
     println!("{YELLOW}  Use ssh private key from file {RESET}");
-    let private_key = ssh_key::PrivateKey::read_openssh_file(identity_private_file_path.as_std_path())?;
+    let private_key = ssh_key::PrivateKey::read_openssh_file(private_key_file_path.as_std_path())?;
     println!("{YELLOW}  Unlock the private key {RESET}");
 
     // cannot use secrecy: PrivateKey does not have trait Zeroize

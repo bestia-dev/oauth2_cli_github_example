@@ -95,6 +95,7 @@
 // endregion: auto_md_to_doc_comments include README.md A //!
 
 mod crates_io_api_token_mod;
+mod docker_hub_api_token_mod;
 mod encrypt_decrypt_with_ssh_key_mod;
 mod github_api_token_with_oauth2_mod;
 
@@ -105,6 +106,9 @@ use secrecy::ExposeSecret;
 /// to avoid the warning `Code is never used`.  
 /// But the true code separated by topic is in the `examples` folder.  
 fn main() -> anyhow::Result<()> {
+    let docker_hub_access_secret_token = docker_hub_api_token_mod::get_docker_hub_secret_token("docker_io_secret_token_ssh_1")?;
+    println!("{}", docker_hub_access_secret_token.expose_secret());
+
     let crates_io_access_secret_token = crates_io_api_token_mod::get_crates_io_secret_token("crates_io_secret_token_ssh_1")?;
     println!("{}", crates_io_access_secret_token.expose_secret());
 
