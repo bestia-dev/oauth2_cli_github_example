@@ -9,6 +9,7 @@
 
 pub mod crates_io_api_token_mod;
 pub mod docker_io_api_token_mod;
+pub mod generate_strong_password_mod;
 pub mod github_api_token_with_oauth2_mod;
 pub mod secret_vault_mod;
 
