@@ -313,3 +313,83 @@ fn decrypt_text_with_metadata(encrypted_text_with_metadata: ende::EncryptedTextW
     let secret_response_access_token: SecretBox<SecretResponseAccessToken> = SecretBox::new(Box::new(serde_json::from_str(&decrypted_string.expose_secret())?));
     Ok(secret_response_access_token)
 }
+
+pub(crate) fn send_to_github_api_with_secret_token(req: reqwest::blocking::RequestBuilder) -> anyhow::Result<serde_json::Value> {
+    // read config client id
+    let client_id = std::fs::read_to_string("../oauth2_cli_github_example_config/client_id.txt")?;
+    // the private key, public key and the encrypted file will have the same bare name
+    let file_bare_name = std::fs::read_to_string("../oauth2_cli_github_example_config/file_bare_name.txt")?;
+
+    // I must build the request to be able then to inspect it.
+    let req = req.bearer_auth(get_github_secret_token(&client_id, &file_bare_name)?.expose_secret()).build()?;
+
+    // region: Assert the correct url and https
+    // It is important that the request coming from a external crate/library
+    // is only sent always and only to GitHub API and not some other malicious url,
+    // because the request contains the secret GitHub API secret_token.
+    // And it must always use https
+    let host_str = req.url().host_str().context("host_str")?;
+    assert!(host_str == "api.github.com", "{RED}Error: Url is not correct: {host_str}. It must be always api.github.com.{RESET}");
+    let scheme = req.url().scheme();
+    assert!(scheme == "https", "{RED}Error: Scheme is not correct: {scheme}. It must be always https.{RESET}");
+    // endregion: Assert the correct url and https
+
+    let reqwest_client = reqwest::blocking::Client::new();
+    let response_text = reqwest_client.execute(req)?.text()?;
+
+    let json_value: serde_json::Value = serde_json::from_str(&response_text)?;
+
+    // panic if "message": String("Bad credentials"),
+    if let Some(m) = json_value.get("message") {
+        if m == "Bad credentials" {
+            panic!("{RED}Error: Bad credentials for GitHub API. {RESET}");
+        }
+    }
+
+    // return
+    Ok(json_value)
+}
+
+/// Upload to GitHub
+///
+/// This function encapsulates the secret API secret_token.
+/// The RequestBuilder is created somewhere in the library crate.
+/// The client can be passed to the library. It will not reveal the secret_token.
+/// This is basically an async fn, but use of `async fn` in public traits is discouraged...
+pub async fn upload_to_github_with_secret_token(req: reqwest::RequestBuilder) -> anyhow::Result<serde_json::Value> {
+    // read config client id
+    let client_id = std::fs::read_to_string("../oauth2_cli_github_example_config/client_id.txt")?;
+    // the private key, public key and the encrypted file will have the same bare name
+    let file_bare_name = std::fs::read_to_string("../oauth2_cli_github_example_config/file_bare_name.txt")?;
+
+    // I must build the request to be able then to inspect it.
+    let req = req
+        .bearer_auth(crate::encrypt_decrypt_with_ssh_key_mod::github_api_token_with_oauth2_mod::get_github_secret_token(&client_id, &file_bare_name)?.expose_secret())
+        .build()?;
+
+    // region: Assert the correct url and https
+    // It is important that the request coming from a external crate/library
+    // is only sent always and only to GitHub uploads and not some other malicious url,
+    // because the request contains the secret GitHub API secret_token.
+    // And it must always use https
+    let host_str = req.url().host_str().context("host_str")?;
+    assert!(host_str == "uploads.github.com", "{RED}Error: Url is not correct: {host_str}. It must be always api.github.com.{RESET}");
+    let scheme = req.url().scheme();
+    assert!(scheme == "https", "{RED}Error: Scheme is not correct: {scheme}. It must be always https.{RESET}");
+    // endregion: Assert the correct url and https
+
+    let reqwest_client = reqwest::Client::new();
+    let response_text = reqwest_client.execute(req).await?.text().await?;
+
+    let json_value: serde_json::Value = serde_json::from_str(&response_text)?;
+
+    // panic if "message": String("Bad credentials"),
+    if let Some(m) = json_value.get("message") {
+        if m == "Bad credentials" {
+            panic!("{RED}Error: Bad credentials for GitHub API. {RESET}");
+        }
+    }
+
+    // return
+    Ok(json_value)
+}

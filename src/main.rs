@@ -94,6 +94,7 @@
 //!
 // endregion: auto_md_to_doc_comments include README.md A //!
 
+mod auto_github_api_mod;
 mod encrypt_decrypt_with_ssh_key_mod;
 
 use secrecy::ExposeSecret;
