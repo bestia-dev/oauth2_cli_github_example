@@ -1,6 +1,6 @@
 [package]
 name = "oauth2_cli_github_example"
-version = "2025.310.1747"
+version = "2025.310.1800"
 authors = ["bestia.dev"]
 homepage = "https://bestia.dev"
 edition = "2024"

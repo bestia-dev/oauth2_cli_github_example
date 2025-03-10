@@ -4,7 +4,7 @@
 //! # oauth2_cli_github_example
 //!
 //! **Example of GitHub api with Oauth2 CLI**  
-//! ***version: 2025.310.1747 date: 2025-03-10 author: [bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/oauth2_cli_github_example)***
+//! ***version: 2025.310.1800 date: 2025-03-10 author: [bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/oauth2_cli_github_example)***
 //!
 //!  ![work-in-progress](https://img.shields.io/badge/work_in_progress-yellow)
 //!  ![tutorial](https://img.shields.io/badge/tutorial-orange)
