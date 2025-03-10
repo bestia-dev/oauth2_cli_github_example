@@ -134,13 +134,17 @@
 <a href="#133" id="133">133</a>
 <a href="#134" id="134">134</a>
 <a href="#135" id="135">135</a>
-<a href="#136" id="136">136</a></pre></div><pre class="rust"><code><span class="comment">// oauth2_cli_github_example/src/main.rs
+<a href="#136" id="136">136</a>
+<a href="#137" id="137">137</a>
+<a href="#138" id="138">138</a>
+<a href="#139" id="139">139</a>
+<a href="#140" id="140">140</a></pre></div><pre class="rust"><code><span class="comment">// oauth2_cli_github_example/src/main.rs
 
 // region: auto_md_to_doc_comments include README.md A //!
 </span><span class="doccomment">//! # oauth2_cli_github_example
 //!
 //! **Example of GitHub api with Oauth2 CLI**  
-//! ***version: 2025.303.1435 date: 2025-03-03 author: [bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/oauth2_cli_github_example)***
+//! ***version: 2025.310.1747 date: 2025-03-10 author: [bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/oauth2_cli_github_example)***
 //!
 //!  ![work-in-progress](https://img.shields.io/badge/work_in_progress-yellow)
 //!  ![tutorial](https://img.shields.io/badge/tutorial-orange)
@@ -233,41 +237,45 @@
 </span><span class="kw">mod </span>auto_github_api_mod;
 <span class="kw">mod </span>encrypt_decrypt_with_ssh_key_mod;
 
-<span class="kw">use </span>secrecy::ExposeSecret;
+<span class="comment">// use secrecy::ExposeSecret;
 
-<span class="doccomment">/// This is all just an example.
+</span><span class="doccomment">/// This is all just an example.
 /// In the main() function I must call all other functions
 /// to avoid the warning `Code is never used`.  
 /// But the true code separated by topic is in the `examples` folder.  
 </span><span class="kw">fn </span>main() -&gt; anyhow::Result&lt;()&gt; {
-    encrypt_decrypt_with_ssh_key_mod::secret_vault_mod::store_secret_token_to_vault(<span class="string">"vault_ssh_1"</span>, <span class="string">"test_1"</span>)<span class="question-mark">?</span>;
-    encrypt_decrypt_with_ssh_key_mod::secret_vault_mod::store_secret_token_to_vault(<span class="string">"vault_ssh_1"</span>, <span class="string">"test_2"</span>)<span class="question-mark">?</span>;
+    <span class="kw">let </span>strong_password = encrypt_decrypt_with_ssh_key_mod::generate_strong_password_mod::generate_strong_password(<span class="string">"vault_ssh_1"</span>)<span class="question-mark">?</span>;
+    <span class="macro">println!</span>(<span class="string">"{}"</span>, strong_password);
+    <span class="comment">/*
+       encrypt_decrypt_with_ssh_key_mod::secret_vault_mod::store_secret_token_to_vault("vault_ssh_1", "test_1")?;
+       encrypt_decrypt_with_ssh_key_mod::secret_vault_mod::store_secret_token_to_vault("vault_ssh_1", "test_2")?;
 
-    <span class="kw">let </span>vec_string = encrypt_decrypt_with_ssh_key_mod::secret_vault_mod::list_token_from_vault(<span class="string">"vault_ssh_1"</span>)<span class="question-mark">?</span>;
-    <span class="macro">println!</span>(<span class="string">"{:?}"</span>, vec_string);
+       let vec_string = encrypt_decrypt_with_ssh_key_mod::secret_vault_mod::list_token_from_vault("vault_ssh_1")?;
+       println!("{:?}", vec_string);
 
-    <span class="kw">let </span>secret_token = encrypt_decrypt_with_ssh_key_mod::secret_vault_mod::show_secret_token_from_vault(<span class="string">"vault_ssh_1"</span>, <span class="string">"test_1"</span>)<span class="question-mark">?</span>;
-    <span class="macro">println!</span>(<span class="string">"{}"</span>, secret_token.expose_secret());
-    <span class="kw">let </span>secret_token = encrypt_decrypt_with_ssh_key_mod::secret_vault_mod::show_secret_token_from_vault(<span class="string">"vault_ssh_1"</span>, <span class="string">"test_2"</span>)<span class="question-mark">?</span>;
-    <span class="macro">println!</span>(<span class="string">"{}"</span>, secret_token.expose_secret());
+       let secret_token = encrypt_decrypt_with_ssh_key_mod::secret_vault_mod::show_secret_token_from_vault("vault_ssh_1", "test_1")?;
+       println!("{}", secret_token.expose_secret());
+       let secret_token = encrypt_decrypt_with_ssh_key_mod::secret_vault_mod::show_secret_token_from_vault("vault_ssh_1", "test_2")?;
+       println!("{}", secret_token.expose_secret());
 
-    encrypt_decrypt_with_ssh_key_mod::secret_vault_mod::delete_token_from_vault(<span class="string">"vault_ssh_1"</span>, <span class="string">"test_1"</span>)<span class="question-mark">?</span>;
-    encrypt_decrypt_with_ssh_key_mod::secret_vault_mod::delete_token_from_vault(<span class="string">"vault_ssh_1"</span>, <span class="string">"test_2"</span>)<span class="question-mark">?</span>;
+       encrypt_decrypt_with_ssh_key_mod::secret_vault_mod::delete_token_from_vault("vault_ssh_1", "test_1")?;
+       encrypt_decrypt_with_ssh_key_mod::secret_vault_mod::delete_token_from_vault("vault_ssh_1", "test_2")?;
 
-    <span class="kw">let </span>secret_docker_hub_access_token = encrypt_decrypt_with_ssh_key_mod::docker_io_api_token_mod::get_docker_hub_secret_token(<span class="string">"docker_io_secret_token_ssh_1"</span>)<span class="question-mark">?</span>;
-    <span class="macro">println!</span>(<span class="string">"{}"</span>, secret_docker_hub_access_token.expose_secret());
+       let secret_docker_hub_access_token = encrypt_decrypt_with_ssh_key_mod::docker_io_api_token_mod::get_docker_hub_secret_token("docker_io_secret_token_ssh_1")?;
+       println!("{}", secret_docker_hub_access_token.expose_secret());
 
-    <span class="kw">let </span>secret_crates_io_access_token = encrypt_decrypt_with_ssh_key_mod::crates_io_api_token_mod::get_crates_io_secret_token(<span class="string">"crates_io_secret_token_ssh_1"</span>)<span class="question-mark">?</span>;
-    <span class="macro">println!</span>(<span class="string">"{}"</span>, secret_crates_io_access_token.expose_secret());
+       let secret_crates_io_access_token = encrypt_decrypt_with_ssh_key_mod::crates_io_api_token_mod::get_crates_io_secret_token("crates_io_secret_token_ssh_1")?;
+       println!("{}", secret_crates_io_access_token.expose_secret());
 
-    <span class="comment">// read config client id
-    </span><span class="kw">let </span>client_id = std::fs::read_to_string(<span class="string">"../oauth2_cli_github_example_config/client_id.txt"</span>)<span class="question-mark">?</span>;
-    <span class="comment">// the private key, public key and the encrypted file will have the same bare name
-    </span><span class="kw">let </span>file_bare_name = std::fs::read_to_string(<span class="string">"../oauth2_cli_github_example_config/file_bare_name.txt"</span>)<span class="question-mark">?</span>;
+       // read config client id
+       let client_id = std::fs::read_to_string("../oauth2_cli_github_example_config/client_id.txt")?;
+       // the private key, public key and the encrypted file will have the same bare name
+       let file_bare_name = std::fs::read_to_string("../oauth2_cli_github_example_config/file_bare_name.txt")?;
 
-    <span class="kw">let </span>secret_github_access_token = encrypt_decrypt_with_ssh_key_mod::github_api_token_with_oauth2_mod::get_github_secret_token(<span class="kw-2">&amp;</span>client_id, <span class="kw-2">&amp;</span>file_bare_name)<span class="question-mark">?</span>;
-    <span class="macro">println!</span>(<span class="string">"{}"</span>, secret_github_access_token.expose_secret());
+       let secret_github_access_token = encrypt_decrypt_with_ssh_key_mod::github_api_token_with_oauth2_mod::get_github_secret_token(&amp;client_id, &amp;file_bare_name)?;
+       println!("{}", secret_github_access_token.expose_secret());
+    */
 
-    <span class="prelude-val">Ok</span>(())
+    </span><span class="prelude-val">Ok</span>(())
 }
 </code></pre></div></section></main></body></html>

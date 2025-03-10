@@ -74,6 +74,20 @@ line 1 column 2342 - Warning: discarding unexpected </rustdoc-toolbar>
 This document has errors that must be fixed before
 using HTML Tidy to generate a tidied up version.
 
+./docs/src/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/generate_strong_password_mod.rs.html
+Document: "2" is not a file!
+
+line 1 column 2081 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2081 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2097 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 2187 - Warning: <div> isn't allowed in <h1> elements
+line 1 column 2271 - Warning: discarding unexpected </div>
+line 1 column 2313 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2313 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 2330 - Warning: discarding unexpected </rustdoc-toolbar>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
 ./docs/src/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/mod.rs.html
 Document: "2" is not a file!
 
@@ -555,6 +569,32 @@ line 23 column 2123 - Warning: trimming empty <summary>
 line 24 column 315 - Warning: trimming empty <summary>
 line 24 column 584 - Warning: trimming empty <summary>
 line 26 column 113 - Warning: trimming empty <summary>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/generate_strong_password_mod/fn.generate_strong_password.html
+Document: "2" is not a file!
+
+line 1 column 2602 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2602 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2618 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 3076 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 3076 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 3093 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1996 - Warning: trimming empty <button>
+This document has errors that must be fixed before
+using HTML Tidy to generate a tidied up version.
+
+./docs/oauth2_cli_github_example/encrypt_decrypt_with_ssh_key_mod/generate_strong_password_mod/index.html
+Document: "2" is not a file!
+
+line 1 column 2794 - Error: <rustdoc-search> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 2794 - Warning: discarding unexpected <rustdoc-search>
+line 1 column 2810 - Warning: discarding unexpected </rustdoc-search>
+line 1 column 3199 - Error: <rustdoc-toolbar> is not recognized! Did you mean to enable the custom-tags option?
+line 1 column 3199 - Warning: discarding unexpected <rustdoc-toolbar>
+line 1 column 3216 - Warning: discarding unexpected </rustdoc-toolbar>
+line 1 column 1977 - Warning: trimming empty <button>
 This document has errors that must be fixed before
 using HTML Tidy to generate a tidied up version.
 

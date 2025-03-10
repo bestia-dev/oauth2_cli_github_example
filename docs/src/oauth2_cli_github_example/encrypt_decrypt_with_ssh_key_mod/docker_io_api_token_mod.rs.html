@@ -105,7 +105,9 @@
 <a href="#104" id="104">104</a>
 <a href="#105" id="105">105</a>
 <a href="#106" id="106">106</a>
-<a href="#107" id="107">107</a></pre></div><pre class="rust"><code><span class="comment">// docker_io_api_token_mod.rs
+<a href="#107" id="107">107</a>
+<a href="#108" id="108">108</a>
+<a href="#109" id="109">109</a></pre></div><pre class="rust"><code><span class="comment">// docker_io_api_token_mod.rs
 
 // region: auto_md_to_doc_comments include doc_comments/docker_io_api_token_mod.md A //!
 </span><span class="doccomment">//! # decrypt docker.io api token from file or ask the user to input the access token, encrypt it and save into file
@@ -145,6 +147,8 @@
 //! ```
 //!
 </span><span class="comment">// endregion: auto_md_to_doc_comments include doc_comments/docker_io_api_token_mod.md A //!
+
+</span><span class="attr">#![allow(dead_code)]
 
 </span><span class="kw">use </span>secrecy::{SecretBox, SecretString};
 
