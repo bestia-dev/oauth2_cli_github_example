@@ -19,7 +19,7 @@ pub(crate) fn generate_strong_password(file_bare_name: &str) -> anyhow::Result<S
         anyhow::bail!("Private key file not found.");
     }
     println!("{YELLOW}  This function will convert your human password into a digital form hopefully harder to guess. {RESET}");
-    println!("");
+    println!();
     eprintln!("   {BLUE}Enter the human easy password to convert:{RESET}");
     let secret_human_password = secrecy::SecretString::from(inquire::Password::new("").without_confirmation().with_display_mode(inquire::PasswordDisplayMode::Masked).prompt()?);
     let secret_first_human_hash_32bytes: [u8; 32] = rsa::sha2::Sha256::digest(secret_human_password.expose_secret().as_bytes()).into();

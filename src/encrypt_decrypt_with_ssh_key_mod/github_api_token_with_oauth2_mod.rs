@@ -106,7 +106,7 @@ pub(crate) fn get_github_secret_token(client_id: &str, file_bare_name: &str) -> 
         println!("{YELLOW}  Encrypted file {encrypted_file_name} does not exist.{RESET}");
         println!("{YELLOW}  Continue to authentication with the browser{RESET}");
         let secret_access_token = authenticate_with_browser_and_save_file(client_id, &private_file_name, &encrypted_file_name)?;
-        return Ok(secret_access_token);
+        Ok(secret_access_token)
     } else {
         println!("{YELLOW}  Encrypted file {encrypted_file_name} exist.{RESET}");
         let plain_file_text = ende::open_file_b64_get_string(&encrypted_file_name)?;
@@ -118,7 +118,7 @@ pub(crate) fn get_github_secret_token(client_id: &str, file_bare_name: &str) -> 
         if encrypted_text_with_metadata.refresh_token_expiration.is_none() {
             anyhow::bail!("refresh_token_expiration is None");
         }
-        let refresh_token_expiration = chrono::DateTime::parse_from_rfc3339(&encrypted_text_with_metadata.refresh_token_expiration.as_ref().expect("The former line asserts this is never None"))?;
+        let refresh_token_expiration = chrono::DateTime::parse_from_rfc3339(encrypted_text_with_metadata.refresh_token_expiration.as_ref().expect("The former line asserts this is never None"))?;
         if refresh_token_expiration <= utc_now {
             println!("{RED}Refresh token has expired, start authentication_with_browser{RESET}");
             let secret_access_token = authenticate_with_browser_and_save_file(client_id, &private_file_name, &encrypted_file_name)?;
@@ -127,7 +127,7 @@ pub(crate) fn get_github_secret_token(client_id: &str, file_bare_name: &str) -> 
         if encrypted_text_with_metadata.access_token_expiration.is_none() {
             anyhow::bail!("access_token_expiration is None");
         }
-        let access_token_expiration = chrono::DateTime::parse_from_rfc3339(&encrypted_text_with_metadata.access_token_expiration.as_ref().expect("The former line asserts this is never None"))?;
+        let access_token_expiration = chrono::DateTime::parse_from_rfc3339(encrypted_text_with_metadata.access_token_expiration.as_ref().expect("The former line asserts this is never None"))?;
         if access_token_expiration <= utc_now {
             println!("{RED}Access token has expired, use refresh token{RESET}");
             let secret_response_refresh_token = decrypt_text_with_metadata(encrypted_text_with_metadata)?;
@@ -233,7 +233,7 @@ fn refresh_tokens(client_id: &str, refresh_token: String) -> anyhow::Result<Secr
             .json(&RequestWithRefreshToken {
                 client_id: client_id.to_owned(),
                 grant_type: "refresh_token".to_string(),
-                refresh_token: refresh_token,
+                refresh_token,
             })
             .send()?
             .json()?,
@@ -277,7 +277,7 @@ fn encrypt_and_save_file(private_key_file_path: &camino::Utf8Path, encrypted_fil
 
     let encrypted_text_with_metadata = ende::EncryptedTextWithMetadata {
         private_key_file_path: private_key_file_path.to_string(),
-        plain_seed_string: plain_seed_string,
+        plain_seed_string,
         plain_encrypted_text: encrypted_string,
         access_token_expiration: Some(access_token_expiration),
         refresh_token_expiration: Some(refresh_token_expiration),
@@ -313,7 +313,7 @@ fn decrypt_text_with_metadata(encrypted_text_with_metadata: ende::EncryptedTextW
     // decrypt the data
     let decrypted_string = ende::decrypt_symmetric(secret_passcode_32bytes, encrypted_text_with_metadata.plain_encrypted_text)?;
     // parse json to struct
-    let secret_response_access_token: SecretBox<SecretResponseAccessToken> = SecretBox::new(Box::new(serde_json::from_str(&decrypted_string.expose_secret())?));
+    let secret_response_access_token: SecretBox<SecretResponseAccessToken> = SecretBox::new(Box::new(serde_json::from_str(decrypted_string.expose_secret())?));
     Ok(secret_response_access_token)
 }
 

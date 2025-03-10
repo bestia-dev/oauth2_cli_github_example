@@ -79,7 +79,7 @@ pub(crate) fn get_crates_io_secret_token(file_bare_name: &str) -> anyhow::Result
         println!("{YELLOW}  Never use 'cargo login' to store this secret locally. It will store it in plain-text in the file ~/.cargo.credentials.toml. {RESET}");
         println!("{YELLOW}  Plain-text for secrets in a well-known file is a big no-no. Every malware will just upload it in a millisecond. {RESET}");
         println!("{YELLOW}  This function will encrypt the secret with your ssh private key. {RESET}");
-        println!("");
+        println!();
         eprintln!("   {BLUE}Enter the secret_access_token to encrypt:{RESET}");
         let secret_access_token = secrecy::SecretString::from(inquire::Password::new("").without_confirmation().with_display_mode(inquire::PasswordDisplayMode::Masked).prompt()?);
 
@@ -92,8 +92,8 @@ pub(crate) fn get_crates_io_secret_token(file_bare_name: &str) -> anyhow::Result
         // prepare a struct to save as encoded string
         let encrypted_text_with_metadata = ende::EncryptedTextWithMetadata {
             private_key_file_path: private_key_file_path.to_string(),
-            plain_seed_string: plain_seed_string,
-            plain_encrypted_text: plain_encrypted_text,
+            plain_seed_string,
+            plain_encrypted_text,
             access_token_expiration: None,
             refresh_token_expiration: None,
             token_name: None,

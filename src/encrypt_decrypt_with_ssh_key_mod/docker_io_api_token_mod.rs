@@ -66,7 +66,7 @@ pub(crate) fn get_docker_hub_secret_token(file_bare_name: &str) -> anyhow::Resul
         println!("{YELLOW}  Encrypted file {encrypted_file_name} does not exist.{RESET}");
         println!("{YELLOW}  Get your secret token from: https://app.docker.com/settings/personal-access-tokens {RESET}");
         println!("{YELLOW}  This function will encrypt the secret with your ssh private key. {RESET}");
-        println!("");
+        println!();
         eprintln!("   {BLUE}Enter the secret_access_token to encrypt:{RESET}");
         let secret_access_token = secrecy::SecretString::from(inquire::Password::new("").without_confirmation().with_display_mode(inquire::PasswordDisplayMode::Masked).prompt()?);
 
@@ -79,8 +79,8 @@ pub(crate) fn get_docker_hub_secret_token(file_bare_name: &str) -> anyhow::Resul
         // prepare a struct to save as encoded string
         let encrypted_text_with_metadata = ende::EncryptedTextWithMetadata {
             private_key_file_path: private_key_file_path.to_string(),
-            plain_seed_string: plain_seed_string,
-            plain_encrypted_text: plain_encrypted_text,
+            plain_seed_string,
+            plain_encrypted_text,
             access_token_expiration: None,
             refresh_token_expiration: None,
             token_name: None,

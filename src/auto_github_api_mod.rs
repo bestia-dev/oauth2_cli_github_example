@@ -185,7 +185,7 @@ pub(crate) fn description_and_topics_to_github() {
         // get just the description and topis from json
         let gh_description = json.get("description").unwrap().as_str().unwrap();
         let gh_topics = json.get("topics").unwrap().as_array().unwrap();
-        let gh_topics: Vec<String> = gh_topics.into_iter().map(|value| value.as_str().unwrap().to_string()).collect();
+        let gh_topics: Vec<String> = gh_topics.iter().map(|value| value.as_str().unwrap().to_string()).collect();
 
         // are description and topics both equal?
         if gh_description != description {
@@ -241,7 +241,7 @@ pub(crate) fn github_api_get_authenticated_user() -> reqwest::blocking::RequestB
         "id": 1,
         }
     */
-    let repos_url = format!("https://api.github.com/user");
+    let repos_url = "https://api.github.com/user".to_string();
     // return
     reqwest::blocking::Client::new()
         .get(repos_url.as_str())
@@ -322,7 +322,7 @@ pub(crate) fn github_api_user_repository_new(github_owner: &str, name: &str, des
     ...
     }
     */
-    let repos_url = format!("https://api.github.com/user/repos");
+    let repos_url = "https://api.github.com/user/repos".to_string();
     let body = serde_json::json!({
         "name": name,
         "description": description,

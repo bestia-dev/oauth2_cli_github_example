@@ -136,7 +136,7 @@ pub(crate) fn store_secret_token_to_vault(file_bare_name: &str, token_name: &str
         // parse json
         vec_encrypted_text_with_metadata = serde_json::from_str(&encrypted_text_with_metadata)?;
     }
-    println!("");
+    println!();
     eprintln!("   {BLUE}Enter the secret token to encrypt:{RESET}");
     let secret_access_token = secrecy::SecretString::from(inquire::Password::new("").without_confirmation().with_display_mode(inquire::PasswordDisplayMode::Masked).prompt()?);
 
@@ -147,19 +147,17 @@ pub(crate) fn store_secret_token_to_vault(file_bare_name: &str, token_name: &str
     let plain_encrypted_text = ende::encrypt_symmetric(secret_passcode_32bytes, secret_access_token)?;
 
     // delete the token before writing it with the same token_name
-    if !vec_encrypted_text_with_metadata.is_empty() {
-        if delete_token_from_vault(file_bare_name, token_name).is_ok() {
+    if !vec_encrypted_text_with_metadata.is_empty() && delete_token_from_vault(file_bare_name, token_name).is_ok() {
             let encrypted_text_with_metadata: String = ende::open_file_b64_get_string(&encrypted_file_name)?;
             // parse json
             vec_encrypted_text_with_metadata = serde_json::from_str(&encrypted_text_with_metadata)?;
         }
-    }
 
     // prepare a struct to save as encoded string
     let encrypted_text_with_metadata = ende::EncryptedTextWithMetadata {
         private_key_file_path: private_key_file_path.to_string(),
-        plain_seed_string: plain_seed_string,
-        plain_encrypted_text: plain_encrypted_text,
+        plain_seed_string,
+        plain_encrypted_text,
         access_token_expiration: None,
         refresh_token_expiration: None,
         token_name: Some(token_name.to_owned()),

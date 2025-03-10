@@ -170,13 +170,13 @@ fn sign_seed_with_ssh_agent(plain_seed_bytes_32bytes: [u8; 32], private_key_file
     }
     let public_key_file_path = format!("{private_key_file_path}.pub");
     let public_key_file_path = camino::Utf8Path::new(&public_key_file_path);
-    let public_key = ssh_key::PublicKey::read_openssh_file(&public_key_file_path.as_std_path())?;
+    let public_key = ssh_key::PublicKey::read_openssh_file(public_key_file_path.as_std_path())?;
     let fingerprint_from_file = public_key.fingerprint(Default::default()).to_string();
 
     println!("{YELLOW}  Connect to ssh-agent on SSH_AUTH_SOCK{RESET}");
     let var_ssh_auth_sock = std::env::var("SSH_AUTH_SOCK")?;
     let path_ssh_auth_sock = camino::Utf8Path::new(&var_ssh_auth_sock);
-    let mut ssh_agent_client = ssh_agent_client_rs::Client::connect(&path_ssh_auth_sock.as_std_path())?;
+    let mut ssh_agent_client = ssh_agent_client_rs::Client::connect(path_ssh_auth_sock.as_std_path())?;
 
     let public_key = public_key_from_ssh_agent(&mut ssh_agent_client, &fingerprint_from_file)?;
 
