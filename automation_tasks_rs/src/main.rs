@@ -2,13 +2,12 @@
 
 // region: library and modules with basic automation tasks
 
-// for projects that don't use GitHub, delete all the mentions of GitHub
-mod secrets_always_local_mod;
-// use crate::secrets_always_local_mod::crates_io_mod;
-use crate::secrets_always_local_mod::github_mod;
+mod cargo_auto_github_api_mod;
+mod encrypt_decrypt_with_ssh_key_mod;
 
-use cargo_auto_github_lib as cgl;
+use cargo_auto_github_api_mod as cgl;
 use cargo_auto_lib as cl;
+use encrypt_decrypt_with_ssh_key_mod as ende;
 
 use cl::GREEN;
 use cl::RED;
@@ -16,14 +15,13 @@ use cl::RESET;
 use cl::YELLOW;
 
 // traits must be in scope (Rust strangeness)
-// use cgl::SendToGitHubApi;
 use cl::CargoTomlPublicApiMethods;
 use cl::ShellCommandLimitedDoubleQuotesSanitizerTrait;
 
 // region: library with basic automation tasks
 
 fn main() {
-    std::panic::set_hook(Box::new(|panic_info| panic_set_hook(panic_info)));
+    std::panic::set_hook(Box::new(panic_set_hook));
     tracing_init();
     cl::exit_if_not_run_in_rust_project_root_directory();
 
@@ -39,7 +37,7 @@ fn main() {
 /// Initialize tracing to file logs/automation_tasks_rs.log
 ///
 /// The folder logs/ is in .gitignore and will not be committed.
-fn tracing_init() {
+pub fn tracing_init() {
     // uncomment this line to enable tracing to file
     // let file_appender = tracing_appender::rolling::daily("logs", "automation_tasks_rs.log");
 
@@ -109,7 +107,7 @@ fn match_arguments_and_call_tasks(mut args: std::env::Args) {
             if &task == "completion" {
                 completion();
             } else {
-                println!("{YELLOW}Running automation task: {task}{RESET}");
+                println!("  {YELLOW}Running automation task: {task}{RESET}");
                 if &task == "build" {
                     task_build();
                 } else if &task == "release" {
@@ -134,29 +132,24 @@ fn match_arguments_and_call_tasks(mut args: std::env::Args) {
 fn print_help() {
     println!(
         r#"
-    {YELLOW}Welcome to cargo-auto !{RESET}
-    {YELLOW}This program automates your custom tasks when developing a Rust project.{RESET}
+  {YELLOW}Welcome to cargo-auto !{RESET}
+  {YELLOW}This program automates your custom tasks when developing a Rust project.{RESET}
 
-    {YELLOW}User defined tasks in automation_tasks_rs:{RESET}
+  {YELLOW}User defined tasks in automation_tasks_rs:{RESET}
 {GREEN}cargo auto build{RESET} - {YELLOW}builds the crate in debug mode, fmt, increment version{RESET}
-{GREEN}cargo auto release{RESET} - {YELLOW}builds the crate in release mode (cross compile to win), fmt, increment version{RESET}
+{GREEN}cargo auto release{RESET} - {YELLOW}builds the crate in release mode, fmt, increment version{RESET}
 {GREEN}cargo auto doc{RESET} - {YELLOW}builds the docs, copy to docs directory{RESET}
 {GREEN}cargo auto test{RESET} - {YELLOW}runs all the tests{RESET}
 {GREEN}cargo auto commit_and_push "message"{RESET} - {YELLOW}commits with message and push with mandatory message{RESET}
-    {YELLOW}It is preferred to use SSH for git push to GitHub.{RESET}
-    {YELLOW}<https://github.com/CRUSTDE-ContainerizedRustDevEnv/crustde_cnt_img_pod/blob/main/ssh_easy.md>{YELLOW}
-    {YELLOW}On the very first commit, this task will initialize a new local git repository and create a remote GitHub repo.{RESET}
-    {YELLOW}For the GitHub API the task needs the Personal Access secret_token Classic from <https://github.com/settings/tokens>{RESET}
-    {YELLOW}You can choose to type the secret_token every time or to store it in a file encrypted with an SSH key.{RESET}
-    {YELLOW}Then you can type the passphrase of the private key every time. This is pretty secure.{RESET}
-    {YELLOW}Somewhat less secure (but more comfortable) way is to store the private key in ssh-agent.{RESET}
-{GREEN}cargo auto github_new_release{RESET} - {YELLOW}creates new release on GitHub{RESET}
-    {YELLOW}For the GitHub API the task needs the Personal Access secret_token Classic from <https://github.com/settings/tokens>{RESET}
-    {YELLOW}You can choose to type the secret_token every time or to store it in a file encrypted with an SSH key.{RESET}
-    {YELLOW}Then you can type the passphrase of the private key every time. This is pretty secure.{RESET}
-    {YELLOW}Somewhat less secure (but more comfortable) way is to store the private key in ssh-agent.{RESET}
+  {YELLOW}It is preferred to use SSH for git push to GitHub.{RESET}
+  {YELLOW}<https://github.com/CRUSTDE-ContainerizedRustDevEnv/crustde_cnt_img_pod/blob/main/ssh_easy.md>{YELLOW}
+  {YELLOW}On the very first commit, this task will initialize a new local git repository and create a remote GitHub repo.{RESET}
+  {YELLOW}For the GitHub API the task needs the Personal Access secret_token Classic from <https://github.com/settings/tokens>{RESET}
+  {YELLOW}You can choose to type the secret_token every time or to store it in a file encrypted with an SSH key.{RESET}
+  {YELLOW}Then you can type the passphrase of the private key every time. This is pretty secure.{RESET}
+  {YELLOW}Somewhat less secure (but more comfortable) way is to store the private key in ssh-agent.{RESET}
 
-    {YELLOW}© 2024 bestia.dev  MIT License github.com/automation-tasks-rs/cargo-auto{RESET}
+  {YELLOW}© 2025 bestia.dev  MIT License github.com/automation--tasks--rs/cargo-auto{RESET}
 "#
     );
     print_examples_cmd();
@@ -167,7 +160,7 @@ fn print_examples_cmd() {
     /*
         println!(
             r#"
-        {YELLOW}run examples:{RESET}
+      {YELLOW}run examples:{RESET}
     {GREEN}cargo run --example plantuml1{RESET}
     "#
         );
@@ -205,9 +198,9 @@ fn task_build() {
     cl::run_shell_command_static("cargo build").unwrap_or_else(|e| panic!("{e}"));
     println!(
         r#"
-    {YELLOW}After `cargo auto build`, run the compiled binary, examples and/or tests{RESET}
+  {YELLOW}After `cargo auto build`, run the compiled binary, examples and/or tests{RESET}
 {GREEN}./target/debug/{package_name}{RESET}
-    {YELLOW}if ok then{RESET}
+  {YELLOW}if ok then{RESET}
 {GREEN}cargo auto release{RESET}
 "#,
         package_name = cargo_toml.package_name(),
@@ -215,7 +208,7 @@ fn task_build() {
     print_examples_cmd();
 }
 
-/// task release
+/// cargo build --release
 fn task_release() {
     let cargo_toml = cl::CargoToml::read();
     cl::auto_version_increment_semver_or_date();
@@ -225,18 +218,18 @@ fn task_release() {
     cl::run_shell_command_static("cargo fmt").unwrap_or_else(|e| panic!("{e}"));
     cl::run_shell_command_static("cargo build --release").unwrap_or_else(|e| panic!("{e}"));
 
-    // cl::ShellCommandLimitedDoubleQuotesSanitizer::new(r#"strip "target/release/{package_name}" "#)
-    //     .unwrap_or_else(|e| panic!("{e}"))
-    //     .arg("{package_name}", &cargo_toml.package_name())
-    //     .unwrap_or_else(|e| panic!("{e}"))
-    //     .run()
-    //     .unwrap_or_else(|e| panic!("{e}"));
+    cl::ShellCommandLimitedDoubleQuotesSanitizer::new(r#"strip "target/release/{package_name}" "#)
+        .unwrap_or_else(|e| panic!("{e}"))
+        .arg("{package_name}", &cargo_toml.package_name())
+        .unwrap_or_else(|e| panic!("{e}"))
+        .run()
+        .unwrap_or_else(|e| panic!("{e}"));
 
     println!(
         r#"
-    {YELLOW}After `cargo auto release`, run the compiled binary, examples and/or tests{RESET}
+  {YELLOW}After `cargo auto release`, run the compiled binary, examples and/or tests{RESET}
 {GREEN}./target/release/{package_name}{RESET}
-    {YELLOW}if ok then{RESET}
+  {YELLOW}if ok then{RESET}
 {GREEN}cargo auto doc{RESET}
 "#,
         package_name = cargo_toml.package_name(),
@@ -271,7 +264,7 @@ fn task_doc() {
     // message to help user with next move
     println!(
         r#"
-    {YELLOW}After `cargo auto doc`, ctrl-click on `docs/index.html`. 
+  {YELLOW}After `cargo auto doc`, ctrl-click on `docs/index.html`. 
     It will show the index.html in VSCode Explorer, then right-click and choose "Show Preview".
     This works inside the CRUSTDE container, because of the extension "Live Preview" 
     <https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server>
@@ -286,8 +279,8 @@ fn task_test() {
     cl::run_shell_command_static("cargo test").unwrap_or_else(|e| panic!("{e}"));
     println!(
         r#"
-    {YELLOW}After `cargo auto test`. If ok then {RESET}
-    {YELLOW}(commit message is mandatory){RESET}
+  {YELLOW}After `cargo auto test`. If ok then {RESET}
+  {YELLOW}(commit message is mandatory){RESET}
 {GREEN}cargo auto commit_and_push "message"{RESET}
 "#
     );
@@ -308,13 +301,11 @@ fn task_commit_and_push(arg_2: Option<String>) {
 
     // If needed, ask to create a GitHub remote repository
     if !cgl::git_has_remote() || !cgl::git_has_upstream() {
-        let github_client = github_mod::GitHubClient::new_with_stored_secret_token();
-        cgl::new_remote_github_repository(&github_client).unwrap();
-        cgl::description_and_topics_to_github(&github_client);
+        cgl::new_remote_github_repository().unwrap();
+        cgl::description_and_topics_to_github();
     } else {
-        let github_client = github_mod::GitHubClient::new_with_stored_secret_token();
         // if description or topics/keywords/tags have changed
-        cgl::description_and_topics_to_github(&github_client);
+        cgl::description_and_topics_to_github();
 
         // separate commit for docs if they changed, to not make a lot of noise in the real commit
         if std::path::Path::new("docs").exists() {
@@ -335,10 +326,8 @@ fn task_commit_and_push(arg_2: Option<String>) {
 
     println!(
         r#"
-    {YELLOW}After `cargo auto commit_and_push`. If ok then {RESET}
-{GREEN}No further actions. This code should be copy-paste to a project, {RESET}
-{GREEN}never used as a crate library because of working with secrets.{RESET}
-
+  {YELLOW}After `cargo auto commit_and_push "message"`{RESET}
+{GREEN}Workflow finished{RESET}
 "#
     );
 }

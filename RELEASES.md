@@ -28,5 +28,7 @@ The TODO section is part of the [README.md](https://github.com/bestia-dev/oauth2
 
 - secret_vault_mod
 
+- update automation
+
 ## Version 0.0.1
 
